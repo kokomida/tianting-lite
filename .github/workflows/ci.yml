@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18, 20]
+        python-version: [3.10, 3.12]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        pnpm install
+        pip install -r requirements.txt
+    
+    - name: Run linting
+      run: |
+        pnpm run lint-oes
+        pnpm run lint-doc-status
+        pnpm run lint-learning-schema
+    
+    - name: Run tests
+      run: |
+        node tests/dispatcher.autoPlan.test.mjs
+        # Add more test commands as needed
+    
+    - name: Build knowledge index
+      run: pnpm run build-knowledge-index
+    
+    - name: Generate doc index
+      run: node scripts/generate-doc-index.mjs

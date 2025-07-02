@@ -1,0 +1,17 @@
+{
+  "id": "core-01",
+  "module": "core",
+  "role": "system-architect",
+  "task_type": "design",
+  "objective": "Design MemoryHub data model, ER diagram, class diagram and API list, integrate with Tianting Layer-2/3 memory structure.",
+  "environment": "Refer to docs/05-detailed-design.md §5.6 placeholder and PromptX Hybrid Memory technical doc.",
+  "implementation_guide": "1. Draft ER diagram (SQLite tables). 2. Draw class diagram for LayeredMemoryManager. 3. Define public Python API (remember, recall, stats). 4. Update docs/05-detailed-design.md and commit diagrams in Mermaid. 5. Ensure docs build and lint-oes pass.",
+  "success_criteria": "docs/05-detailed-design.md §5.6 updated and merged; lint-oes passes with no errors.",
+  "required_stage": ["design_review"],
+  "token_budget": 1500,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "design"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

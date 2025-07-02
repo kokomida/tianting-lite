@@ -1,0 +1,18 @@
+{
+  "id": "core-02",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Implement LayeredMemoryManager with core, application, archive layers and basic remember/recall/stats methods, plus unit tests.",
+  "environment": "Python 3.12, project virtualenv. Use SQLite (built-in) and JSON files under memoryhub/data.",
+  "implementation_guide": "1. Create src/memoryhub/LayeredMemoryManager.py with class skeleton defined in design. 2. Implement basic in-memory structures, and persistence via SQLite for tasks table. 3. Write tests/memoryhub/test_basic.py covering remember & recall. 4. Ensure pytest -q passes. 5. Update docs if any deviation.",
+  "success_criteria": "pytest passes; import memoryhub succeeds; lint-oes passes.",
+  "dependencies": ["core-01"],
+  "required_stage": ["unit"],
+  "token_budget": 3000,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "impl"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 
