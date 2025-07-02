@@ -119,3 +119,6 @@ ENV/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+# MemoryHub runtime data
+memoryhub_data/

@@ -1,0 +1,18 @@
+{
+  "id": "core-02e",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Optimize JSONL layers with index file, side metrics file, and file rollover; split stats() into storage_stats() & runtime_stats(); update benchmark gate.",
+  "environment": "Python 3.12+, use mmap & index files; update LayeredMemoryManager+JSONL DAO; tests under tests/memoryhub; benchmark in CI.",
+  "implementation_guide": "1. Add .idx offset index generator & reader in JSONLMemoryDAO. 2. Refactor update_recall_count to use .meta file instead of rewriting. 3. Implement rollover if file >256MB. 4. Split stats() into storage_stats()/runtime_stats(). 5. Update benchmark_memoryhub.py to work on 50k dataset and assert P95 latency <120ms. 6. Provide migration script to generate .idx for existing files. 7. Write tests/*covering index lookup, meta updates, rollover, stats split, and performance stub (mock time).",
+  "success_criteria": "pytest passes; benchmark gate passes (<50ms avg with 10k records); index file generated; stats split API available.",
+  "dependencies": ["core-02d"],
+  "required_stage": ["unit"],
+  "token_budget": 2500,
+  "status": "in_progress",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "impl", "performance"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

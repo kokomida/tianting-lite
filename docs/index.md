@@ -14,6 +14,7 @@
 | 05 | 05-detailed-design.md | Sub-system Detailed Design | ✅ |
 | 06 | 06-oes-spec.md | OES Task Spec & Workflow | 🟡 In-Progress |
 | 07 | 07-testing-plan.md | Testing Strategy & Quality Metrics | 🟡 In-Progress |
+| 07a | 07a-ai-collab-workflow.md | AI Collaboration Workflow | 🟡 In-Progress |
 | 08 | 08-deployment-guide.md | Deployment Guide (Compose & K8s) | 🟡 In-Progress |
 | 09 | 09-evaluation.md | Evaluation & KPI Metrics | 🟡 In-Progress |
 | 10 | 10-retrospective.md | Sprint Retrospective & OKR Alignment | 🟡 In-Progress |
@@ -23,4 +24,4 @@
 Legend: ✅ Done | 🟡 In-Progress | 📝 Draft | ⛔ Todo  
 
 ---
-> Last manual update: 2025-07-04 
+> Last manual update: 2025-07-06 

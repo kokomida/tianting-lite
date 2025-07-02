@@ -68,6 +68,19 @@
 
 ---
 
+## 0.6 AI Collaboration Workflow  <!-- status: draft -->
+> 引入 Planner-AI / Executor-AI / PO 三方协作模型，目标：  
+> 1) 拆分责任边界，降低"自嗨"风险  
+> 2) 精细化 CI，缩短回归时间
+
+里程碑  
+| 阶段 | 目标 | 完成标志 | 状态 |
+|------|------|----------|------|
+| POC | core-02b 试点 | 流程三角跑通 | 草案 |
+| Roll-out | 所有新任务卡采用 | CI 绿灯率 95%+ | 计划 |
+
+---
+
 ## 附录 B - 高层速览 (High-Level Orientation)  <!-- status: done -->
 > 本节用「白话＋比喻」讲清 Tianting-Lite，从需求到交付全流程，3 分钟上手。
 

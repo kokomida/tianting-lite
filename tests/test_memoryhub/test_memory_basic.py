@@ -140,13 +140,16 @@ class TestLayeredMemoryManagerBasic:
         assert core_info["loaded"] is True
         assert isinstance(core_info["memory_ids"], list)
         
-        # Test future layers (not yet implemented)
-        for layer in ["app", "archive"]:
-            layer_info = self.memory_manager.load_layer(layer)
-            assert layer_info["layer"] == layer
-            assert layer_info["count"] == 0
-            assert layer_info["loaded"] is False
-            assert layer_info["memory_ids"] == []
+        # Test JSONL layers (now implemented)
+        app_info = self.memory_manager.load_layer("app")
+        assert app_info["layer"] == "application"
+        assert app_info["loaded"] is True
+        assert isinstance(app_info["memory_ids"], list)
+        
+        archive_info = self.memory_manager.load_layer("archive")
+        assert archive_info["layer"] == "archive"
+        assert archive_info["loaded"] is True
+        assert isinstance(archive_info["memory_ids"], list)
     
     def test_memory_classification_rules(self):
         """Test _classify_memory method directly"""

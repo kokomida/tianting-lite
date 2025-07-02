@@ -199,6 +199,44 @@ classDiagram
 
 > 以上 API 必须在 core-02 任务中实现并通过单元测试。
 
++### 5.6.4 性能策略与数据规模假设
++
++**存储规模假设**：
++| 层级 | 年增长 | 10 年累积 | 特性 |
++|------|--------|-----------|------|
++| Session | ≈ 100/天 | *不持久* | 仅进程内，随进程终止 | 
++| Core (SQLite) | ≈ 50 _tasks_/天 | ≈ 200 k 行 | 高度结构化，可索引 |
++| Application (JSONL) | ≈ 5 MB/天 | ≈ 18 GB | 追加写、偶发查询 |
++| Archive (JSONL) | ≈ 10 GB/年 (压缩) | ≈ 100 GB | 低频查询，批量导出 |
++
++**读写路径优化**
++1. Application / Archive 层采用 **行级 offset 索引文件** (`.idx`)，记录每条 JSONL 的 byte offset，recall 时 `seek()` + `readline()` O(log n)。
++2. `update_recall_count` 不再重写整文件；改为在同层另建 **metrics side-file** (`.meta`) 累积计数，定期 batch merge。  
++3. 当单文件 > 256 MB 时自动 rollover → `app_logs-YYYYMMDD.jsonl` 并生成同名 `.idx/.meta`。
++4. 提供 CLI `tianting memory compact`：将长尾 (LastRecall > 180 d) JSONL 转 ZIP，写入 Archive 层。
++
++**stats() API V2 拆分**
++| 名称 | 说明 |
++|------|------|
++| `storage_stats()` | 跨实例可重建：各层计数、文件大小、最近 rollover | 
++| `runtime_stats()` | 仅进程内：recall TPS、平均延迟、缓存命中率 |
++
++**性能指标**
++| 指标 | SLO |
++|-------|----|
++| avg_recall_latency_ms (10k 数据集) | ≤ 50 ms |
++| P95_recall_latency_ms | ≤ 120 ms |
++| recall_qps (单线程) | ≥ 30 | 
++| write_qps (Application 层) | ≥ 5 MB/s |
++
++> 以上指标由 `benchmark_memoryhub.py` Gate 在 CI 中强制执行；未达标直接 fail。
++
++**未来优化路线图**：
++1. 引入 **DuckDB** 外部表读取 JSONL，实现向量检索。
++2. 应用层热数据迁移至 SQLite FTS5；Archive 保持冷数据 JSONL + Zstandard。 
++3. 支持 **mmap** + `simdjson` 加速大文件解析。
++
+
 ---
 
 ## 5.7 任务状态机 (Task Lifecycle)

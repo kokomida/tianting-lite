@@ -1,0 +1,18 @@
+{
+  "id": "core-02e3",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Implement automatic file rollover >256 MB and CLI commands `tianting memory compact` / `build-index`.",
+  "environment": "Python 3.12+; click for CLI; modify LayeredMemoryManager & scripts.",
+  "implementation_guide": "1. Detect file size before append; if >256MB rename with date suffix and start new log. 2. Roll over idx & meta accordingly. 3. Implement compact: move cold (last_recalled>180d) to ZIP in Archive layer. 4. Update docs & CHANGELOG. 5. Tests: simulate large file via seek, verify rollover & compact produce expected files.",
+  "success_criteria": "pytest passes; CLI commands work; after rollover benchmark unaffected; archive ZIP created.",
+  "dependencies": ["core-02e2"],
+  "required_stage": ["unit"],
+  "token_budget": 1600,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P2",
+  "tags": ["memoryhub", "impl", "rollover"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

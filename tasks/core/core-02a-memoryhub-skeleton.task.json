@@ -10,7 +10,7 @@
   "dependencies": ["core-01-review"],
   "required_stage": ["unit"],
   "token_budget": 1500,
-  "status": "pending",
+  "status": "completed",
   "retry": 1,
   "priority": "P1",
   "tags": ["memoryhub", "impl", "skeleton"],

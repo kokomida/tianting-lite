@@ -8,8 +8,25 @@
 - MemoryHub 实现任务卡 `core-02-memoryhub-impl`。
 - Prompt 模板 `docs/templates/subagent-task.md`（多代理研究）。
 
+## 2025-07-06  MemoryHub Core Layer & AI Collaboration
+### Added
+- **Core-02a** MemoryHub Skeleton：实现 `LayeredMemoryManager` Session 层 + 10 条单测。
+- **Core-02b** SQLite 持久化：新增 `sqlite_dao.py`、数据库迁移自动化、跨实例恢复；新增 11 条 SQLite 单测。
+- **Core-02c** JSONL 应用层：新增 `jsonl_dao.py`、Application/Archive 层持久化、层级搜索合并；新增 13 条 JSONL 单测。
+- **Core-02d** 统计 API & Benchmark：强化 `stats()` 性能指标、`benchmark_memoryhub.py`、9 条统计单测；**总测试数 43 ✔**。
+- **07a-ai-collab-workflow.md**：Planner-AI / Executor-AI / PO 三方协作流程文档；Roadmap 0.6 小节同步。
+
 ### Changed
 - Roadmap v0.3 now includes FR-10 MemoryHub milestone.
+- reporter 增强：自动 `pip install -e .` + `pytest -q`，使用 `VIRTUAL_ENV` 适配多环境。
+- `.gitignore`：排除 `memoryhub_data/` 运行时数据库、虚拟环境目录。
+- 移除仓库内提交的 `memoryhub_data/memory.db`。
+
+### Fixed
+- pytest 导入失败：新增 `pyproject.toml`、`pytest.ini pythonpath=src`，删除旧 `test_runner.py`。
+
+### CI
+- verify-all 现包含 Python 单测，失败即退出。
 
 ## 2025-07-06
 - 📚 **Docs P0 完成同步**：README Quick-Start 更新为 `pnpm verify-all` 一键流水线；00-roadmap 当前进度标记 Sprint-A 完成。

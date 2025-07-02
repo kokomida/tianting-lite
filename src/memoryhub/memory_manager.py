@@ -7,13 +7,14 @@ import json
 import time
 from datetime import datetime
 from .sqlite_dao import MemoryHubDAO
+from .jsonl_dao import JSONLMemoryDAO
 
 
 class MemoryLayer(Enum):
     """Memory layer classification"""
     SESSION = "session"     # Layer-1: Temporary in-memory
     CORE = "core"          # Layer-2: SQLite persistent
-    APPLICATION = "app"     # Layer-3: JSONL files
+    APPLICATION = "application"     # Layer-3: JSONL files
     ARCHIVE = "archive"     # Layer-4: Compressed storage
 
 
@@ -41,15 +42,25 @@ class LayeredMemoryManager:
         db_path = f"{path}/memory.db"
         self._dao = MemoryHubDAO(db_path)
         
+        # JSONL DAO for Application and Archive layers
+        self._jsonl_dao = JSONLMemoryDAO(path)
+        
         # Load existing Core memories from SQLite
         self._core_memory: Dict[str, Any] = {}
         self._load_core_memories()
         
+        # Load Application and Archive memories from JSONL
+        self._app_memory: Dict[str, Any] = {}
+        self._archive_memory: Dict[str, Any] = {}
+        self._load_jsonl_memories()
+        
         self._stats = {
             "memories_stored": 0,
             "memories_recalled": 0,
-            "layers_loaded": ["session", "core"],
-            "created_at": datetime.now().isoformat()
+            "layers_loaded": ["session", "core", "application", "archive"],
+            "created_at": datetime.now().isoformat(),
+            "recall_latencies": [],  # Track recall latencies for performance analysis
+            "total_recall_time": 0.0  # Total time spent on recalls
         }
     
     def remember(self, content: str, tags: List[str], context_path: str = "") -> Dict[str, Any]:
@@ -92,10 +103,20 @@ class LayeredMemoryManager:
             else:
                 # Fallback to session if SQLite fails
                 self._session_memory[memory_id] = memory_record
-        else:
-            # For APPLICATION and ARCHIVE layers, store in session for now
-            # Will be implemented in core-02c, core-02d
-            self._session_memory[memory_id] = memory_record
+        elif layer == MemoryLayer.APPLICATION:
+            # Store in JSONL for application logs
+            if self._jsonl_dao.store_memory(memory_record, "application"):
+                self._app_memory[memory_id] = memory_record
+            else:
+                # Fallback to session if JSONL fails
+                self._session_memory[memory_id] = memory_record
+        elif layer == MemoryLayer.ARCHIVE:
+            # Store in JSONL for archive
+            if self._jsonl_dao.store_memory(memory_record, "archive"):
+                self._archive_memory[memory_id] = memory_record
+            else:
+                # Fallback to session if JSONL fails
+                self._session_memory[memory_id] = memory_record
         
         # Update stats
         self._stats["memories_stored"] += 1
@@ -113,10 +134,13 @@ class LayeredMemoryManager:
         Returns:
             List of matching memory records
         """
+        start_time = time.time()
         results = []
         query_lower = query.lower()
         
-        # Search in Core layer (SQLite) first
+        # Search priority: Core > Application > Archive > Session
+        
+        # 1. Search in Core layer (SQLite) first - highest priority
         core_results = self._dao.search_memories(query, "core", limit)
         for memory in core_results:
             # Update recall count in database
@@ -126,7 +150,31 @@ class LayeredMemoryManager:
             if len(results) >= limit:
                 return results
         
-        # Search in session memory if we need more results
+        # 2. Search in Application layer (JSONL) 
+        remaining_limit = limit - len(results)
+        if remaining_limit > 0:
+            app_results = self._jsonl_dao.search_memories(query, "application", remaining_limit)
+            for memory in app_results:
+                # Update recall count in JSONL
+                self._jsonl_dao.update_recall_count(memory["id"], "application")
+                results.append(memory)
+                
+                if len(results) >= limit:
+                    return results
+        
+        # 3. Search in Archive layer (JSONL)
+        remaining_limit = limit - len(results)
+        if remaining_limit > 0:
+            archive_results = self._jsonl_dao.search_memories(query, "archive", remaining_limit)
+            for memory in archive_results:
+                # Update recall count in JSONL
+                self._jsonl_dao.update_recall_count(memory["id"], "archive")
+                results.append(memory)
+                
+                if len(results) >= limit:
+                    return results
+        
+        # 4. Search in session memory if we need more results
         remaining_limit = limit - len(results)
         if remaining_limit > 0:
             for memory_id, memory in self._session_memory.items():
@@ -142,8 +190,14 @@ class LayeredMemoryManager:
                     if len(results) >= limit:
                         break
         
+        # Calculate recall latency
+        end_time = time.time()
+        recall_time = (end_time - start_time) * 1000  # Convert to milliseconds
+        
         # Update global recall stats
         self._stats["memories_recalled"] += len(results)
+        self._stats["recall_latencies"].append(recall_time)
+        self._stats["total_recall_time"] += recall_time
         
         # Sort by creation time (most recent first)
         results.sort(key=lambda x: x["created_at"], reverse=True)
@@ -162,12 +216,34 @@ class LayeredMemoryManager:
         # Get database stats
         db_stats = self._dao.get_stats()
         
+        # Get JSONL stats
+        jsonl_stats = self._jsonl_dao.get_stats()
+        
+        # Calculate performance metrics
+        latencies = self._stats["recall_latencies"]
+        avg_latency = sum(latencies) / len(latencies) if latencies else 0.0
+        max_latency = max(latencies) if latencies else 0.0
+        min_latency = min(latencies) if latencies else 0.0
+        
+        # Calculate total memories across all layers
+        total_memories = (len(self._session_memory) + len(self._core_memory) + 
+                         len(self._app_memory) + len(self._archive_memory))
+        
         current_stats.update({
             "session_memory_count": len(self._session_memory),
             "core_memory_count": len(self._core_memory),
-            "app_memory_count": 0,   # Will be implemented in core-02c
-            "archive_memory_count": 0,  # Will be implemented in core-02d
-            "db_stats": db_stats
+            "app_memory_count": len(self._app_memory),
+            "archive_memory_count": len(self._archive_memory),
+            "total_memories": total_memories,
+            "performance": {
+                "avg_recall_latency_ms": round(avg_latency, 2),
+                "max_recall_latency_ms": round(max_latency, 2),
+                "min_recall_latency_ms": round(min_latency, 2),
+                "total_recall_time_ms": round(self._stats["total_recall_time"], 2),
+                "recall_count": len(latencies)
+            },
+            "db_stats": db_stats,
+            "jsonl_stats": jsonl_stats
         })
         return current_stats
     
@@ -198,8 +274,26 @@ class LayeredMemoryManager:
                 "loaded": True,
                 "memory_ids": list(self._core_memory.keys())
             }
+        elif layer == "app" or layer == "application":
+            if force_reload:
+                self._load_jsonl_memories()
+            return {
+                "layer": "application",
+                "count": len(self._app_memory),
+                "loaded": True,
+                "memory_ids": list(self._app_memory.keys())
+            }
+        elif layer == "archive":
+            if force_reload:
+                self._load_jsonl_memories()
+            return {
+                "layer": "archive",
+                "count": len(self._archive_memory),
+                "loaded": True,
+                "memory_ids": list(self._archive_memory.keys())
+            }
         else:
-            # Placeholder for APPLICATION and ARCHIVE layers
+            # Unknown layer
             return {
                 "layer": layer,
                 "count": 0,
@@ -241,3 +335,23 @@ class LayeredMemoryManager:
         except Exception as e:
             print(f"Warning: Failed to load core memories: {e}")
             self._core_memory = {}
+    
+    def _load_jsonl_memories(self):
+        """Load Application and Archive layer memories from JSONL files"""
+        try:
+            # Load Application layer memories
+            app_memories = self._jsonl_dao.load_memories("application")
+            self._app_memory.clear()
+            for memory in app_memories:
+                self._app_memory[memory["id"]] = memory
+            
+            # Load Archive layer memories
+            archive_memories = self._jsonl_dao.load_memories("archive")
+            self._archive_memory.clear()
+            for memory in archive_memories:
+                self._archive_memory[memory["id"]] = memory
+                
+        except Exception as e:
+            print(f"Warning: Failed to load JSONL memories: {e}")
+            self._app_memory = {}
+            self._archive_memory = {}
