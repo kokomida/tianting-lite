@@ -1,3 +1,4 @@
+<!-- status: in_progress -->
 # 00. 版本路线图 (Product & Technical Roadmap)
 
 > 本文件为 Tianting-Lite 项目的「单一真源」Roadmap，记录从 MVP 到未来版本的目标功能、计划发布日期与验收标准。任何范围或时间调整，请直接修改此文档并在 PR 中 @相关责任人。

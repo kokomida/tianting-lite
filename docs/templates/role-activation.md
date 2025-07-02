@@ -1,3 +1,4 @@
+<!-- status: done -->
 # Role Activation Prompt Template
 
 > 在 Dispatcher 向 ClaudeCode 发送任务前，使用以下系统 / assistant / user 三段消息激活正确角色并宣誓。

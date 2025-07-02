@@ -1,3 +1,4 @@
+<!-- status: done -->
 # 03a. User Story 列表 (INVEST)
 
 > 本文件列出 Tianting-Lite v0.x 阶段的核心 User Story，共 20 条，遵循 INVEST 原则（Independent, Negotiable, Valuable, Estimable, Small, Testable）。各 Story 以 `US-xx` 编号，便于与需求 (FR)、设计、测试用例双向追踪。

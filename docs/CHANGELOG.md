@@ -1,3 +1,4 @@
+<!-- status: in_progress -->
 # Changelog
 
 ## 2025-07-06  v0.3-schema-upgrade

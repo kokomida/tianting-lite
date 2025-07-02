@@ -1,3 +1,4 @@
+<!-- status: done -->
 # Subagent Task Prompt Template
 
 > 引用：Anthropic Engineering – "How we built our multi-agent research system" (2025-06-13)

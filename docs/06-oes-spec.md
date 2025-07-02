@@ -1,3 +1,4 @@
+<!-- status: done -->
 # 06 OES 拆分规范
 
 > 本章汇总 Tianting-v2 的任务设计方法论，直接引用 `../OES.md` 中的完整规则，并给出项目级约束与模板路径，使 OES 真正融入「一句话→拆分→执行」流水线。
@@ -195,8 +196,7 @@ stateDiagram-v2
     },
     "status": {
       "type": "string",
-      "enum": ["pending", "in_progress", "passed", "failed"],
-      "default": "pending"
+      "enum": ["pending", "in_progress", "passed", "failed", "verified"]
     },
     "retry": {
       "type": "integer",
@@ -211,12 +211,10 @@ stateDiagram-v2
       }
     },
     "created_at": {
-      "type": "string",
-      "format": "date-time"
+      "type": "string"
     },
     "updated_at": {
-      "type": "string",
-      "format": "date-time"
+      "type": "string"
     },
     "dependencies": {
       "type": "array",

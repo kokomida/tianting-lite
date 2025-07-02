@@ -1,3 +1,4 @@
+<!-- status: in_progress -->
 # 05. 详细设计 (Detailed Design)
 
 > 本章遵循 IEEE 1016-2009 软件设计说明书规范，采用分层视图（模块图、时序图、数据结构）对 Tianting-Lite 的关键实现进行说明。
