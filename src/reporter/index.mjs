@@ -82,8 +82,12 @@ async function main() {
   try {
     // ensure memoryhub package is importable
     const { spawnSync } = await import('node:child_process');
-    const pythonBin = process.platform === 'win32' ? 'venv/Scripts/python' : 'venv/bin/python';
-    const pipBin = process.platform === 'win32' ? 'venv/Scripts/pip' : 'venv/bin/pip';
+    
+    // Detect virtual environment
+    const venvRoot = process.env.VIRTUAL_ENV || './venv';
+    const binDir = process.platform === 'win32' ? 'Scripts' : 'bin';
+    const pythonBin = path.join(venvRoot, binDir, 'python');
+    const pipBin = path.join(venvRoot, binDir, 'pip');
     
     let res = spawnSync(pipBin, ['install', '-e', '.'], { stdio: 'inherit' });
     if (res.status !== 0) {

@@ -110,6 +110,11 @@ wheels/
 htmlcov/
 .tox/
 
+# Virtual environments
+venv/
+env/
+ENV/
+
 # mypy
 .mypy_cache/
 .dmypy.json
