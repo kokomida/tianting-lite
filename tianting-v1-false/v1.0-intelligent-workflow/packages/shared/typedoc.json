@@ -1,0 +1,19 @@
+{
+  "entryPoints": ["src/types/index.ts"],
+  "out": "docs",
+  "theme": "default",
+  "exclude": ["**/*.test.ts", "**/*.spec.ts", "node_modules/**/*"],
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "hideGenerator": true,
+  "sort": ["source-order"],
+  "categorizeByGroup": false,
+  "defaultCategory": "Other",
+  "categoryOrder": [
+    "Common Types",
+    "API Types", 
+    "Domain Types",
+    "Error Types",
+    "*"
+  ]
+}

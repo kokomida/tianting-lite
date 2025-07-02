@@ -1,0 +1,18 @@
+{
+  "pids": {
+    "ai-data-expert": {
+      "pid": 26496,
+      "logFile": "demo-workspace\\tiangong-alpha-logs-final\\ai-data-expert.log",
+      "command": "echo \"[`date +%T`] Data analysis started. Processing initial dataset...\" && sleep 5 && echo \"[`date +%T`] Dataset processed. Found 3 key patterns.\" && sleep 3 && echo \"[`date +%T`] Analysis complete.\"",
+      "startTime": "2025-06-30T12:14:08.727Z",
+      "status": "running"
+    },
+    "ai-model-builder": {
+      "pid": 24468,
+      "logFile": "demo-workspace\\tiangong-alpha-logs-final\\ai-model-builder.log",
+      "command": "echo \"[`date +%T`] Model training initiated. Using learning rate 0.01.\" && sleep 8 && echo \"[`date +%T`] Epoch 50/100 complete. Accuracy: 85%.\" && sleep 8 && echo \"[`date +%T`] Training finished.\"",
+      "startTime": "2025-06-30T12:14:08.731Z",
+      "status": "running"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "tianting-v2",
+  "version": "0.2.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint-oes": "node ./scripts/lint-oes.mjs",
+    "lint-doc-status": "node ./scripts/lint-doc-status.mjs",
+    "build-knowledge-index": "node ./scripts/build-knowledge-index.mjs",
+    "plan": "node ./src/dispatcher/autoPlan.mjs",
+    "launch": "node ./src/launcher/index.mjs",
+    "harvest": "node ./src/harvester/index.mjs",
+    "report": "node ./src/reporter/index.mjs",
+    "verify-all": "node ./src/reporter/index.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "yaml": "^2.3.2",
+    "chokidar": "^3.5.3",
+    "archiver": "^6.0.0"
+  }
+} 

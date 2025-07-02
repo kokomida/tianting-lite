@@ -1,0 +1,148 @@
+/* 天庭系统 - 组件样式 */
+
+/* 按钮组件样式 */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply bg-primary-600 border-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+}
+
+.btn-secondary {
+  @apply bg-primary-100 border-primary-200 text-primary-700 hover:bg-primary-200 focus:ring-primary-500;
+}
+
+.btn-outline {
+  @apply bg-transparent border-primary-600 text-primary-600 hover:bg-primary-50 focus:ring-primary-500;
+}
+
+.btn-ghost {
+  @apply bg-transparent border-transparent text-primary-600 hover:bg-primary-50 focus:ring-primary-500;
+}
+
+.btn-destructive {
+  @apply bg-red-600 border-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+}
+
+/* 按钮尺寸 */
+.btn-sm {
+  @apply px-3 py-1.5 text-sm;
+}
+
+.btn-md {
+  @apply px-4 py-2 text-base;
+}
+
+.btn-lg {
+  @apply px-6 py-3 text-lg;
+}
+
+/* 输入框组件样式 */
+.input {
+  @apply w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.input-error {
+  @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+}
+
+/* 文本域组件样式 */
+.textarea {
+  @apply min-h-[80px] w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition-colors placeholder:text-gray-500 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none;
+}
+
+.textarea-error {
+  @apply border-red-500 focus:border-red-500 focus:ring-red-500;
+}
+
+/* 卡片组件样式 */
+.card {
+  @apply rounded-lg border border-gray-200 bg-white text-gray-950 shadow-sm;
+}
+
+.card-header {
+  @apply flex flex-col space-y-1.5 p-6;
+}
+
+.card-content {
+  @apply p-6 pt-0;
+}
+
+.card-footer {
+  @apply flex items-center p-6 pt-0;
+}
+
+.card-title {
+  @apply text-2xl font-semibold leading-none tracking-tight;
+}
+
+.card-description {
+  @apply text-sm text-gray-500;
+}
+
+/* 徽章组件样式 */
+.badge {
+  @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+}
+
+.badge-default {
+  @apply border-transparent bg-primary-600 text-white hover:bg-primary-700;
+}
+
+.badge-secondary {
+  @apply border-transparent bg-gray-100 text-gray-900 hover:bg-gray-200;
+}
+
+.badge-destructive {
+  @apply border-transparent bg-red-600 text-white hover:bg-red-700;
+}
+
+.badge-outline {
+  @apply text-gray-950 border-gray-200;
+}
+
+/* 加载动画样式 */
+.loading-spinner {
+  @apply animate-spin rounded-full border-2 border-gray-300 border-t-primary-600;
+}
+
+.loading-dots {
+  @apply flex space-x-1;
+}
+
+.loading-dot {
+  @apply h-2 w-2 rounded-full bg-primary-600 animate-pulse;
+}
+
+.loading-bar {
+  @apply h-1 w-full bg-gray-200 rounded-full overflow-hidden;
+}
+
+.loading-bar-fill {
+  @apply h-full bg-primary-600 rounded-full animate-pulse;
+}
+
+/* 响应式设计辅助类 */
+.container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .card {
+    @apply border-gray-800 bg-gray-950 text-gray-50;
+  }
+  
+  .card-description {
+    @apply text-gray-400;
+  }
+  
+  .input {
+    @apply border-gray-800 bg-gray-950 text-gray-50 placeholder:text-gray-400;
+  }
+  
+  .textarea {
+    @apply border-gray-800 bg-gray-950 text-gray-50 placeholder:text-gray-400;
+  }
+}

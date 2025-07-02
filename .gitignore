@@ -1,0 +1,14 @@
+# Python venv
+.venv/
+__pycache__/
+
+# Node modules
+node_modules/
+
+# Delivery artefacts
+delivery/
+project.zip
+
+# OS & editor noise
+.DS_Store
+*.log

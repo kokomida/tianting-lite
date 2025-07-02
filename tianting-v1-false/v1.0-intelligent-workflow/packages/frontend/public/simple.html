@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天庭系统 - 言出法随</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+               min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .header h1 { font-size: 3rem; margin-bottom: 10px; }
+        .card { background: white; border-radius: 15px; padding: 30px; 
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; }
+        .form-group textarea { width: 100%; padding: 12px; border: 2px solid #e1e5e9; 
+                                border-radius: 8px; font-size: 16px; min-height: 120px; }
+        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+               color: white; padding: 12px 30px; border: none; border-radius: 8px; 
+               font-size: 16px; cursor: pointer; }
+        .result { margin-top: 30px; padding: 20px; background: #f8f9fa; 
+                  border-radius: 8px; border-left: 4px solid #667eea; }
+        .result pre { background: white; padding: 15px; border-radius: 6px; 
+                      overflow-x: auto; font-size: 14px; }
+        .status { padding: 10px; border-radius: 6px; margin-bottom: 20px; }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 天庭系统</h1>
+            <p>AI驱动的"言出法随"开发体验</p>
+        </div>
+        
+        <div class="card">
+            <div id="status"></div>
+            
+            <form id="form">
+                <div class="form-group">
+                    <label>描述您的项目需求：</label>
+                    <textarea id="requirement" placeholder="例如：我想做一个外卖平台，支持商家入驻、用户下单、配送员接单，需要支付功能和实时定位..." required></textarea>
+                </div>
+                <button type="submit" class="btn">🚀 AI智能分析</button>
+            </form>
+            
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // 检查服务状态
+        fetch('http://localhost:8011/health')
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('status').innerHTML = 
+                    '<div class="status success">🟢 AI分析服务已连接</div>';
+            })
+            .catch(() => {
+                document.getElementById('status').innerHTML = 
+                    '<div class="status error">🔴 无法连接AI服务</div>';
+            });
+
+        // 表单提交
+        document.getElementById('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const requirement = document.getElementById('requirement').value;
+            const btn = e.target.querySelector('button');
+            const result = document.getElementById('result');
+            
+            btn.disabled = true;
+            btn.textContent = '🤖 AI分析中...';
+            result.innerHTML = '<div style="text-align: center; color: #667eea;">AI正在分析您的需求...</div>';
+
+            try {
+                const response = await fetch('http://localhost:8011/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: requirement })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const features = data.data.core_features.map(f => 
+                        `• ${f.name} (优先级:${f.priority}, 复杂度:${f.complexity})`
+                    ).join('<br>');
+
+                    result.innerHTML = `
+                        <div class="result">
+                            <h3>🎯 AI分析结果</h3>
+                            <p><strong>项目类型:</strong> ${data.data.project_type}</p>
+                            <p><strong>业务模式:</strong> ${data.data.business_model}</p>
+                            <p><strong>复杂度:</strong> ${data.data.complexity_level}</p>
+                            <p><strong>置信度:</strong> ${Math.round(data.data.confidence_analysis.overall_confidence * 100)}%</p>
+                            <h4>🛠️ 核心功能:</h4>
+                            <p>${features}</p>
+                            <pre>${JSON.stringify(data.data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = `<div class="result"><h3>❌ 分析失败</h3><p>${data.error}</p></div>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="result"><h3>❌ 网络错误</h3><p>无法连接到AI分析服务</p></div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🚀 AI智能分析';
+            }
+        });
+    </script>
+</body>
+</html>

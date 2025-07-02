@@ -1,0 +1,5 @@
+# Tianting-Lite runtime config (auto-generated)
+workspace_root: "/home/${USER}/koko/tianting"
+claude_cmd: "claude"
+max_parallel: 3
+tmux_session: "tianting" 

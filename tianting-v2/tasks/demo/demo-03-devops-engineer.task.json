@@ -1,0 +1,43 @@
+{
+  "id": "demo-03",
+  "module": "demo",
+  "role": "devops-engineer",
+  "objective": "FastAPITodo – dockerize",
+  "environment": "local-dev",
+  "implementation_guide": "编写 Dockerfile 和 docker-compose.yml，端口 8000。",
+  "success_criteria": "容器启动 curl /healthz 200",
+  "acceptance": {
+    "type": "shell",
+    "cmd": "docker compose up --build -d && curl -f http://localhost:8000/healthz",
+    "timeout": 300
+  },
+  "status": "verified",
+  "priority": "P1",
+  "retry": 1,
+  "tags": [
+    "demo"
+  ],
+  "created_at": "2025-07-01T11:15:04.146Z",
+  "verification": {
+    "timeout": 900,
+    "stages": [
+      {
+        "type": "unit",
+        "cmd": "pytest -q",
+        "timeout": 300
+      },
+      {
+        "type": "compose",
+        "file": "docker-compose.yml",
+        "health": [
+          "http://localhost:8022/healthz"
+        ],
+        "timeout": 600
+      }
+    ]
+  },
+  "failed_at": "2025-07-02T03:38:38.076Z",
+  "fail_reason": "Verifier exited with code 1",
+  "tests_passed_at": "2025-07-02T03:49:29.650Z",
+  "verified_at": "2025-07-02T03:49:48.063Z"
+}
