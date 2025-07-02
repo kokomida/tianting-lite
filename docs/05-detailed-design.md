@@ -274,7 +274,7 @@ Harvester ──┐
 
 ---
 
-```jsonc
+```json
 <!-- learning-output-schema -->
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -302,7 +302,7 @@ Harvester ──┐
         "required": ["title", "url", "note"],
         "properties": {
           "title": {"type": "string"},
-          "url": {"type": "string", "format": "uri"},
+          "url": {"type": "string"},
           "note": {"type": "string"}
         }
       }
