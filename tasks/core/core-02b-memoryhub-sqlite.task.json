@@ -1,0 +1,18 @@
+{
+  "id": "core-02b",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Add SQLite persistence layer to LayeredMemoryManager (tasks table) and unit tests.",
+  "environment": "Python 3.12, use sqlite3 stdlib; DB file at memoryhub/data/memory.db.",
+  "implementation_guide": "1. Extend LayeredMemoryManager with _persist_sqlite and _load_layer('core'). 2. Create DAO helpers. 3. Write migration DDL if needed. 4. Add tests/memoryhub/test_sqlite.py verifying persistence across reloads.",
+  "success_criteria": "pytest passes; DB file generated; recall retains data after fresh instance.",
+  "dependencies": ["core-02a"],
+  "required_stage": ["unit"],
+  "token_budget": 2000,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "impl", "sqlite"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

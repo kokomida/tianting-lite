@@ -1,0 +1,18 @@
+{
+  "id": "docs-01",
+  "module": "docs",
+  "role": "tech-writer",
+  "task_type": "learning",
+  "objective": "Restore and validate docs/knowledge/index.json to comply with learning-output-schema and pass lint-learning-schema.",
+  "environment": "Refer to schema in docs/05-detailed-design.md; use existing knowledge cards.",
+  "implementation_guide": "1. Create valid JSON object listing knowledge cards by slug and tags. 2. Run pnpm run lint-learning-schema until green. 3. Commit updated file.",
+  "success_criteria": "lint-learning-schema passes with index.json present; docs status tag done.",
+  "dependencies": ["core-01-review"],
+  "required_stage": ["lint"],
+  "token_budget": 400,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P2",
+  "tags": ["docs", "knowledge", "schema"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

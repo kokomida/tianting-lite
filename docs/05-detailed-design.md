@@ -160,7 +160,14 @@ classDiagram
 - **windows**：Launcher 产生的窗口实例；用于崩溃恢复。  
 - **review_logs**：每次 AI 评审输出存档，供权重自适应算法与审计。
 
-### 5.6.1 LayeredMemoryManager 类概览
+### 5.6.1 四层记忆架构 (4-Layer Memory Architecture)
+
+1. **Session Layer** (Layer-1): 当前会话临时记忆，进程结束自动清理
+2. **Core Layer** (Layer-2): 核心业务数据 (tasks, windows, review_logs) 存储在 SQLite
+3. **Application Layer** (Layer-3): 应用日志与检索索引，存储在 JSONL 文件
+4. **Archive Layer** (Layer-4): 历史数据归档，压缩存储供长期查询
+
+### 5.6.2 LayeredMemoryManager 类概览
 ```mermaid
 classDiagram
   class LayeredMemoryManager {
@@ -176,7 +183,13 @@ classDiagram
 ```
 *图 5-3b* MemoryHub 主类对外 API。
 
-### 5.6.2 Public Python API
+**记忆分类规则 (`_classify_memory`)**:
+- 包含 "task_id" 或 "window_id" → Core Layer (SQLite)
+- 包含 "log" 或 "trace" → Application Layer (JSONL)  
+- 标签包含 "archive" → Archive Layer (ZIP)
+- 其他 → Session Layer (内存)
+
+### 5.6.3 Public Python API
 | 方法 | 输入 | 输出 | 说明 |
 |------|------|------|------|
 | `remember(content, tags, context_path)` | 文本、标签 | 记忆字典 | 存储记忆并返回记录 |

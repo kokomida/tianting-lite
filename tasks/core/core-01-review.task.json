@@ -1,0 +1,18 @@
+{
+  "id": "core-01-review",
+  "module": "core",
+  "role": "architect-lead",
+  "task_type": "design",
+  "objective": "Conduct formal review of MemoryHub design delivered in core-01; capture feedback and update documentation accordingly.",
+  "environment": "Input artifacts: docs/05-detailed-design.md §5.6, diagrams, and API list produced by core-01.",
+  "implementation_guide": "1. Compare design against OES guidelines (INVEST, ≤4h deliverable). 2. Record findings in review_logs/core-01-review.md. 3. Apply necessary corrections to docs/05. 4. Ensure design status tag set to done. 5. Run pnpm run lint-* scripts.",
+  "success_criteria": "review_logs/core-01-review.md committed; docs/05 passes lint; task status set verified by pipeline.",
+  "dependencies": ["core-01"],
+  "required_stage": ["design_review"],
+  "token_budget": 500,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "design", "review"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

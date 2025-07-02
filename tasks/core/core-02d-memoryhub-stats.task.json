@@ -1,0 +1,18 @@
+{
+  "id": "core-02d",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Add stats() API and benchmark script to evaluate recall latency on 10k memories.",
+  "environment": "Python benchmarking via timeit; dataset generated via script.",
+  "implementation_guide": "1. Implement stats() returning total memories, per-layer counts, avg recall latency. 2. Add scripts/benchmark_memoryhub.py to insert & recall 10k records. 3. Fail if avg latency > 50ms. 4. Add tests/memoryhub/test_stats.py.",
+  "success_criteria": "pytest passes; benchmark script reports latency < 50ms; stats() returns correct counts.",
+  "dependencies": ["core-02c"],
+  "required_stage": ["unit"],
+  "token_budget": 2500,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "impl", "benchmark"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 
