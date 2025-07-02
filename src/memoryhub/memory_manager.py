@@ -6,6 +6,7 @@ from enum import Enum
 import json
 import time
 from datetime import datetime
+from .sqlite_dao import MemoryHubDAO
 
 
 class MemoryLayer(Enum):
@@ -29,16 +30,25 @@ class LayeredMemoryManager:
         Initialize the memory manager.
         
         Args:
-            path: Base path for persistent storage (not used in skeleton version)
+            path: Base path for persistent storage
         """
         self.path = path
-        # In-memory storage for skeleton implementation
+        # In-memory storage for session layer
         self._session_memory: Dict[str, Any] = {}
         self._memory_counter = 0
+        
+        # SQLite DAO for Core layer persistence
+        db_path = f"{path}/memory.db"
+        self._dao = MemoryHubDAO(db_path)
+        
+        # Load existing Core memories from SQLite
+        self._core_memory: Dict[str, Any] = {}
+        self._load_core_memories()
+        
         self._stats = {
             "memories_stored": 0,
             "memories_recalled": 0,
-            "layers_loaded": ["session"],
+            "layers_loaded": ["session", "core"],
             "created_at": datetime.now().isoformat()
         }
     
@@ -72,12 +82,19 @@ class LayeredMemoryManager:
             "recalled_count": 0
         }
         
-        # Store in appropriate layer (skeleton: all in session)
+        # Store in appropriate layer
         if layer == MemoryLayer.SESSION:
             self._session_memory[memory_id] = memory_record
+        elif layer == MemoryLayer.CORE:
+            # Store in SQLite for persistence
+            if self._dao.store_memory(memory_record):
+                self._core_memory[memory_id] = memory_record
+            else:
+                # Fallback to session if SQLite fails
+                self._session_memory[memory_id] = memory_record
         else:
-            # For skeleton, store everything in session memory
-            # Real persistence will be implemented in core-02b, core-02c
+            # For APPLICATION and ARCHIVE layers, store in session for now
+            # Will be implemented in core-02c, core-02d
             self._session_memory[memory_id] = memory_record
         
         # Update stats
@@ -99,19 +116,31 @@ class LayeredMemoryManager:
         results = []
         query_lower = query.lower()
         
-        # Search in session memory (skeleton implementation)
-        for memory_id, memory in self._session_memory.items():
-            # Simple text matching
-            if (query_lower in memory["content"].lower() or 
-                any(query_lower in tag.lower() for tag in memory["tags"]) or
-                query_lower in memory["context_path"].lower()):
-                
-                # Update recall stats
-                memory["recalled_count"] += 1
-                results.append(memory.copy())
-                
-                if len(results) >= limit:
-                    break
+        # Search in Core layer (SQLite) first
+        core_results = self._dao.search_memories(query, "core", limit)
+        for memory in core_results:
+            # Update recall count in database
+            self._dao.update_recall_count(memory["id"])
+            results.append(memory)
+            
+            if len(results) >= limit:
+                return results
+        
+        # Search in session memory if we need more results
+        remaining_limit = limit - len(results)
+        if remaining_limit > 0:
+            for memory_id, memory in self._session_memory.items():
+                # Simple text matching
+                if (query_lower in memory["content"].lower() or 
+                    any(query_lower in tag.lower() for tag in memory["tags"]) or
+                    query_lower in memory["context_path"].lower()):
+                    
+                    # Update recall stats
+                    memory["recalled_count"] += 1
+                    results.append(memory.copy())
+                    
+                    if len(results) >= limit:
+                        break
         
         # Update global recall stats
         self._stats["memories_recalled"] += len(results)
@@ -129,11 +158,16 @@ class LayeredMemoryManager:
             Dictionary containing system statistics
         """
         current_stats = self._stats.copy()
+        
+        # Get database stats
+        db_stats = self._dao.get_stats()
+        
         current_stats.update({
             "session_memory_count": len(self._session_memory),
-            "core_memory_count": 0,  # Will be implemented in core-02b
+            "core_memory_count": len(self._core_memory),
             "app_memory_count": 0,   # Will be implemented in core-02c
-            "archive_memory_count": 0  # Will be implemented in core-02d
+            "archive_memory_count": 0,  # Will be implemented in core-02d
+            "db_stats": db_stats
         })
         return current_stats
     
@@ -155,8 +189,17 @@ class LayeredMemoryManager:
                 "loaded": True,
                 "memory_ids": list(self._session_memory.keys())
             }
+        elif layer == "core":
+            if force_reload:
+                self._load_core_memories()
+            return {
+                "layer": "core",
+                "count": len(self._core_memory),
+                "loaded": True,
+                "memory_ids": list(self._core_memory.keys())
+            }
         else:
-            # Placeholder for future implementation
+            # Placeholder for APPLICATION and ARCHIVE layers
             return {
                 "layer": layer,
                 "count": 0,
@@ -187,3 +230,14 @@ class LayeredMemoryManager:
             return MemoryLayer.ARCHIVE
         else:
             return MemoryLayer.SESSION
+    
+    def _load_core_memories(self):
+        """Load Core layer memories from SQLite database"""
+        try:
+            memories = self._dao.load_memories("core")
+            self._core_memory.clear()
+            for memory in memories:
+                self._core_memory[memory["id"]] = memory
+        except Exception as e:
+            print(f"Warning: Failed to load core memories: {e}")
+            self._core_memory = {}

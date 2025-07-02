@@ -133,8 +133,15 @@ class TestLayeredMemoryManagerBasic:
         assert len(layer_info["memory_ids"]) == 1
     
     def test_load_layer_future(self):
-        """Test loading future layers (not implemented)"""
-        for layer in ["core", "app", "archive"]:
+        """Test loading layers"""
+        # Test core layer (now implemented)
+        core_info = self.memory_manager.load_layer("core")
+        assert core_info["layer"] == "core"
+        assert core_info["loaded"] is True
+        assert isinstance(core_info["memory_ids"], list)
+        
+        # Test future layers (not yet implemented)
+        for layer in ["app", "archive"]:
             layer_info = self.memory_manager.load_layer(layer)
             assert layer_info["layer"] == layer
             assert layer_info["count"] == 0
