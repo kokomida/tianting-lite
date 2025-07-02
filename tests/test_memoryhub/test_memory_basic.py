@@ -2,15 +2,9 @@
 Unit tests for LayeredMemoryManager basic functionality
 """
 import pytest
-import sys
-import os
 
-# Add src to path for imports
-src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
-if src_path not in sys.path:
-    sys.path.insert(0, src_path)
-
-from memoryhub.memory_manager import LayeredMemoryManager, MemoryLayer
+from memoryhub import LayeredMemoryManager
+from memoryhub.memory_manager import MemoryLayer
 
 
 class TestLayeredMemoryManagerBasic:

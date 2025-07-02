@@ -77,6 +77,30 @@ async function main() {
     console.error('[reporter] some tasks not verified');
     process.exit(1);
   }
+
+  // --- Run Python unit tests (MemoryHub & others) ---
+  try {
+    // ensure memoryhub package is importable
+    const { spawnSync } = await import('node:child_process');
+    const pythonBin = process.platform === 'win32' ? 'venv/Scripts/python' : 'venv/bin/python';
+    const pipBin = process.platform === 'win32' ? 'venv/Scripts/pip' : 'venv/bin/pip';
+    
+    let res = spawnSync(pipBin, ['install', '-e', '.'], { stdio: 'inherit' });
+    if (res.status !== 0) {
+      console.error('[reporter] pip install failed');
+      process.exit(res.status);
+    }
+    // run pytest
+    const env = { ...process.env };
+    res = spawnSync(pythonBin, ['-m', 'pytest', '-q'], { stdio: 'inherit', env });
+    if (res.status !== 0) {
+      console.error('[reporter] python tests failed');
+      process.exit(res.status);
+    }
+  } catch (err) {
+    console.error('[reporter] failed to execute tests:', err);
+    process.exit(1);
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
