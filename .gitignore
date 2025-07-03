@@ -12,3 +12,4 @@ project.zip
 # OS & editor noise
 .DS_Store
 *.log
+.specstory/
