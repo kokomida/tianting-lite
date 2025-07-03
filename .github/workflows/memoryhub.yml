@@ -1,0 +1,37 @@
+name: MemoryHub CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install deps
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        pip install pysimdjson
+        pip install -e ./src
+    
+    - name: Run tests
+      run: |
+        pytest -v
+    
+    - name: Run benchmark
+      run: |
+        python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50
