@@ -143,33 +143,36 @@ class LayeredMemoryManager:
         # 1. Search in Core layer (SQLite) first - highest priority
         core_results = self._dao.search_memories(query, "core", limit)
         for memory in core_results:
-            # Skip recall count update for performance
+            # Update recall count in database
+            self._dao.update_recall_count(memory["id"])
             results.append(memory)
             
             if len(results) >= limit:
-                break
+                return results
         
         # 2. Search in Application layer (JSONL) 
         remaining_limit = limit - len(results)
         if remaining_limit > 0:
             app_results = self._jsonl_dao.search_memories(query, "application", remaining_limit)
             for memory in app_results:
-                # Skip recall count update for performance
+                # Update recall count in JSONL
+                self._jsonl_dao.update_recall_count(memory["id"], "application")
                 results.append(memory)
                 
                 if len(results) >= limit:
-                    break
+                    return results
         
         # 3. Search in Archive layer (JSONL)
         remaining_limit = limit - len(results)
         if remaining_limit > 0:
             archive_results = self._jsonl_dao.search_memories(query, "archive", remaining_limit)
             for memory in archive_results:
-                # Skip recall count update for performance
+                # Update recall count in JSONL
+                self._jsonl_dao.update_recall_count(memory["id"], "archive")
                 results.append(memory)
                 
                 if len(results) >= limit:
-                    break
+                    return results
         
         # 4. Search in session memory if we need more results
         remaining_limit = limit - len(results)
@@ -196,9 +199,8 @@ class LayeredMemoryManager:
         self._stats["recall_latencies"].append(recall_time)
         self._stats["total_recall_time"] += recall_time
         
-        # Sort by creation time (most recent first) - only if we have results
-        if len(results) > 1:
-            results.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+        # Sort by creation time (most recent first)
+        results.sort(key=lambda x: x["created_at"], reverse=True)
         
         return results
     
@@ -244,6 +246,20 @@ class LayeredMemoryManager:
             "jsonl_stats": jsonl_stats
         })
         return current_stats
+    
+    def flush_pending_updates(self):
+        """Flush any pending recall count updates to disk"""
+        try:
+            self._jsonl_dao.flush_all_pending_updates()
+        except Exception as e:
+            print(f"Warning: Failed to flush pending updates: {e}")
+    
+    def __del__(self):
+        """Ensure pending updates are flushed when manager is destroyed"""
+        try:
+            self.flush_pending_updates()
+        except Exception:
+            pass  # Ignore errors during cleanup
     
     def load_layer(self, layer: str, force_reload: bool = False) -> Dict[str, Any]:
         """

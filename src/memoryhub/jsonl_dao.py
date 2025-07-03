@@ -54,6 +54,13 @@ class JSONLMemoryDAO:
         self._query_cache: Dict[str, List[Dict[str, Any]]] = {}
         self._cache_max_size = 500
         
+        # In-memory recall count updates (batch before writing to disk)
+        self._pending_recall_updates: Dict[str, Dict[str, int]] = {
+            "application": {},
+            "archive": {}
+        }
+        self._update_batch_size = 10  # Smaller batch size for tests
+        
         # Load existing indices on startup
         self._load_indices()
     
@@ -190,6 +197,9 @@ class JSONLMemoryDAO:
             results = self._search_with_binary_access(file_path, offsets, lengths, 
                                                     candidate_indices, query_lower, limit)
             
+            # Apply pending recall count updates to results
+            self._apply_pending_updates_to_results(results, layer)
+            
             # Cache results
             if len(self._query_cache) < self._cache_max_size:
                 self._query_cache[cache_key] = results
@@ -202,9 +212,27 @@ class JSONLMemoryDAO:
             return self._fallback_search(query, layer, limit)
     
     def update_recall_count(self, memory_id: str, layer: str) -> bool:
-        """Update recall count for a specific memory (reload file and rewrite)"""
+        """Update recall count for a specific memory (using smart batching)"""
         try:
-            # Choose file based on layer
+            if layer not in ["application", "archive"]:
+                return False
+            
+            # Add to pending updates for batch processing
+            self._pending_recall_updates[layer][memory_id] = self._pending_recall_updates[layer].get(memory_id, 0) + 1
+            
+            # Only flush when we reach the batch size to avoid frequent I/O
+            if len(self._pending_recall_updates[layer]) >= self._update_batch_size:
+                return self._flush_pending_updates(layer)
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error updating recall count: {e}")
+            return False
+    
+    def _flush_pending_updates(self, layer: str) -> bool:
+        """Flush pending recall count updates to disk efficiently"""
+        try:
             if layer == "application":
                 file_path = self.app_logs_file
             elif layer == "archive":
@@ -212,41 +240,171 @@ class JSONLMemoryDAO:
             else:
                 return False
             
-            if not file_path.exists():
-                return False
+            if not file_path.exists() or not self._pending_recall_updates[layer]:
+                return True
             
-            # Read all memories
+            # Read all memories into memory for update
             memories = []
-            updated = False
+            updates_applied = 0
+            pending_updates = self._pending_recall_updates[layer]
+            current_time = datetime.now(timezone.utc).isoformat()
             
             with open(file_path, 'r', encoding='utf-8') as f:
                 for line in f:
                     line = line.strip()
                     if line:
                         try:
-                            memory = json.loads(line)
-                            if memory.get('id') == memory_id:
-                                memory['recalled_count'] = memory.get('recalled_count', 0) + 1
-                                memory['last_recalled'] = datetime.now(timezone.utc).isoformat()
-                                updated = True
+                            if HAS_SIMDJSON:
+                                memory = simdjson.loads(line)
+                            else:
+                                memory = json.loads(line)
+                            
+                            memory_id = memory.get('id')
+                            if memory_id in pending_updates:
+                                memory['recalled_count'] = memory.get('recalled_count', 0) + pending_updates[memory_id]
+                                memory['last_recalled'] = current_time
+                                updates_applied += 1
+                            
                             memories.append(memory)
                         except json.JSONDecodeError:
                             continue
             
-            if updated:
-                # Rewrite the file
+            if updates_applied > 0:
+                # Write back to file efficiently
                 with open(file_path, 'w', encoding='utf-8') as f:
                     for memory in memories:
                         f.write(json.dumps(memory, ensure_ascii=False) + '\n')
                 
-                # Rebuild indices since file was rewritten
+                # Always rebuild indices after flush since record lengths may change
                 self._rebuild_layer_indices(layer)
             
-            return updated
+            # Clear pending updates for this layer
+            self._pending_recall_updates[layer].clear()
+            
+            return True
             
         except Exception as e:
-            print(f"Error updating recall count: {e}")
+            print(f"Error flushing pending updates for {layer}: {e}")
             return False
+    
+    def _apply_pending_updates_to_results(self, results: List[Dict[str, Any]], layer: str):
+        """Apply pending recall count updates to search results"""
+        if layer not in self._pending_recall_updates:
+            return
+        
+        pending_updates = self._pending_recall_updates[layer]
+        for memory in results:
+            memory_id = memory.get('id')
+            if memory_id in pending_updates:
+                current_count = memory.get('recalled_count', 0)
+                memory['recalled_count'] = current_count + pending_updates[memory_id]
+                memory['last_recalled'] = datetime.now(timezone.utc).isoformat()
+    
+    def flush_all_pending_updates(self):
+        """Flush all pending updates to disk"""
+        for layer in ["application", "archive"]:
+            if self._pending_recall_updates[layer]:
+                self._flush_pending_updates(layer)
+    
+    def __del__(self):
+        """Ensure pending updates are flushed when object is destroyed"""
+        try:
+            self.flush_all_pending_updates()
+        except Exception:
+            pass  # Ignore errors during cleanup
+    
+    def build_index(self, layer: str, force_rebuild: bool = False) -> bool:
+        """Build or rebuild index for specified layer"""
+        try:
+            if layer == "application":
+                file_path = self.app_logs_file
+                index_path = self.app_logs_index
+                offsets = self._app_offsets
+                lengths = self._app_lengths
+                tag_index = self._app_tag_index
+            elif layer == "archive":
+                file_path = self.archive_file
+                index_path = self.archive_index
+                offsets = self._archive_offsets
+                lengths = self._archive_lengths
+                tag_index = self._archive_tag_index
+            else:
+                return False
+            
+            # Clear existing arrays
+            del offsets[:]
+            del lengths[:]
+            tag_index.clear()
+            
+            # Build index from file
+            if file_path.exists():
+                with open(file_path, 'rb') as f:
+                    offset = 0
+                    record_index = 0
+                    
+                    while True:
+                        line_start = offset
+                        line = f.readline()
+                        if not line:
+                            break
+                        
+                        line_length = len(line)
+                        offsets.append(line_start)
+                        lengths.append(line_length)
+                        
+                        # Parse for tag index
+                        try:
+                            line_str = line.decode('utf-8').strip()
+                            if line_str:
+                                if HAS_SIMDJSON:
+                                    memory = simdjson.loads(line_str)
+                                else:
+                                    memory = json.loads(line_str)
+                                
+                                tags = memory.get('tags', [])
+                                for tag in tags:
+                                    tag_lower = tag.lower()
+                                    if tag_lower not in tag_index:
+                                        tag_index[tag_lower] = []
+                                    tag_index[tag_lower].append(record_index)
+                        except Exception:
+                            pass
+                        
+                        offset += line_length
+                        record_index += 1
+                
+                # Write index file
+                with open(index_path, 'w', encoding='utf-8') as f:
+                    for i in range(len(offsets)):
+                        f.write(f"{offsets[i]},{lengths[i]}\n")
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error building index for {layer}: {e}")
+            return False
+    
+    def _get_index_cache(self, layer: str) -> List[Tuple[int, int]]:
+        """Get index cache for specified layer (compatibility method)"""
+        if layer == "application":
+            return list(zip(self._app_offsets, self._app_lengths))
+        elif layer == "archive":
+            return list(zip(self._archive_offsets, self._archive_lengths))
+        return []
+    
+    def _read_index_file(self, index_path) -> List[Tuple[int, int]]:
+        """Read index file and return list of (offset, length) tuples"""
+        index_entries = []
+        try:
+            with open(index_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line:
+                        offset, length = map(int, line.split(','))
+                        index_entries.append((offset, length))
+        except Exception as e:
+            print(f"Error reading index file {index_path}: {e}")
+        return index_entries
     
     def get_stats(self) -> Dict[str, Any]:
         """Get statistics for JSONL layers"""

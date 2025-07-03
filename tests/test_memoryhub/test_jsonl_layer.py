@@ -141,6 +141,9 @@ class TestJSONLLayer:
         self.memory_manager.recall("recall")
         self.memory_manager.recall("recall")
         
+        # Force flush pending updates to disk
+        self.memory_manager.flush_pending_updates()
+        
         # Create new instance and check recall count
         new_manager = LayeredMemoryManager(path=self.test_dir)
         results = new_manager.recall("recall")
@@ -315,6 +318,9 @@ class TestJSONLMemoryDAO:
         # Update recall count
         success = self.dao.update_recall_count("recall_jsonl_001", "application")
         assert success is True
+        
+        # Force flush to write updates to disk
+        self.dao.flush_all_pending_updates()
         
         # Verify count was updated
         memories = self.dao.load_memories("application")

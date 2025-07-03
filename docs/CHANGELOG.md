@@ -14,6 +14,7 @@
 - **Core-02b** SQLite 持久化：新增 `sqlite_dao.py`、数据库迁移自动化、跨实例恢复；新增 11 条 SQLite 单测。
 - **Core-02c** JSONL 应用层：新增 `jsonl_dao.py`、Application/Archive 层持久化、层级搜索合并；新增 13 条 JSONL 单测。
 - **Core-02d** 统计 API & Benchmark：强化 `stats()` 性能指标、`benchmark_memoryhub.py`、9 条统计单测；**总测试数 43 ✔**。
+- **Integrity Stage**：新增 `.benchmark.lock`、`CODEOWNERS`、`.gitattributes` 保护 benchmark 脚本并在 CI 启用 hash 校验。
 - **07a-ai-collab-workflow.md**：Planner-AI / Executor-AI / PO 三方协作流程文档；Roadmap 0.6 小节同步。
 
 ### Changed
