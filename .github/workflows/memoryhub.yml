@@ -1,34 +1,63 @@
-name: memoryhub-ci
+name: MemoryHub CI
 
 on:
-  pull_request:
-    branches: [ main ]
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
-  test:
+  linux-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: tianting-v2
-    env:
-      PYTHONPATH: ${{ github.workspace }}/tianting-v2/src
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Python
+      
+      - name: Set up Python 3.12
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
-
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
+      
       - name: Install deps
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
-
+          pip install -e ./src
+      
       - name: Run tests
-        run: pytest -q
+        run: |
+          pytest tests/test_memoryhub/ -v
+      
+      - name: Run benchmark (Linux - 10k/500)
+        run: |
+          python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500 --index auto
 
-      - name: Run benchmark
-        run: python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500
+  windows-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+          pip install -e ./src
+      
+      - name: Run tests
+        run: |
+          pytest tests/test_memoryhub/ -v
+      
+      - name: Run benchmark (Windows - 1k/50)
+        run: |
+          python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50 --index auto
