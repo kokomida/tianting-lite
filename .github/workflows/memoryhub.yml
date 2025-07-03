@@ -22,6 +22,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install pytest
+          pip install pysimdjson
           # 关键：可编辑安装 src 目录
           pip install -e ./src
       - name: Run tests
