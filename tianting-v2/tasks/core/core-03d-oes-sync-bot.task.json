@@ -1,0 +1,13 @@
+{
+  "id": "core-03d-oes-sync-bot",
+  "title": "Implement OES task status sync bot (PR→task.json)",
+  "background": "docs/research/oes-sync-bot.md",
+  "status": "pending",
+  "owner": "ClaudeCode",
+  "acceptanceCriteria": [
+    "GitHub App / Action 在 PR Merge 时解析 commit message 或 PR body 中的 task id，自动更新对应 task.json 的 status 字段为 completed",
+    "支持 in_progress / completed / cancelled 三种状态切换，变更后自动提交 PR",
+    "Integration test: sample task status 变更通过 jest + octokit mock",
+    "CI workflows pass on Linux & Windows"
+  ]
+} 

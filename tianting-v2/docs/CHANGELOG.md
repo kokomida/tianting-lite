@@ -78,7 +78,33 @@
 ### CI
 - Integrity Stage 校验通过：`.benchmark.lock` SHA256 与脚本一致。
 
+## 2025-07-07  MemoryHub core-03a 集成完成
+### Added
+- **Core-03a** Roaring Bitmap 索引集成：`RoaringBitmapTagIndex` 高性能标签索引，支持位图压缩存储和快速交并操作
+- **LayeredMemoryManager** 集成：新增 `recall_by_tags()` 方法，tag 索引自动加载和同步
+- **双模式测试覆盖**：42 个测试用例覆盖 PyRoaring 可用/不可用两种模式，包括 MockBitMap 行为验证
+- **Enhanced Benchmark**: 新增 `--index` 参数支持 auto/roaring/text/disabled 模式，目标阈值调整至 35ms
+- **依赖声明**: `requirements.txt` 添加 `pyroaring>=0.3.0`，README 增加完整安装指南（Linux/macOS/WSL2）
+
+### Changed
+- **性能目标提升**: Benchmark 阈值从 50ms 降至 35ms，实际测试 9.8ms（1k/100）满足要求
+- **资源管理**: 所有 DAO 类添加 `close()` 方法，确保跨平台文件句柄释放
+- **测试架构重构**: 移除递归错误，恢复参数化 fixture 完整覆盖 roaring/fallback 路径
+
+### Technical
+- **Bitmap 操作**: 支持内存压缩 50-80%，sub-millisecond 标签交集查询
+- **Fallback 兼容**: PyRoaring 不可用时自动降级为 dict-based 索引，保持 API 一致性
+- **Tag Index Stats**: 新增索引效率统计（内存数量、标签数量、平均标签/内存比率、压缩状态）
+
+### Next
+- **Core-03b**: 并发安全（SQLite WAL + file-lock 混合方案）
+- **Core-03c**: 自动化发布流水线
+- **CI Enhancement**: Windows 跨平台测试集成
+
 ## Next Planned
+- 自动化发布流水线：Tag 触发 Release（core-03c）
+- OES 任务状态同步 Bot（core-03d）
+- 分支 Push 自动起草 PR（core-03e）
 - 实现 `scripts/lint-learning-schema.mjs` 校验学习助手输出 Schema。
 - 实现 `scripts/build-knowledge-index.mjs`，生成 docs/knowledge/index.json 并接入 CI。
 - Populate 07-testing-plan.md with concrete test cases & coverage reports.

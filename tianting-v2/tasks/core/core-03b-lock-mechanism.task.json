@@ -1,0 +1,14 @@
+{
+  "id": "core-03b-lock-mechanism",
+  "title": "Introduce concurrent write lock mechanism for MemoryHub",
+  "background": "docs/research/lock-mechanism.md",
+  "status": "pending",
+  "owner": "ClaudeCode",
+  "acceptanceCriteria": [
+    "Implement file-based lock using filelock for JSONL writes",
+    "Ensure SQLite DAO runs in WAL mode with proper close handling",
+    "Concurrent write test (4 processes) passes without data corruption",
+    "Benchmark latency impact <10% compared to v0.2.1",
+    "CI workflows pass on Linux & Windows"
+  ]
+} 

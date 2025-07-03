@@ -8,6 +8,7 @@ import time
 from datetime import datetime
 from .sqlite_dao import MemoryHubDAO
 from .jsonl_dao import JSONLMemoryDAO
+from .roaring_bitmap_tag_index import RoaringBitmapTagIndex
 
 
 class MemoryLayer(Enum):
@@ -45,6 +46,9 @@ class LayeredMemoryManager:
         # JSONL DAO for Application and Archive layers
         self._jsonl_dao = JSONLMemoryDAO(path)
         
+        # Tag Index for fast memory retrieval by tags
+        self._tag_index = RoaringBitmapTagIndex(enable_compression=True)
+        
         # Load existing Core memories from SQLite
         self._core_memory: Dict[str, Any] = {}
         self._load_core_memories()
@@ -78,6 +82,7 @@ class LayeredMemoryManager:
         # Generate memory ID
         self._memory_counter += 1
         memory_id = f"mem_{self._memory_counter}"
+        numeric_id = self._memory_counter  # For tag index
         
         # Classify memory layer
         layer = self._classify_memory(content, tags)
@@ -121,8 +126,85 @@ class LayeredMemoryManager:
         # Update stats
         self._stats["memories_stored"] += 1
         
+        # Add to tag index for fast retrieval
+        try:
+            self._tag_index.add_memory(numeric_id, set(tags))
+        except Exception as e:
+            print(f"Warning: Failed to add memory to tag index: {e}")
+        
         return memory_record
     
+    def recall_by_tags(self, tags: List[str], operation: str = "intersection", limit: int = 10) -> List[Dict[str, Any]]:
+        """
+        Retrieve memories matching the given tags using tag index.
+        
+        Args:
+            tags: List of tags to search for
+            operation: Either "intersection" (AND) or "union" (OR)
+            limit: Maximum number of results to return
+            
+        Returns:
+            List of matching memory records
+        """
+        start_time = time.time()
+        results = []
+        
+        try:
+            # Use tag index for fast filtering
+            matching_ids = self._tag_index.find_memories_by_tags(set(tags), operation)
+            
+            # Convert numeric IDs back to memory IDs and retrieve records
+            for numeric_id in matching_ids:
+                memory_id = f"mem_{numeric_id}"
+                
+                # Search in all layers for the memory
+                memory_record = None
+                
+                # Check Core layer first
+                if memory_id in self._core_memory:
+                    memory_record = self._core_memory[memory_id].copy()
+                    # Update recall count in database
+                    self._dao.update_recall_count(memory_id)
+                # Check Application layer
+                elif memory_id in self._app_memory:
+                    memory_record = self._app_memory[memory_id].copy()
+                    # Update recall count in JSONL
+                    self._jsonl_dao.update_recall_count(memory_id, "application")
+                # Check Archive layer
+                elif memory_id in self._archive_memory:
+                    memory_record = self._archive_memory[memory_id].copy()
+                    # Update recall count in JSONL
+                    self._jsonl_dao.update_recall_count(memory_id, "archive")
+                # Check Session layer
+                elif memory_id in self._session_memory:
+                    memory_record = self._session_memory[memory_id].copy()
+                    memory_record["recalled_count"] += 1
+                
+                if memory_record:
+                    results.append(memory_record)
+                    
+                    if len(results) >= limit:
+                        break
+                        
+        except Exception as e:
+            print(f"Warning: Tag index search failed, falling back to full search: {e}")
+            # Fallback to text search using tag names as query
+            return self.recall(" ".join(tags), limit)
+        
+        # Calculate recall latency
+        end_time = time.time()
+        recall_time = (end_time - start_time) * 1000  # Convert to milliseconds
+        
+        # Update global recall stats
+        self._stats["memories_recalled"] += len(results)
+        self._stats["recall_latencies"].append(recall_time)
+        self._stats["total_recall_time"] += recall_time
+        
+        # Sort by creation time (most recent first)
+        results.sort(key=lambda x: x["created_at"], reverse=True)
+        
+        return results
+
     def recall(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
         """
         Retrieve memories matching the query.
@@ -219,6 +301,9 @@ class LayeredMemoryManager:
         # Get JSONL stats
         jsonl_stats = self._jsonl_dao.get_stats()
         
+        # Get tag index stats
+        tag_index_stats = self._tag_index.get_memory_efficiency()
+        
         # Calculate performance metrics
         latencies = self._stats["recall_latencies"]
         avg_latency = sum(latencies) / len(latencies) if latencies else 0.0
@@ -243,7 +328,8 @@ class LayeredMemoryManager:
                 "recall_count": len(latencies)
             },
             "db_stats": db_stats,
-            "jsonl_stats": jsonl_stats
+            "jsonl_stats": jsonl_stats,
+            "tag_index_stats": tag_index_stats
         })
         return current_stats
     
@@ -254,10 +340,32 @@ class LayeredMemoryManager:
         except Exception as e:
             print(f"Warning: Failed to flush pending updates: {e}")
     
-    def __del__(self):
-        """Ensure pending updates are flushed when manager is destroyed"""
+    def close(self):
+        """Close all DAOs and clean up resources"""
         try:
+            # Flush pending updates first
             self.flush_pending_updates()
+            
+            # Close individual DAOs
+            self._jsonl_dao.close()
+            self._dao.close()
+            
+            # Clear tag index
+            self._tag_index.clear()
+            
+            # Clear in-memory caches
+            self._session_memory.clear()
+            self._core_memory.clear()
+            self._app_memory.clear()
+            self._archive_memory.clear()
+            
+        except Exception as e:
+            print(f"Warning: Error during close: {e}")
+    
+    def __del__(self):
+        """Ensure resources are cleaned up when manager is destroyed"""
+        try:
+            self.close()
         except Exception:
             pass  # Ignore errors during cleanup
     
@@ -346,6 +454,19 @@ class LayeredMemoryManager:
             self._core_memory.clear()
             for memory in memories:
                 self._core_memory[memory["id"]] = memory
+                
+                # Add to tag index
+                try:
+                    # Extract numeric ID from memory ID (e.g., "mem_123" -> 123)
+                    if memory["id"].startswith("mem_"):
+                        numeric_id = int(memory["id"][4:])
+                        self._tag_index.add_memory(numeric_id, set(memory.get("tags", [])))
+                        
+                        # Update memory counter to avoid ID conflicts
+                        self._memory_counter = max(self._memory_counter, numeric_id)
+                except (ValueError, Exception) as e:
+                    print(f"Warning: Failed to add memory {memory['id']} to tag index: {e}")
+                    
         except Exception as e:
             print(f"Warning: Failed to load core memories: {e}")
             self._core_memory = {}
@@ -358,12 +479,36 @@ class LayeredMemoryManager:
             self._app_memory.clear()
             for memory in app_memories:
                 self._app_memory[memory["id"]] = memory
+                
+                # Add to tag index
+                try:
+                    # Extract numeric ID from memory ID (e.g., "mem_123" -> 123)
+                    if memory["id"].startswith("mem_"):
+                        numeric_id = int(memory["id"][4:])
+                        self._tag_index.add_memory(numeric_id, set(memory.get("tags", [])))
+                        
+                        # Update memory counter to avoid ID conflicts
+                        self._memory_counter = max(self._memory_counter, numeric_id)
+                except (ValueError, Exception) as e:
+                    print(f"Warning: Failed to add memory {memory['id']} to tag index: {e}")
             
             # Load Archive layer memories
             archive_memories = self._jsonl_dao.load_memories("archive")
             self._archive_memory.clear()
             for memory in archive_memories:
                 self._archive_memory[memory["id"]] = memory
+                
+                # Add to tag index
+                try:
+                    # Extract numeric ID from memory ID (e.g., "mem_123" -> 123)
+                    if memory["id"].startswith("mem_"):
+                        numeric_id = int(memory["id"][4:])
+                        self._tag_index.add_memory(numeric_id, set(memory.get("tags", [])))
+                        
+                        # Update memory counter to avoid ID conflicts
+                        self._memory_counter = max(self._memory_counter, numeric_id)
+                except (ValueError, Exception) as e:
+                    print(f"Warning: Failed to add memory {memory['id']} to tag index: {e}")
                 
         except Exception as e:
             print(f"Warning: Failed to load JSONL memories: {e}")

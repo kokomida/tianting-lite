@@ -7,16 +7,16 @@
 ## 0.1 整体视图 (Now / Next / Future)
 | 阶段 | 关键版本 | 目标概述 |
 |------|----------|----------|
-| **Now** | v0.2-MVP | 跑通一句话 → 规划 → 并行执行 → 自动测试 → Markdown 报告闭环 |
-| **Next** | v0.3 | 引入多 AI 评审、初版 UI、可观测性 (Prom-Graf) |
-| **Future** | v0.4+ | 论文检索插件、桌面端双击 .exe、插件生态 & KG 层 |
+| **Now** | v0.3 | 引入多 AI 评审、初版 UI、可观测性 (Prom-Graf) |
+| **Next** | v0.4 | Roaring Bitmap 全量索引、并发一致性、自动化发布流水线 |
+| **Future** | v0.5+ | 插件生态、知识图谱 Layer-4、桌面端一键安装 |
 
 ---
 
 ## 0.2 版本里程碑表
 | 版本 | 计划周期 | 功能范围 (对应 FR) | 完成标志 | 状态 |
 |------|---------|-------------------|----------|------|
-| **v0.2 – MVP** | Day1-Day5 | FR-01 / 02 / 03 | 所有单元 + e2e 测试通过；`delivery/report.md` 自动生成 | 进行中 |
+| **v0.2 – MVP** | Day1-Day5 | FR-01 / 02 / 03 | 所有单元 + e2e 测试通过；`delivery/report.md` 自动生成 | 已完成 ✓ |
 | **v0.3 – Quality & UX** | +2 周 | FR-04 (单 Reviewer) + FR-05 (CLI UI 雏形) | Reviewer pass ≥90%；`tianting ui` 可展示进度条 | 计划 |
 | **v0.4 – Enhancement** | +1 月 | FR-04 扩展为多 Reviewer + FR-06 论文检索；Electron UI | 多专家评审 avgScore≥0.75；UI 打包 <60 MB | 计划 |
 | **v1.0 – GA** | TBD | Plugin API ≥80% 覆盖；Neo4j KG (Layer-4) | GitHub Release v1.0 tag；三平台验证通过 | 草案 |

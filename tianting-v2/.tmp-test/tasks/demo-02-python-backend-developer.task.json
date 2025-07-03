@@ -1,0 +1,16 @@
+{
+  "id": "demo-02",
+  "module": "demo",
+  "role": "python-backend-developer",
+  "objective": "FastAPITodo – write_tests",
+  "environment": "local-dev",
+  "implementation_guide": "为 CRUD 端点编写 pytest 单元测试，覆盖率 ≥ 80%。",
+  "success_criteria": "coverage ≥ 80%",
+  "status": "pending",
+  "priority": "P1",
+  "retry": 1,
+  "tags": [
+    "demo"
+  ],
+  "created_at": "2025-07-02T08:25:41.540Z"
+}

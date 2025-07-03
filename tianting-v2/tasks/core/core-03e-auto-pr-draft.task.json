@@ -1,0 +1,13 @@
+{
+  "id": "core-03e-auto-pr-draft",
+  "title": "Auto-draft pull requests on feature branch push",
+  "background": "docs/research/auto-pr-draft.md",
+  "status": "pending",
+  "owner": "ClaudeCode",
+  "acceptanceCriteria": [
+    "GitHub Action 在 push 到 feat/* 分支且不存在 PR 时自动创建 draft PR",
+    "PR body 自动填充模板：包含 task id 列表、change summary、Benchmark 勾选占位符",
+    "Action 具备幂等性：force-push 后自动更新同一 PR",
+    "End-to-end test 使用 act 验证 PR 创建逻辑；CI workflows 全绿"
+  ]
+} 

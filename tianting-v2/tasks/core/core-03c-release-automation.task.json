@@ -1,0 +1,13 @@
+{
+  "id": "core-03c-release-automation",
+  "title": "Automate Tag→Release pipeline for Tianting-Lite",
+  "background": "docs/research/release-automation.md",
+  "status": "pending",
+  "owner": "ClaudeCode",
+  "acceptanceCriteria": [
+    "GitHub Action 监听 tag push 并自动创建 Release，其中 Release Notes 基于 CHANGELOG 最新条目生成",
+    "Release 附带 artefact：benchmark 报告 zip + 生成的 docs index",
+    "Unit test: changelog-extractor 解析函数通过 5 条边界用例",
+    "CI workflows 需在 Linux & Windows 均通过"
+  ]
+} 

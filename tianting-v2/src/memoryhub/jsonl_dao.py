@@ -697,3 +697,25 @@ class JSONLMemoryDAO:
                         
         except Exception as e:
             print(f"Error rebuilding indices for {layer}: {e}")
+    
+    def close(self):
+        """Close all resources and flush pending updates"""
+        try:
+            # Flush all pending updates
+            self.flush_all_pending_updates()
+            
+            # Clear all caches and indices
+            self._query_cache.clear()
+            
+            # Clear offset/length arrays
+            del self._app_offsets[:]
+            del self._app_lengths[:]
+            del self._archive_offsets[:]
+            del self._archive_lengths[:]
+            
+            # Clear tag indices
+            self._app_tag_index.clear()
+            self._archive_tag_index.clear()
+            
+        except Exception as e:
+            print(f"Warning: Error during JSONLMemoryDAO close: {e}")
