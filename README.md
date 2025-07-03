@@ -51,6 +51,8 @@ graph LR
 - ⚙️ [技术选型](docs/04-technical-selection.md) - 技术栈与依赖策略
 - 📝 [OES规范](docs/06-oes-spec.md) - 任务定义标准
 - 🧪 [测试计划](docs/07-testing-plan.md) - 质量保证策略
+- 🛠️ [CLI使用指南](docs/cli-usage.md) - MemoryHub CLI 工具
+- 🔒 [资源管理](docs/resource-management.md) - 内存与文件句柄管理
 
 完整文档索引：[docs/index.md](docs/index.md)
 

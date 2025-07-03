@@ -68,107 +68,106 @@ def benchmark_memory_operations(memory_count: int = 10000, recall_queries: int =
         print(f"📁 Test directory: {test_dir}")
         print()
         
-        # Initialize MemoryHub
-        memory_manager = LayeredMemoryManager(path=test_dir)
-        
         # Generate test data
         print("🏗️  Generating test data...")
         test_data = generate_test_data(memory_count)
         
-        # Phase 1: Store memories
-        print("💾 Phase 1: Storing memories...")
-        store_start = time.time()
-        
-        for i, data in enumerate(test_data):
-            memory_manager.remember(
-                content=data["content"],
-                tags=data["tags"],
-                context_path=data["context_path"]
-            )
+        # Initialize MemoryHub with context manager
+        with LayeredMemoryManager(path=test_dir) as memory_manager:
+            # Phase 1: Store memories
+            print("💾 Phase 1: Storing memories...")
+            store_start = time.time()
             
-            if (i + 1) % 1000 == 0:
-                print(f"    Stored {i + 1:,} memories...")
-        
-        store_end = time.time()
-        store_time = store_end - store_start
-        
-        print(f"✅ Storage completed in {store_time:.2f}s")
-        print(f"   Rate: {memory_count / store_time:.0f} memories/sec")
-        print()
-        
-        # Phase 2: Recall benchmark
-        print("🔍 Phase 2: Recall benchmark...")
-        
-        # Test queries across different terms
-        test_queries = [
-            "BENCH_000001", "task", "log", "archive", "session", 
-            "Processing", "Historical", "Temporary", "Core", "Application",
-            "000100", "001000", "002000", "005000", "009999"
-        ]
-        
-        recall_times = []
-        total_results = 0
-        
-        recall_start = time.time()
-        
-        for i in range(recall_queries):
-            query = test_queries[i % len(test_queries)]
+            for i, data in enumerate(test_data):
+                memory_manager.remember(
+                    content=data["content"],
+                    tags=data["tags"],
+                    context_path=data["context_path"]
+                )
+                
+                if (i + 1) % 1000 == 0:
+                    print(f"    Stored {i + 1:,} memories...")
             
-            start_time = time.time()
-            results = memory_manager.recall(query, limit=10)
-            end_time = time.time()
+            store_end = time.time()
+            store_time = store_end - store_start
             
-            recall_time = (end_time - start_time) * 1000  # Convert to ms
-            recall_times.append(recall_time)
-            total_results += len(results)
+            print(f"✅ Storage completed in {store_time:.2f}s")
+            print(f"   Rate: {memory_count / store_time:.0f} memories/sec")
+            print()
             
-            if (i + 1) % 100 == 0:
-                avg_so_far = sum(recall_times) / len(recall_times)
-                print(f"    Completed {i + 1:,} recalls, avg: {avg_so_far:.2f}ms")
-        
-        recall_end = time.time()
-        total_recall_time = recall_end - recall_start
-        
-        # Calculate statistics
-        avg_latency = sum(recall_times) / len(recall_times)
-        max_latency = max(recall_times)
-        min_latency = min(recall_times)
-        p95_latency = sorted(recall_times)[int(0.95 * len(recall_times))]
-        
-        # Get system stats
-        stats = memory_manager.stats()
-        
-        # Compile results
-        results = {
-            "memory_count": memory_count,
-            "recall_queries": recall_queries,
-            "storage": {
-                "total_time_sec": round(store_time, 2),
-                "rate_per_sec": round(memory_count / store_time, 0)
-            },
-            "recall": {
-                "total_time_sec": round(total_recall_time, 2),
-                "avg_latency_ms": round(avg_latency, 2),
-                "max_latency_ms": round(max_latency, 2),
-                "min_latency_ms": round(min_latency, 2),
-                "p95_latency_ms": round(p95_latency, 2),
-                "total_results": total_results,
-                "rate_per_sec": round(recall_queries / total_recall_time, 0)
-            },
-            "memory_distribution": {
-                "session": stats["session_memory_count"],
-                "core": stats["core_memory_count"],
-                "application": stats["app_memory_count"],
-                "archive": stats["archive_memory_count"],
-                "total": stats["total_memories"]
-            },
-            "performance_target_met": avg_latency < 50.0
-        }
-        
-        return results
+            # Phase 2: Recall benchmark
+            print("🔍 Phase 2: Recall benchmark...")
+            
+            # Test queries across different terms
+            test_queries = [
+                "BENCH_000001", "task", "log", "archive", "session", 
+                "Processing", "Historical", "Temporary", "Core", "Application",
+                "000100", "001000", "002000", "005000", "009999"
+            ]
+            
+            recall_times = []
+            total_results = 0
+            
+            recall_start = time.time()
+            
+            for i in range(recall_queries):
+                query = test_queries[i % len(test_queries)]
+                
+                start_time = time.time()
+                results = memory_manager.recall(query, limit=10)
+                end_time = time.time()
+                
+                recall_time = (end_time - start_time) * 1000  # Convert to ms
+                recall_times.append(recall_time)
+                total_results += len(results)
+                
+                if (i + 1) % 100 == 0:
+                    avg_so_far = sum(recall_times) / len(recall_times)
+                    print(f"    Completed {i + 1:,} recalls, avg: {avg_so_far:.2f}ms")
+            
+            recall_end = time.time()
+            total_recall_time = recall_end - recall_start
+            
+            # Calculate statistics
+            avg_latency = sum(recall_times) / len(recall_times)
+            max_latency = max(recall_times)
+            min_latency = min(recall_times)
+            p95_latency = sorted(recall_times)[int(0.95 * len(recall_times))]
+            
+            # Get system stats
+            stats = memory_manager.stats()
+            
+            # Compile results
+            results = {
+                "memory_count": memory_count,
+                "recall_queries": recall_queries,
+                "storage": {
+                    "total_time_sec": round(store_time, 2),
+                    "rate_per_sec": round(memory_count / store_time, 0)
+                },
+                "recall": {
+                    "total_time_sec": round(total_recall_time, 2),
+                    "avg_latency_ms": round(avg_latency, 2),
+                    "max_latency_ms": round(max_latency, 2),
+                    "min_latency_ms": round(min_latency, 2),
+                    "p95_latency_ms": round(p95_latency, 2),
+                    "total_results": total_results,
+                    "rate_per_sec": round(recall_queries / total_recall_time, 0)
+                },
+                "memory_distribution": {
+                    "session": stats["session_memory_count"],
+                    "core": stats["core_memory_count"],
+                    "application": stats["app_memory_count"],
+                    "archive": stats["archive_memory_count"],
+                    "total": stats["total_memories"]
+                },
+                "performance_target_met": avg_latency < 50.0
+            }
+            
+            return results
         
     finally:
-        # Cleanup
+        # Cleanup test directory
         if os.path.exists(test_dir):
             shutil.rmtree(test_dir)
 

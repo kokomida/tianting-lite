@@ -3,26 +3,21 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "memoryhub-ti"
-version = "0.0.1"
-description = "MemoryHub for Tianting-v2 AI development pipeline"
-authors = [{name = "Tianting-v2", email = "dev@tianting.ai"}]
+name = "memoryhub"
+version = "0.2.0"
+description = "MemoryHub - Layered Memory Management for Tianting-v2"
 requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
-test = ["pytest>=7.0"]
+dev = ["pytest>=7.0", "pysimdjson"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[project.scripts]
+memoryhub = "memoryhub_cli:main"
 
-[tool.setuptools.package-dir]
-"" = "src"
+[tool.setuptools]
+packages = ["memoryhub"]
+package-dir = {"" = "src"}
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"]
-addopts = "-v --tb=short"
-python_files = ["test_*.py", "*_test.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"] 
+[tool.setuptools.package-data]
+memoryhub = ["*.py"]

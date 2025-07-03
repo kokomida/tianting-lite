@@ -254,10 +254,27 @@ class LayeredMemoryManager:
         except Exception as e:
             print(f"Warning: Failed to flush pending updates: {e}")
     
-    def __del__(self):
-        """Ensure pending updates are flushed when manager is destroyed"""
+    def close(self):
+        """Release all resources and close connections"""
         try:
+            # Flush any pending updates
             self.flush_pending_updates()
+            # Close JSONL DAO resources
+            self._jsonl_dao.close()
+            # Close SQLite DAO resources
+            self._dao.close()
+            # Clear in-memory caches
+            self._session_memory.clear()
+            self._core_memory.clear()
+            self._app_memory.clear()
+            self._archive_memory.clear()
+        except Exception as e:
+            print(f"Warning: Error during close: {e}")
+    
+    def __del__(self):
+        """Ensure resources are released when manager is destroyed"""
+        try:
+            self.close()
         except Exception:
             pass  # Ignore errors during cleanup
     
@@ -369,3 +386,40 @@ class LayeredMemoryManager:
             print(f"Warning: Failed to load JSONL memories: {e}")
             self._app_memory = {}
             self._archive_memory = {}
+    
+    def close(self):
+        """Release all resources and close connections"""
+        try:
+            # Flush any pending updates first
+            self.flush_pending_updates()
+            
+            # Close JSONL DAO resources
+            self._jsonl_dao.close()
+            
+            # Close SQLite DAO resources
+            self._dao.close()
+            
+            # Clear memory stores
+            self._session_memory.clear()
+            self._core_memory.clear()
+            self._app_memory.clear()
+            self._archive_memory.clear()
+            
+        except Exception as e:
+            print(f"Warning: Error during close: {e}")
+    
+    def __enter__(self):
+        """Context manager entry"""
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit - ensure resources are released"""
+        self.close()
+        return False
+    
+    def __del__(self):
+        """Ensure resources are released when object is destroyed"""
+        try:
+            self.close()
+        except Exception:
+            pass  # Ignore errors during cleanup

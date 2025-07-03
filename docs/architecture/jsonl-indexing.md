@@ -36,6 +36,8 @@ Average latency 19.26 ms, P95 42.5 ms
 ```
 
 ## 未来工作
-* 并发写锁优化 (`fcntl` / `msvcrt`)
-* SIMDJSON wheel 发布后在 CI 启用。
-* Roaring Bitmap tag-set 压缩。 
+- Windows 句柄释放：DAO `close()` + benchmark 结束时调用，彻底消除 WinError 32。
+- 发布 `simdjson` cp312 wheel 后，在 CI 启用 SIMD 分支并设双基准门。
+- 并发写安全：Linux `fcntl`/Windows `msvcrt` 文件锁，避免多进程 flush 冲突。
+- MemoryHub CLI：`stats` `flush` `benchmark` 子命令。
+- Roaring Bitmap tag 集压缩实验，降低 tag-index 占用。 

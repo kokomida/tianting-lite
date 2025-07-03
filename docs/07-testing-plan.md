@@ -141,6 +141,26 @@ describe('GET /users/:id', () => {
 | CI 运行时限 (90 min) | L | H | 测试并行 + 拆分 Matrix |
 | 浏览器版本更新破坏 E2E | M | M | 固定 Playwright 版本；每周升级验证 |
 
+## 16. Performance Benchmark Gate (MemoryHub)
+为 MemoryHub 子系统引入专门的性能闸门，确保索引优化不会被后续改动回gress。
+
+| 指标 | 数据集 | 阈值 |
+|------|--------|------|
+| 平均延迟 (avg) | 10 000 memories / 500 recalls | ≤ 35 ms |
+| P95 延迟 | 同上 | ≤ 50 ms |
+| 最大延迟 (max) | 同上 | ≤ 60 ms |
+
+CI 实现：
+1. GitHub Actions job `memoryhub-ci` 在 Linux 运行完整数据集基准脚本：
+   ```bash
+   python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500
+   ```
+2. 结果解析：脚本末尾输出 JSON，Harvester 读取 `avg_latency_ms`、`p95_latency_ms` 字段，比对阈值。
+3. 若任何指标超出阈值，则构建失败并在 PR 注释报告回归。
+4. 为加速 Windows job，仅跑 1 000/50 数据集作为回归验证（不设严格阈值，仅防崩溃）。
+
+> 注：基准脚本通过 `.benchmark.lock` 受 Integrity Stage 保护，任何改动需更新哈希并经代码审核。
+
 ---
 `status: in_progress` 标记将在测试脚本落地并首轮 CI 通过后改为 `done`。
 

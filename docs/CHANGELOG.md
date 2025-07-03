@@ -78,6 +78,25 @@
 ### CI
 - Integrity Stage 校验通过：`.benchmark.lock` SHA256 与脚本一致。
 
+## 2025-07-08  MemoryHub core-02f 资源释放 & CLI
+### Added
+- **Core-02f** 资源释放 & CLI 里程碑启动： 
+  - `JSONLMemoryDAO.close()` 刷盘并清理缓存；`LayeredMemoryManager.close()` 级联关闭 DAO / SQLite 连接；`benchmark_memoryhub.py` 现调用 `close()` 释放句柄。
+  - 初版 MemoryHub CLI `src/memoryhub_cli.py` 提供 `stats` / `flush` / `benchmark` 子命令；在 `pyproject.toml` 注册 console-script 入口。
+  - 新增 Windows 兼容测试 `tests/test_resource_release.py`，验证文件句柄已完全释放。
+- 📚 文档：`docs/architecture/jsonl-indexing.md` Future Work 追加资源释放流程；起草 CLI 使用示例。
+
+### Changed
+- `memoryhub.yml` CI 扩展：Linux 跑完整 10k/500 基准；Windows 轻量 1k/50 基准。
+- 创建分支 `feat/core-02f-resource-cli-doc`（[#4](https://github.com/org/repo/pull/4)）共 81 文件 ~6k LOC；修复后 CI 绿灯。
+
+### Removed
+- 删除遗留 `.github/workflows/ci.yml`，统一至单一 `memoryhub.yml`。
+
+### Next
+- 清理 PR：移除无关文件、将 `pyproject.toml` 移到包根、`close()` 改为真实文件描述符级关闭，并保持单一 Workflow。
+- 待 CI 再绿后合并并发布 `v0.2.1`。
+
 ## Next Planned
 - 实现 `scripts/lint-learning-schema.mjs` 校验学习助手输出 Schema。
 - 实现 `scripts/build-knowledge-index.mjs`，生成 docs/knowledge/index.json 并接入 CI。

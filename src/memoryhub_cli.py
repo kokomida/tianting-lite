@@ -9,9 +9,6 @@ import argparse
 import json
 from pathlib import Path
 
-# Add src to path to import memoryhub
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-
 from memoryhub import LayeredMemoryManager
 from memoryhub.jsonl_dao import JSONLMemoryDAO
 
@@ -146,7 +143,8 @@ def benchmark_command(args):
     
     try:
         # Import benchmark function
-        sys.path.insert(0, os.path.dirname(__file__))
+        script_dir = os.path.join(os.path.dirname(__file__), '..', 'scripts')
+        sys.path.insert(0, script_dir)
         from benchmark_memoryhub import benchmark_memory_operations, print_benchmark_results
         
         results = benchmark_memory_operations(args.memories, args.recalls)

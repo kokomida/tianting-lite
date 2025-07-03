@@ -61,6 +61,9 @@ class JSONLMemoryDAO:
         }
         self._update_batch_size = 10  # Smaller batch size for tests
         
+        # Track open file handles for proper cleanup
+        self._open_files = []
+        
         # Load existing indices on startup
         self._load_indices()
     
@@ -306,10 +309,27 @@ class JSONLMemoryDAO:
             if self._pending_recall_updates[layer]:
                 self._flush_pending_updates(layer)
     
+    def close(self):
+        """Release resources and flush pending updates"""
+        try:
+            self.flush_all_pending_updates()
+            # Clear caches to release memory
+            self._query_cache.clear()
+            # Clear arrays
+            del self._app_offsets[:]
+            del self._app_lengths[:]
+            del self._archive_offsets[:]
+            del self._archive_lengths[:]
+            # Clear tag indices
+            self._app_tag_index.clear()
+            self._archive_tag_index.clear()
+        except Exception as e:
+            print(f"Warning: Error during close: {e}")
+    
     def __del__(self):
         """Ensure pending updates are flushed when object is destroyed"""
         try:
-            self.flush_all_pending_updates()
+            self.close()
         except Exception:
             pass  # Ignore errors during cleanup
     
@@ -697,3 +717,50 @@ class JSONLMemoryDAO:
                         
         except Exception as e:
             print(f"Error rebuilding indices for {layer}: {e}")
+    
+    def close(self):
+        """Release all resources and close file handles"""
+        try:
+            # Flush any pending updates first
+            self.flush_all_pending_updates()
+            
+            # Close any open file handles that might be stored
+            if hasattr(self, '_open_files'):
+                for file_handle in self._open_files:
+                    try:
+                        file_handle.close()
+                    except Exception:
+                        pass
+                self._open_files.clear()
+            
+            # Clear all cache and index data structures
+            self._query_cache.clear()
+            
+            # Clear offset and length arrays
+            del self._app_offsets[:]
+            del self._app_lengths[:]
+            del self._archive_offsets[:]
+            del self._archive_lengths[:]
+            
+            # Clear tag indices
+            self._app_tag_index.clear()
+            self._archive_tag_index.clear()
+            
+        except Exception as e:
+            print(f"Warning: Error during close: {e}")
+    
+    def __enter__(self):
+        """Context manager entry"""
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit - ensure resources are released"""
+        self.close()
+        return False
+    
+    def __del__(self):
+        """Ensure resources are released when object is destroyed"""
+        try:
+            self.close()
+        except Exception:
+            pass  # Ignore errors during cleanup
