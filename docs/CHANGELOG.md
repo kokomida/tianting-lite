@@ -67,6 +67,17 @@
   4. CI Workflow 切换至 `pnpm verify-all` 并上传 artefact。
   5. 清理 SQLAlchemy、Pydantic Deprecation 警告（代码升级至 2.x API）。
 
+## 2025-07-07  MemoryHub core-02e1 完成
+### Added
+- **Core-02e1** JSONL 索引性能优化：array('Q')+bisect 二分定位、tag 预索引、批量 recall 计数更新；平均延迟 19 ms（10k/500 基准）。
+- 文档 `docs/architecture/jsonl-indexing.md` 描述索引结构与批量更新策略。
+
+### Changed
+- `tests/test_memoryhub/test_stats.py` 性能阈值恢复为 <100 ms。
+
+### CI
+- Integrity Stage 校验通过：`.benchmark.lock` SHA256 与脚本一致。
+
 ## Next Planned
 - 实现 `scripts/lint-learning-schema.mjs` 校验学习助手输出 Schema。
 - 实现 `scripts/build-knowledge-index.mjs`，生成 docs/knowledge/index.json 并接入 CI。

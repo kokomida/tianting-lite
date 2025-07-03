@@ -8,7 +8,7 @@ Four-layer memory architecture:
 - Archive Layer (Layer-4): Compressed historical data
 """
 
-from .memory_manager import LayeredMemoryManager
+from .memory_manager import LayeredMemoryManager, MemoryLayer
 
 __version__ = "0.2.0"
 __all__ = ["LayeredMemoryManager"]
