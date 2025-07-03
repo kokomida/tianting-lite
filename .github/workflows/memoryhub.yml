@@ -22,6 +22,10 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install pytest
+          # Install memoryhub package in editable mode so tests can import
+          pip install -e .
+      - name: Export PYTHONPATH for src
+        run: echo "PYTHONPATH=$PWD/src" >> $GITHUB_ENV
       - name: Run tests
         run: pytest -q
       - name: Run benchmark
