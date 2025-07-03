@@ -22,9 +22,9 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install pytest
-      - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=$PWD/src" >> $GITHUB_ENV
       - name: Run tests
-        run: pytest -q
+        run: |
+          export PYTHONPATH=$PWD/src
+          pytest -q
       - name: Run benchmark
         run: python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500 
