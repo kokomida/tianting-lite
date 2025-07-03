@@ -22,9 +22,9 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install pytest
+          # 关键：可编辑安装 src 目录
+          pip install -e ./src
       - name: Run tests
-        run: |
-          export PYTHONPATH=$PWD/src
-          pytest -q
+        run: pytest -q
       - name: Run benchmark
         run: python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500 
