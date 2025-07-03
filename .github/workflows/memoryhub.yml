@@ -23,8 +23,8 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
           pip install pysimdjson
-          # 关键：可编辑安装 src 目录
-          pip install -e ./src
+          # 关键：指向绝对路径，避免 cwd 变化带来的混淆
+          pip install -e ${{ github.workspace }}/tianting-v2/src
       - name: Run tests
         run: pytest -q
       - name: Run benchmark
