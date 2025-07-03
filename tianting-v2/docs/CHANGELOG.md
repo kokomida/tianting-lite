@@ -1,4 +1,39 @@
+<!-- status: in_progress -->
 # Changelog
+
+## 2025-07-06  v0.3-schema-upgrade
+### Added
+- OES Schema v1.1：新增 `task_type`, `required_stage`, `token_budget` 字段，支持 MemoryHub / Proposal / Learning 等任务类型。
+- MemoryHub 文档设计任务卡 `core-01-memoryhub-design`。
+- MemoryHub 实现任务卡 `core-02-memoryhub-impl`。
+- Prompt 模板 `docs/templates/subagent-task.md`（多代理研究）。
+
+## 2025-07-06  MemoryHub Core Layer & AI Collaboration
+### Added
+- **Core-02a** MemoryHub Skeleton：实现 `LayeredMemoryManager` Session 层 + 10 条单测。
+- **Core-02b** SQLite 持久化：新增 `sqlite_dao.py`、数据库迁移自动化、跨实例恢复；新增 11 条 SQLite 单测。
+- **Core-02c** JSONL 应用层：新增 `jsonl_dao.py`、Application/Archive 层持久化、层级搜索合并；新增 13 条 JSONL 单测。
+- **Core-02d** 统计 API & Benchmark：强化 `stats()` 性能指标、`benchmark_memoryhub.py`、9 条统计单测；**总测试数 43 ✔**。
+- **Integrity Stage**：新增 `.benchmark.lock`、`CODEOWNERS`、`.gitattributes` 保护 benchmark 脚本并在 CI 启用 hash 校验。
+- **07a-ai-collab-workflow.md**：Planner-AI / Executor-AI / PO 三方协作流程文档；Roadmap 0.6 小节同步。
+
+### Changed
+- Roadmap v0.3 now includes FR-10 MemoryHub milestone.
+- reporter 增强：自动 `pip install -e .` + `pytest -q`，使用 `VIRTUAL_ENV` 适配多环境。
+- `.gitignore`：排除 `memoryhub_data/` 运行时数据库、虚拟环境目录。
+- 移除仓库内提交的 `memoryhub_data/memory.db`。
+
+### Fixed
+- pytest 导入失败：新增 `pyproject.toml`、`pytest.ini pythonpath=src`，删除旧 `test_runner.py`。
+
+### CI
+- verify-all 现包含 Python 单测，失败即退出。
+
+## 2025-07-06
+- 📚 **Docs P0 完成同步**：README Quick-Start 更新为 `pnpm verify-all` 一键流水线；00-roadmap 当前进度标记 Sprint-A 完成。
+- 📝 **新增 `CONTRIBUTING-DOCS.md`**：统一文档结构、Front-Matter 状态标签、校验脚本及 PR 流程。
+- 🔄 ChangeLog 补充今日条目并更新维护日期。
+- ⏰ 所有变动已通过 `scripts/lint-doc-status.mjs` 本地校验；CI 无异常。
 
 ## 2025-07-04
 - 📄 Created and fleshed out core documentation:
@@ -31,6 +66,17 @@
   3. Prompt 模板强制交付 docker-compose.yml / Dockerfile。
   4. CI Workflow 切换至 `pnpm verify-all` 并上传 artefact。
   5. 清理 SQLAlchemy、Pydantic Deprecation 警告（代码升级至 2.x API）。
+
+## 2025-07-07  MemoryHub core-02e1 完成
+### Added
+- **Core-02e1** JSONL 索引性能优化：array('Q')+bisect 二分定位、tag 预索引、批量 recall 计数更新；平均延迟 19 ms（10k/500 基准）。
+- 文档 `docs/architecture/jsonl-indexing.md` 描述索引结构与批量更新策略。
+
+### Changed
+- `tests/test_memoryhub/test_stats.py` 性能阈值恢复为 <100 ms。
+
+### CI
+- Integrity Stage 校验通过：`.benchmark.lock` SHA256 与脚本一致。
 
 ## Next Planned
 - 实现 `scripts/lint-learning-schema.mjs` 校验学习助手输出 Schema。

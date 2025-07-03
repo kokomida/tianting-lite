@@ -1,0 +1,31 @@
+name: memoryhub-ci
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tianting-v2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+          pip install pysimdjson
+          # 关键：指向绝对路径，避免 cwd 变化带来的混淆
+          pip install -e ${{ github.workspace }}/tianting-v2/src
+      - name: Run tests
+        run: pytest -q
+      - name: Run benchmark
+        run: python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500 
