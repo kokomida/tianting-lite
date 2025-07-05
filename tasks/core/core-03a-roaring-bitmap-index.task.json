@@ -1,0 +1,18 @@
+{
+  "id": "core-03a-roaring-bitmap-index",
+  "module": "core", 
+  "role": "python-backend-developer",
+  "task_type": "implement",
+  "objective": "Implement high-performance tag indexing using roaring bitmaps for MemoryHub recall operations.",
+  "environment": "Python 3.12+, pytest, pyroaring (optional), cross-platform support",
+  "implementation_guide": "1. Create RoaringBitmapTagIndex with dual-mode support (PyRoaring + fallback). 2. Integrate into LayeredMemoryManager with recall_by_tags() method. 3. Add comprehensive parametrized tests. 4. Update benchmark script with 35ms threshold. 5. Cross-platform CI workflow.",
+  "success_criteria": "Dual-mode indexing works. Tests pass on Linux/Windows. Benchmark ≤35ms average latency. CI green. Documentation complete.",
+  "dependencies": ["core-02e"],
+  "required_stage": ["unit", "benchmark"],
+  "token_budget": 2000,
+  "status": "completed",
+  "priority": "P1", 
+  "tags": ["roaringbitmap", "performance", "indexing"],
+  "created_at": "2025-07-05T00:00:00Z",
+  "completed_at": "2025-07-05T10:00:00Z"
+}
