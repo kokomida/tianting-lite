@@ -1,0 +1,17 @@
+{
+  "id": "core-03a-hotfix-windows-handle",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "fix",
+  "objective": "Eliminate WinError 32 PermissionError in MemoryHub stats tests on Windows by ensuring resource cleanup.",
+  "environment": "Python 3.12+, Windows runner, pytest",
+  "implementation_guide": "1. Refactor tests/test_memoryhub/test_stats.py to use context managers for LayeredMemoryManager. 2. Ensure manager.close() is called before tempfile is removed; add gc.collect(). 3. Add pytest fixture for strict resource warnings. 4. Verify Windows and Linux CI green.",
+  "success_criteria": "All tests pass without PermissionError on Windows runner; CI matrix green.",
+  "dependencies": ["core-03a-ci-green"],
+  "required_stage": ["ci_green"],
+  "token_budget": 300,
+  "status": "pending",
+  "priority": "P1",
+  "tags": ["windows", "hotfix", "resource"],
+  "created_at": "2025-07-05T12:00:00Z"
+} 

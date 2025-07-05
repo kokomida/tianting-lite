@@ -15,7 +15,7 @@
 | 07 | 07-testing-plan.md | Testing Strategy & Quality Metrics | 🟡 In-Progress |
 | 08 | 08-deployment-guide.md | Deployment Guide (Compose & K8s) | 🟡 In-Progress |
 | 09 | 09-evaluation.md | Evaluation & KPI Metrics | 🟡 In-Progress |
-| 10 | 10-retrospective.md | Sprint Retrospective & OKR Alignment | 🟡 In-Progress |
+| 10 | 10-retrospective.md | Sprint Retrospective & OKR Alignment | 📦 Archived |
 | 11 | 11-glossary.md | Project Glossary of Terms | 🟡 Draft |
 | — | archive/ | Historical Docs & Decision Records | 📚 |
 
@@ -23,3 +23,15 @@ Legend: ✅ Done | 🟡 In-Progress | 📝 Draft | ⛔ Todo
 
 ---
 > Last manual update: 2025-07-04 
+
+## Tasks Index (auto-generated stub)
+
+| 目录 | 描述 |
+|------|------|
+| `tasks/core/` | v2 主线任务卡（自动规划器输入/输出） |
+| `tasks/demo/` | v2 Demo 任务示例 |
+| `tasks/archive/legacy/` | v1 及早期废弃任务，只读参考 |
+
+> 本节将由脚本 `generate-doc-index.mjs` 自动更新。
+
+--- 

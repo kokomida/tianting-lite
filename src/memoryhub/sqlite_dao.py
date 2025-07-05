@@ -20,8 +20,11 @@ class MemoryHubDAO:
             db_path: Path to SQLite database file
         """
         self.db_path = db_path
-        # Ensure directory exists
-        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        # Ensure directory exists (skip for in-memory database)
+        if db_path != ":memory:":
+            db_dir = os.path.dirname(db_path)
+            if db_dir:  # Only create if directory path is not empty
+                os.makedirs(db_dir, exist_ok=True)
         self._init_database()
 
     def _init_database(self):

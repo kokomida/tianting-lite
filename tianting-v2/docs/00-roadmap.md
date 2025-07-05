@@ -94,6 +94,7 @@
 
 4. 当前进度
    - 00-06 完成；07-09 进行中；10 等第一次 Sprint 结束填写。
+   - Hot-fix `fix/win-handle`（MemoryHub Windows 句柄）进行中；预计 D+1 完成。
 
 5. 接下来怎么做？
    1) 冻结文档 → 团队走查  

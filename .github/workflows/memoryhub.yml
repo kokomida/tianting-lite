@@ -1,31 +1,94 @@
-name: memoryhub-ci
+name: MemoryHub CI
 
 on:
-  pull_request:
-    branches: [ main ]
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
-  test:
+  linux-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: tianting-v2
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Python
+      
+      - name: Set up Python 3.12
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: "3.12"
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-dev
+      
       - name: Install deps
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
-          pip install pysimdjson
-          # 关键：指向绝对路径，避免 cwd 变化带来的混淆
-          pip install -e ${{ github.workspace }}/tianting-v2/src
+          pip install -e ./src
+      
+      - name: Debug module import
+        run: |
+          PYTHONPATH=./src python - <<'PY'
+          import sys, importlib.util, memoryhub, inspect, pprint
+          print("=== MemoryHub Module Debug ===")
+          pprint.pprint(dir(memoryhub))
+          print("=== LayeredMemoryManager attributes ===")
+          from memoryhub import LayeredMemoryManager
+          manager = LayeredMemoryManager(path="/tmp/test")
+          print("Has _tag_index:", hasattr(manager, '_tag_index'))
+          print("Has recall_by_tags:", hasattr(manager, 'recall_by_tags'))
+          manager.close()
+          PY
+      
       - name: Run tests
-        run: pytest -q
-      - name: Run benchmark
-        run: python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500 
+        run: |
+          PYTHONPATH=./src pytest tests/test_memoryhub/test_basic_roaring.py -v
+      
+      - name: Run benchmark (Linux - 10k/500)
+        run: |
+          PYTHONPATH=./src python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500
+
+  windows-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+          pip install -e ./src
+      
+      - name: Debug module import
+        run: |
+          $env:PYTHONPATH = "./src"
+          python -c "
+          import sys, importlib.util, memoryhub, inspect, pprint
+          print('=== MemoryHub Module Debug (Windows) ===')
+          pprint.pprint(dir(memoryhub))
+          print('=== LayeredMemoryManager attributes ===')
+          from memoryhub import LayeredMemoryManager
+          manager = LayeredMemoryManager(path='C:/temp/test')
+          print('Has _tag_index:', hasattr(manager, '_tag_index'))
+          print('Has recall_by_tags:', hasattr(manager, 'recall_by_tags'))
+          manager.close()
+          "
+      
+      - name: Run tests
+        run: |
+          $env:PYTHONPATH = "./src"
+          pytest tests/test_memoryhub/test_basic_roaring.py -v
+      
+      - name: Run benchmark (Windows - 1k/50)
+        run: |
+          $env:PYTHONPATH = "./src"
+          python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50

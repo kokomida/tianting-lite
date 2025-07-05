@@ -289,7 +289,8 @@ class LayeredMemoryManager:
     def flush_pending_updates(self):
         """Flush any pending recall count updates to disk"""
         try:
-            self._jsonl_dao.flush_all_pending_updates()
+            if hasattr(self, '_jsonl_dao') and self._jsonl_dao:
+                self._jsonl_dao.flush_all_pending_updates()
         except Exception as e:
             print(f"Warning: Failed to flush pending updates: {e}")
 
@@ -411,19 +412,26 @@ class LayeredMemoryManager:
             self.flush_pending_updates()
 
             # Close JSONL DAO resources
-            self._jsonl_dao.close()
+            if hasattr(self, '_jsonl_dao') and self._jsonl_dao:
+                self._jsonl_dao.close()
 
             # Close SQLite DAO resources
-            self._dao.close()
+            if hasattr(self, '_dao') and self._dao:
+                self._dao.close()
 
             # Clear memory stores
-            self._session_memory.clear()
-            self._core_memory.clear()
-            self._app_memory.clear()
-            self._archive_memory.clear()
+            if hasattr(self, '_session_memory'):
+                self._session_memory.clear()
+            if hasattr(self, '_core_memory'):
+                self._core_memory.clear()
+            if hasattr(self, '_app_memory'):
+                self._app_memory.clear()
+            if hasattr(self, '_archive_memory'):
+                self._archive_memory.clear()
 
             # Clear tag index
-            self._tag_index.clear()
+            if hasattr(self, '_tag_index') and self._tag_index:
+                self._tag_index.clear()
 
         except Exception as e:
             print(f"Warning: Error during close: {e}")

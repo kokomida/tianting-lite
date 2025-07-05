@@ -1,0 +1,17 @@
+{
+  "id": "core-03b-dispatcher-serial",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "implement",
+  "objective": "Implement Dispatcher to convert single-sentence requirement into an ordered OES task list (serial planning).",
+  "environment": "Python 3.12+, pytest, Tianting-v2 core libs",
+  "implementation_guide": "1. Create Dispatcher class with plan(requirement: str) -> List[OESTask]. 2. Follow OES JSON Schema in docs/06-oes-spec.md. 3. Unit tests ≥80% coverage. 4. Demo CLI: tianting plan \"build todo app\". 5. Update docs/modules/dispatcher/design.md.",
+  "success_criteria": "Given a sample requirement, Dispatcher returns deterministic ordered list matching schema; all tests pass; benchmark ≤50ms.",
+  "dependencies": ["core-03a-ci-green"],
+  "required_stage": ["unit", "benchmark"],
+  "token_budget": 1200,
+  "status": "pending",
+  "priority": "P1",
+  "tags": ["dispatcher", "planning"],
+  "created_at": "2025-07-05T12:00:00Z"
+} 

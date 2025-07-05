@@ -4,10 +4,8 @@ Handles logs, traces and archived memories in JSONL format
 """
 
 import array
-import bisect
 import json
 import mmap
-import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -327,7 +325,6 @@ class JSONLMemoryDAO:
             if self._pending_recall_updates[layer]:
                 self._flush_pending_updates(layer)
 
-
     def build_index(self, layer: str, force_rebuild: bool = False) -> bool:
         """Build or rebuild index for specified layer"""
         try:
@@ -584,7 +581,7 @@ class JSONLMemoryDAO:
 
                         try:
                             # Direct memory access
-                            line_bytes = mmapped_file[offset : offset + length]
+                            line_bytes = mmapped_file[offset: offset + length]
                             line = line_bytes.decode("utf-8", errors="ignore").strip()
 
                             if not line:
