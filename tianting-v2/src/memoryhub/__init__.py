@@ -1,14 +1,19 @@
 """
-MemoryHub - Layered Memory Management for Tianting-v2
+MemoryHub - High-Performance Memory Management System
 
-Four-layer memory architecture:
-- Session Layer (Layer-1): Temporary in-memory storage
-- Core Layer (Layer-2): SQLite persistent storage for tasks/windows
-- Application Layer (Layer-3): JSONL files for logs and traces
-- Archive Layer (Layer-4): Compressed historical data
+A comprehensive memory management system with multi-layer architecture,
+JSONL indexing, and roaring bitmap tag indexing capabilities.
 """
 
-from .memory_manager import LayeredMemoryManager, MemoryLayer
+from .memory_manager import LayeredMemoryManager
+from .jsonl_dao import JSONLMemoryDAO
+from .sqlite_dao import MemoryHubDAO
+from .roaring_bitmap_tag_index import RoaringBitmapTagIndex
 
-__version__ = "0.2.0"
-__all__ = ["LayeredMemoryManager"]
+__version__ = "0.0.1"
+__all__ = [
+    "LayeredMemoryManager",
+    "JSONLMemoryDAO", 
+    "MemoryHubDAO",
+    "RoaringBitmapTagIndex"
+]
