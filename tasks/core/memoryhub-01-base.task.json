@@ -1,0 +1,21 @@
+{
+  "id": "memoryhub-01-base",
+  "module": "memoryhub",
+  "title": "MemoryHub Layer-2 基础实现",
+  "type": "base",
+  "status": "pending",
+  "objective": {
+    "description": "实现 MemoryHub SQLite DAO 的最小可用版本，能持久化 tasks / windows / review_logs 三张表，并通过现有单元测试。"
+  },
+  "environment": {
+    "code_paths": ["tianting-v2/src/memoryhub/"],
+    "test_paths": ["tianting-v2/tests/test_memoryhub/"],
+    "design_docs": ["tianting-v2/docs/modules/memoryhub/design.md"],
+    "constraints": ["Python>=3.12", "SQLite3"]
+  },
+  "success_criteria": {
+    "basic": ["pytest tianting-v2/tests/test_memoryhub -q"],
+    "quality": ["flake8 src/memoryhub"],
+    "excellent": []
+  }
+}

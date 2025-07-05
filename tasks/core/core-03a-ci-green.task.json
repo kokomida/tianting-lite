@@ -1,0 +1,17 @@
+{
+  "id": "core-03a-ci-green",
+  "module": "core",
+  "role": "devops-engineer", 
+  "task_type": "validate",
+  "objective": "Ensure CI pipeline passes for core-03a clean integration branch with cross-platform testing.",
+  "environment": "GitHub Actions, Linux/Windows runners, Python 3.12",
+  "implementation_guide": "1. Monitor PR CI execution. 2. Fix any test failures or dependency issues. 3. Ensure both Linux and Windows jobs pass. 4. Verify benchmark meets 35ms threshold. 5. Check lint and type validation.",
+  "success_criteria": "All CI checks green. Linux 10k/500 and Windows 1k/50 benchmarks pass. Tests cover dual-mode functionality. PR ready for merge.",
+  "dependencies": ["core-03a-clean"],
+  "required_stage": ["ci_green"],
+  "token_budget": 800,
+  "status": "pending",
+  "priority": "P1",
+  "tags": ["ci", "testing", "cross-platform"],
+  "created_at": "2025-07-05T00:00:00Z"
+}

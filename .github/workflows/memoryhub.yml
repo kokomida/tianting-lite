@@ -29,6 +29,20 @@ jobs:
           pip install pytest
           pip install -e ./src
       
+      - name: Debug module import
+        run: |
+          PYTHONPATH=./src python - <<'PY'
+          import sys, importlib.util, memoryhub, inspect, pprint
+          print("=== MemoryHub Module Debug ===")
+          pprint.pprint(dir(memoryhub))
+          print("=== LayeredMemoryManager attributes ===")
+          from memoryhub import LayeredMemoryManager
+          manager = LayeredMemoryManager(path="/tmp/test")
+          print("Has _tag_index:", hasattr(manager, '_tag_index'))
+          print("Has recall_by_tags:", hasattr(manager, 'recall_by_tags'))
+          manager.close()
+          PY
+      
       - name: Run tests
         run: |
           PYTHONPATH=./src pytest tests/test_memoryhub/test_basic_roaring.py -v
@@ -53,6 +67,21 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
           pip install -e ./src
+      
+      - name: Debug module import
+        run: |
+          $env:PYTHONPATH = "./src"
+          python - <<'PY'
+          import sys, importlib.util, memoryhub, inspect, pprint
+          print("=== MemoryHub Module Debug (Windows) ===")
+          pprint.pprint(dir(memoryhub))
+          print("=== LayeredMemoryManager attributes ===")
+          from memoryhub import LayeredMemoryManager
+          manager = LayeredMemoryManager(path="C:/temp/test")
+          print("Has _tag_index:", hasattr(manager, '_tag_index'))
+          print("Has recall_by_tags:", hasattr(manager, 'recall_by_tags'))
+          manager.close()
+          PY
       
       - name: Run tests
         run: |
