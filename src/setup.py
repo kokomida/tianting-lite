@@ -1,9 +1,10 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="memoryhub-ti",
     version="0.0.1",
-    packages=find_packages(),
+    packages=find_packages("."),
+    package_dir={"": "."},
     install_requires=[
         "pyroaring>=0.3.0",
     ],

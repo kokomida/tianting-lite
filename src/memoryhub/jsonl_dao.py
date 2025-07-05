@@ -4,10 +4,8 @@ Handles logs, traces and archived memories in JSONL format
 """
 
 import array
-import bisect
 import json
 import mmap
-import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -327,30 +325,6 @@ class JSONLMemoryDAO:
             if self._pending_recall_updates[layer]:
                 self._flush_pending_updates(layer)
 
-    def close(self):
-        """Release resources and flush pending updates"""
-        try:
-            self.flush_all_pending_updates()
-            # Clear caches to release memory
-            self._query_cache.clear()
-            # Clear arrays
-            del self._app_offsets[:]
-            del self._app_lengths[:]
-            del self._archive_offsets[:]
-            del self._archive_lengths[:]
-            # Clear tag indices
-            self._app_tag_index.clear()
-            self._archive_tag_index.clear()
-        except Exception as e:
-            print(f"Warning: Error during close: {e}")
-
-    def __del__(self):
-        """Ensure pending updates are flushed when object is destroyed"""
-        try:
-            self.close()
-        except Exception:
-            pass  # Ignore errors during cleanup
-
     def build_index(self, layer: str, force_rebuild: bool = False) -> bool:
         """Build or rebuild index for specified layer"""
         try:
@@ -607,7 +581,7 @@ class JSONLMemoryDAO:
 
                         try:
                             # Direct memory access
-                            line_bytes = mmapped_file[offset : offset + length]
+                            line_bytes = mmapped_file[offset: offset + length]
                             line = line_bytes.decode("utf-8", errors="ignore").strip()
 
                             if not line:
