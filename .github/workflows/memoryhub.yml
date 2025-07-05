@@ -49,7 +49,7 @@ jobs:
       
       - name: Run benchmark (Linux - 10k/500)
         run: |
-          PYTHONPATH=./src python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500 --index auto
+          PYTHONPATH=./src python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500
 
   windows-test:
     runs-on: windows-latest
@@ -71,17 +71,17 @@ jobs:
       - name: Debug module import
         run: |
           $env:PYTHONPATH = "./src"
-          python - <<'PY'
+          python -c "
           import sys, importlib.util, memoryhub, inspect, pprint
-          print("=== MemoryHub Module Debug (Windows) ===")
+          print('=== MemoryHub Module Debug (Windows) ===')
           pprint.pprint(dir(memoryhub))
-          print("=== LayeredMemoryManager attributes ===")
+          print('=== LayeredMemoryManager attributes ===')
           from memoryhub import LayeredMemoryManager
-          manager = LayeredMemoryManager(path="C:/temp/test")
-          print("Has _tag_index:", hasattr(manager, '_tag_index'))
-          print("Has recall_by_tags:", hasattr(manager, 'recall_by_tags'))
+          manager = LayeredMemoryManager(path='C:/temp/test')
+          print('Has _tag_index:', hasattr(manager, '_tag_index'))
+          print('Has recall_by_tags:', hasattr(manager, 'recall_by_tags'))
           manager.close()
-          PY
+          "
       
       - name: Run tests
         run: |
@@ -91,4 +91,4 @@ jobs:
       - name: Run benchmark (Windows - 1k/50)
         run: |
           $env:PYTHONPATH = "./src"
-          python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50 --index auto
+          python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50
