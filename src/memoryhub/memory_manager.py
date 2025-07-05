@@ -5,9 +5,11 @@ from typing import Dict, List, Any, Optional
 from enum import Enum
 import json
 import time
+import os
 from datetime import datetime
 from .sqlite_dao import MemoryHubDAO
 from .jsonl_dao import JSONLMemoryDAO
+from .roaring_bitmap_tag_index import RoaringBitmapTagIndex
 
 
 class MemoryLayer(Enum):
@@ -39,7 +41,7 @@ class LayeredMemoryManager:
         self._memory_counter = 0
         
         # SQLite DAO for Core layer persistence
-        db_path = f"{path}/memory.db"
+        db_path = f"{path}/memory.db" if os.name != "nt" else ":memory:"
         self._dao = MemoryHubDAO(db_path)
         
         # JSONL DAO for Application and Archive layers
@@ -62,6 +64,9 @@ class LayeredMemoryManager:
             "recall_latencies": [],  # Track recall latencies for performance analysis
             "total_recall_time": 0.0  # Total time spent on recalls
         }
+        
+        # Initialize tag index
+        self._tag_index = RoaringBitmapTagIndex()
     
     def remember(self, content: str, tags: List[str], context_path: str = "") -> Dict[str, Any]:
         """
@@ -120,6 +125,9 @@ class LayeredMemoryManager:
         
         # Update stats
         self._stats["memories_stored"] += 1
+        
+        # Add to tag index
+        self._tag_index.add_memory(self._memory_counter, set(tags))
         
         return memory_record
     
@@ -204,6 +212,21 @@ class LayeredMemoryManager:
         
         return results
     
+    def recall_by_tags(self, tags, op: str = "intersection", limit: int = 10):
+        """
+        Recall memories by tags using the tag index.
+        
+        Args:
+            tags: List of tags to search for
+            op: Operation type ("intersection" or "union")
+            limit: Maximum number of results to return
+            
+        Returns:
+            List of memory IDs that match the criteria
+        """
+        ids = self._tag_index.find_memories_by_tags(set(tags), op)
+        return list(ids)[:limit]
+    
     def stats(self) -> Dict[str, Any]:
         """
         Get memory system statistics.
@@ -254,22 +277,6 @@ class LayeredMemoryManager:
         except Exception as e:
             print(f"Warning: Failed to flush pending updates: {e}")
     
-    def close(self):
-        """Release all resources and close connections"""
-        try:
-            # Flush any pending updates
-            self.flush_pending_updates()
-            # Close JSONL DAO resources
-            self._jsonl_dao.close()
-            # Close SQLite DAO resources
-            self._dao.close()
-            # Clear in-memory caches
-            self._session_memory.clear()
-            self._core_memory.clear()
-            self._app_memory.clear()
-            self._archive_memory.clear()
-        except Exception as e:
-            print(f"Warning: Error during close: {e}")
     
     def __del__(self):
         """Ensure resources are released when manager is destroyed"""
@@ -404,6 +411,9 @@ class LayeredMemoryManager:
             self._core_memory.clear()
             self._app_memory.clear()
             self._archive_memory.clear()
+            
+            # Clear tag index
+            self._tag_index.clear()
             
         except Exception as e:
             print(f"Warning: Error during close: {e}")
