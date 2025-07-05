@@ -40,35 +40,33 @@ def test_roaring_bitmap_tag_index_basic():
 def test_layered_memory_manager_integration():
     """Test that LayeredMemoryManager can be imported and uses tag index."""
     from memoryhub import LayeredMemoryManager
+    import tempfile
+    import os
     
-    # Test that we can create an instance
-    manager = LayeredMemoryManager(
-        db_path=":memory:",
-        app_logs_path=None,
-        archive_logs_path=None
-    )
-    assert manager is not None
-    
-    # Test that it has the tag index
-    assert hasattr(manager, '_tag_index')
-    assert hasattr(manager, 'recall_by_tags')
-    
-    # Clean up
-    try:
-        manager.close()
-    except:
-        pass
+    # Use a temporary directory for testing
+    with tempfile.TemporaryDirectory() as temp_dir:
+        manager = LayeredMemoryManager(path=temp_dir)
+        assert manager is not None
+        
+        # Test that it has the tag index
+        assert hasattr(manager, '_tag_index')
+        assert hasattr(manager, 'recall_by_tags')
+        
+        # Clean up
+        try:
+            manager.close()
+        except:
+            pass
 
 
 def test_memory_manager_close():
     """Test resource cleanup in LayeredMemoryManager."""
     from memoryhub import LayeredMemoryManager
+    import tempfile
     
-    manager = LayeredMemoryManager(
-        db_path=":memory:",
-        app_logs_path=None, 
-        archive_logs_path=None
-    )
-    
-    # Should not raise an exception
-    manager.close()
+    # Use a temporary directory for testing 
+    with tempfile.TemporaryDirectory() as temp_dir:
+        manager = LayeredMemoryManager(path=temp_dir)
+        
+        # Should not raise an exception
+        manager.close()
