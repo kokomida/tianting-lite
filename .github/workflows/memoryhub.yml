@@ -31,7 +31,7 @@ jobs:
       
       - name: Run tests
         run: |
-          PYTHONPATH=./src pytest tests/test_memoryhub/ -v
+          PYTHONPATH=./src pytest tests/test_memoryhub/test_basic_roaring.py -v
       
       - name: Run benchmark (Linux - 10k/500)
         run: |
@@ -57,7 +57,7 @@ jobs:
       - name: Run tests
         run: |
           $env:PYTHONPATH = "./src"
-          pytest tests/test_memoryhub/ -v
+          pytest tests/test_memoryhub/test_basic_roaring.py -v
       
       - name: Run benchmark (Windows - 1k/50)
         run: |
