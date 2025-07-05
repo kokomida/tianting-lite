@@ -21,51 +21,45 @@ def roaring_available(request):
 def mock_roaring_import(roaring_available):
     """Mock pyroaring import based on availability parameter."""
     if roaring_available:
-        # Mock pyroaring.BitMap
-        mock_bitmap = MagicMock()
-        mock_bitmap.__len__ = lambda self: len(self._data)
-        mock_bitmap.__contains__ = lambda self, item: item in self._data
-        mock_bitmap.__iter__ = lambda self: iter(self._data)
-        mock_bitmap.add = lambda self, item: self._data.add(item)
-        mock_bitmap.discard = lambda self, item: self._data.discard(item)
-        mock_bitmap.__and__ = lambda self, other: self._intersection(other)
-        mock_bitmap.__or__ = lambda self, other: self._union(other)
-        
-        def create_bitmap():
-            bitmap = MagicMock()
-            bitmap._data = set()
-            bitmap.__len__ = lambda: len(bitmap._data)
-            bitmap.__contains__ = lambda item: item in bitmap._data
-            bitmap.__iter__ = lambda: iter(bitmap._data)
-            bitmap.add = lambda item: bitmap._data.add(item)
-            bitmap.discard = lambda item: bitmap._data.discard(item)
-            bitmap.__and__ = lambda other: create_intersection(bitmap, other)
-            bitmap.__or__ = lambda other: create_union(bitmap, other)
-            return bitmap
-        
-        def create_intersection(bitmap1, bitmap2):
-            result = create_bitmap()
-            result._data = bitmap1._data & bitmap2._data
-            return result
-        
-        def create_union(bitmap1, bitmap2):
-            result = create_bitmap()
-            result._data = bitmap1._data | bitmap2._data
-            return result
+        # Create a simple MockBitMap class
+        class MockBitMap:
+            def __init__(self):
+                self._data = set()
+            
+            def __len__(self):
+                return len(self._data)
+            
+            def __contains__(self, item):
+                return item in self._data
+            
+            def __iter__(self):
+                return iter(self._data)
+            
+            def add(self, item):
+                self._data.add(item)
+            
+            def discard(self, item):
+                self._data.discard(item)
+            
+            def __and__(self, other):
+                result = MockBitMap()
+                result._data = self._data & other._data
+                return result
+            
+            def __or__(self, other):
+                result = MockBitMap()
+                result._data = self._data | other._data
+                return result
         
         mock_module = MagicMock()
-        mock_module.BitMap = create_bitmap
+        mock_module.BitMap = MockBitMap
         
         with patch.dict('sys.modules', {'pyroaring': mock_module}):
             yield True
     else:
-        # Remove pyroaring from sys.modules if it exists
-        if 'pyroaring' in sys.modules:
-            del sys.modules['pyroaring']
-        
+        # Simply ensure pyroaring is not available
         with patch.dict('sys.modules', {'pyroaring': None}):
-            with patch('builtins.__import__', side_effect=lambda name, *args: None if name == 'pyroaring' else __import__(name, *args)):
-                yield False
+            yield False
 
 
 @pytest.fixture
