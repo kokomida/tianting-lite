@@ -2,6 +2,9 @@
 Basic integration tests for roaring bitmap functionality
 """
 
+import platform
+import time
+
 def test_roaring_bitmap_tag_index_basic():
     """Test that RoaringBitmapTagIndex can be imported and works."""
     from memoryhub.roaring_bitmap_tag_index import RoaringBitmapTagIndex
@@ -25,14 +28,20 @@ def test_layered_memory_manager_integration():
     
     # Use a temporary directory for testing
     with tempfile.TemporaryDirectory() as temp_dir:
-        manager = LayeredMemoryManager(path=temp_dir)
-        assert manager is not None
-        
-        # Test that it has the tag index
-        assert hasattr(manager, '_tag_index')
-        
-        # Properly close the manager to release file handles
-        manager.close()
+        manager = None
+        try:
+            manager = LayeredMemoryManager(path=temp_dir)
+            assert manager is not None
+            
+            # Test that it has the tag index
+            assert hasattr(manager, '_tag_index')
+        finally:
+            # Ensure manager is always closed to release file handles
+            if manager is not None:
+                manager.close()
+                # On Windows, add a small delay to ensure file handles are fully released
+                if platform.system() == "Windows":
+                    time.sleep(0.1)
 
 
 def test_memory_manager_close():
@@ -42,14 +51,20 @@ def test_memory_manager_close():
     
     # Use a temporary directory for testing
     with tempfile.TemporaryDirectory() as temp_dir:
-        manager = LayeredMemoryManager(path=temp_dir)
-        
-        # Test storing and retrieving a memory
-        memory = manager.remember("test content", ["test", "python"])
-        assert memory["id"] is not None
-        
-        # Test that close works properly
-        manager.close()
-        
-        # Verify the manager is properly closed
-        assert hasattr(manager, '_dao')
+        manager = None
+        try:
+            manager = LayeredMemoryManager(path=temp_dir)
+            
+            # Test storing and retrieving a memory
+            memory = manager.remember("test content", ["test", "python"])
+            assert memory["id"] is not None
+            
+            # Verify the manager is properly closed
+            assert hasattr(manager, '_dao')
+        finally:
+            # Always ensure manager is closed
+            if manager is not None:
+                manager.close()
+                # On Windows, add a small delay to ensure file handles are fully released
+                if platform.system() == "Windows":
+                    time.sleep(0.1)
