@@ -369,3 +369,14 @@ class LayeredMemoryManager:
             print(f"Warning: Failed to load JSONL memories: {e}")
             self._app_memory = {}
             self._archive_memory = {}
+    
+    def close(self):
+        """
+        Close all database connections and cleanup resources.
+        Important for proper cleanup, especially on Windows.
+        """
+        if hasattr(self, '_dao') and self._dao:
+            self._dao.close()
+        if hasattr(self, '_jsonl_dao') and self._jsonl_dao:
+            # JSONL DAO doesn't have connections to close, but we can clear references
+            pass

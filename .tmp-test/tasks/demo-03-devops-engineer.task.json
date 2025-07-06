@@ -1,0 +1,16 @@
+{
+  "id": "demo-03",
+  "module": "demo",
+  "role": "devops-engineer",
+  "objective": "FastAPITodo – dockerize",
+  "environment": "local-dev",
+  "implementation_guide": "编写 Dockerfile 和 docker-compose.yml，端口 8000。",
+  "success_criteria": "容器启动 curl /healthz 200",
+  "status": "pending",
+  "priority": "P1",
+  "retry": 1,
+  "tags": [
+    "demo"
+  ],
+  "created_at": "2025-07-05T13:17:20.290Z"
+}

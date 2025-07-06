@@ -1,0 +1,11 @@
+{
+  "id": "reporter-02-read-mcp",
+  "module": "reporter",
+  "title": "Reporter 集成 MCP Todo 进度渲染",
+  "type": "base",
+  "status": "pending",
+  "objective": {"description": "Reporter.index.mjs 读取 MCP get_todos API，将完成度 & 复杂度写入 delivery/report.md"},
+  "environment": {"code_paths": ["tianting-v2/src/reporter/"], "constraints": ["Node>=18", "markdown-it"]},
+  "blocked_by": ["integration-03-mcp-add-todo"],
+  "success_criteria": {"basic": ["npm run test --workspace tianting-v2"], "quality": [], "excellent": []}
+} 

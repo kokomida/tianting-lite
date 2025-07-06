@@ -1,0 +1,11 @@
+{
+  "id": "integration-03-mcp-add-todo",
+  "module": "dispatcher",
+  "title": "写入子任务到 MCP Todo 列表",
+  "type": "base",
+  "status": "pending",
+  "objective": {"description": "扩展 mcpPlanner.mjs：遍历子任务草稿，调用 add_todo"},
+  "environment": {"code_paths": ["tianting-v2/src/dispatcher/"], "constraints": ["Node>=18"]},
+  "blocked_by": ["integration-02-mcp-start-plan"],
+  "success_criteria": {"basic": ["node tests/dispatcher.todoSync.test.mjs"], "quality": [], "excellent": []}
+} 

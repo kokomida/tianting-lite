@@ -22,9 +22,22 @@ class TestMemoryHubStats:
     
     def teardown_method(self):
         """Cleanup after each test method"""
-        # Clean up temporary directory
+        # Close memory manager and database connections
+        if hasattr(self, 'memory_manager'):
+            self.memory_manager.close()
+        
+        # Clean up temporary directory with retry for Windows
         if os.path.exists(self.test_dir):
-            shutil.rmtree(self.test_dir)
+            for attempt in range(3):
+                try:
+                    shutil.rmtree(self.test_dir)
+                    break
+                except PermissionError:
+                    if attempt < 2:  # Don't sleep on last attempt
+                        time.sleep(0.1)
+                    else:
+                        # If still fails, just skip cleanup (CI will clean up temp files)
+                        pass
     
     def test_initial_stats(self):
         """Test initial statistics state"""
@@ -239,8 +252,22 @@ class TestStatsAPI:
     
     def teardown_method(self):
         """Cleanup after each test method"""
+        # Close memory manager and database connections
+        if hasattr(self, 'memory_manager'):
+            self.memory_manager.close()
+        
+        # Clean up temporary directory with retry for Windows
         if os.path.exists(self.test_dir):
-            shutil.rmtree(self.test_dir)
+            for attempt in range(3):
+                try:
+                    shutil.rmtree(self.test_dir)
+                    break
+                except PermissionError:
+                    if attempt < 2:  # Don't sleep on last attempt
+                        time.sleep(0.1)
+                    else:
+                        # If still fails, just skip cleanup (CI will clean up temp files)
+                        pass
     
     def test_stats_api_structure(self):
         """Test that stats API returns expected structure"""

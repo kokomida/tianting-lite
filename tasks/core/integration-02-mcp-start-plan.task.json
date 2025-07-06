@@ -1,0 +1,11 @@
+{
+  "id": "integration-02-mcp-start-plan",
+  "module": "dispatcher",
+  "title": "调用 Planning MCP 开启 Plan 并落库",
+  "type": "base",
+  "status": "pending",
+  "objective": {"description": "实现 mcpPlanner.mjs：调用 Software-Planning MCP start_planning, 返回 planId 并写 MemoryHub"},
+  "environment": {"code_paths": ["tianting-v2/src/dispatcher/"], "design_docs": ["tianting-v2/docs/modules/dispatcher/design.md"], "constraints": ["Node>=18"]},
+  "blocked_by": ["integration-01-seqthinking-adapter"],
+  "success_criteria": {"basic": ["node src/dispatcher/mcpPlanner.mjs --test"], "quality": [], "excellent": []}
+} 

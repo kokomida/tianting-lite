@@ -1,0 +1,10 @@
+{
+  "id": "doc-12-mcp-design",
+  "module": "docs",
+  "title": "补充 MCP 设计文档",
+  "type": "docs",
+  "status": "pending",
+  "objective": {"description": "在 dispatcher/design.md 与 06-oes-spec.md 内完成 MCP 设计章节的详细写作"},
+  "environment": {"code_paths": ["tianting-v2/docs/modules/dispatcher/", "tianting-v2/docs/06-oes-spec.md"], "constraints": []},
+  "success_criteria": {"basic": ["docs PR 获得 review 通过"], "quality": [], "excellent": []}
+} 
