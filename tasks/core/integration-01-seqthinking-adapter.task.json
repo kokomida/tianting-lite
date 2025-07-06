@@ -1,0 +1,10 @@
+{
+  "id": "integration-01-seqthinking-adapter",
+  "module": "dispatcher",
+  "title": "接入 Sequential-Thinking MCP 生成子任务草稿",
+  "type": "base",
+  "status": "pending",
+  "objective": {"description": "实现 mcpAdapter.mjs：调用 /ask_sequential，输出 tasks/generated/*.json"},
+  "environment": {"code_paths": ["tianting-v2/src/dispatcher/"], "test_paths": ["tianting-v2/tests/dispatcher.mcp.test.mjs"], "design_docs": ["tianting-v2/docs/modules/dispatcher/design.md"], "constraints": ["Node>=18"]},
+  "success_criteria": {"basic": ["npm run test --workspace tianting-v2"], "quality": [], "excellent": []}
+} 

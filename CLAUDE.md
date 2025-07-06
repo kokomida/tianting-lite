@@ -8,18 +8,34 @@ Tianting-Lite v0.2 is an AI-driven personal productivity platform that implement
 
 ## Common Development Commands
 
+### Environment Setup
+- `pnpm install` - Install Node.js dependencies
+- `pip install -r requirements.txt` - Install Python dependencies
+- `cp .env.example .env` - Set up environment variables (requires API keys)
+
 ### Core Workflow Commands
-- `pnpm install` - Install dependencies
+- `pnpm start` - Run complete pipeline (same as verify-all)
 - `pnpm verify-all` - Run complete pipeline (Dispatcher → Launcher → Harvester → Verifier → Reporter)
 - `pnpm plan` - Generate task planning from requirements using autoPlan dispatcher
 - `pnpm launch` - Launch Claude Code instances in tmux windows for pending tasks
 - `pnpm harvest` - Monitor workspace changes and run tests automatically
 - `pnpm report` - Generate delivery report and archive workspace
 
+### Development Commands
+- `pnpm dev` - Development mode (runs launcher)
+- `pnpm test` - Run dispatcher auto-planning tests
+- `pnpm lint` - Run all linting checks (OES, docs, learning schema)
+
 ### Utility Scripts
 - `pnpm lint-oes` - Validate OES (Objective-Event-System) task definitions
 - `pnpm lint-doc-status` - Check documentation status and consistency
+- `pnpm lint-learning-schema` - Validate learning schema
 - `pnpm build-knowledge-index` - Build searchable knowledge base index
+
+### Python MemoryHub CLI
+- `python src/memoryhub_cli.py build-index` - Build MemoryHub JSONL indices
+- `python src/memoryhub_cli.py build-index --force` - Force rebuild indices
+- `python src/memoryhub_cli.py build-index --layer application` - Build specific layer index
 
 ### Testing
 - `node tests/dispatcher.autoPlan.test.mjs` - Test the auto-planning functionality
@@ -67,7 +83,12 @@ Edit `src/dispatcher/autoPlan.mjs` and add to the `demoTemplates` object with ap
 Tasks can define custom verification stages in their JSON files under the `verification.stages` array.
 
 ### Memory and State Management
-The system uses SQLite for task state persistence and JSONL for logging. The MemoryHub concept (referenced in docs) provides four-layer memory architecture.
+The system uses SQLite for task state persistence and JSONL for logging. The MemoryHub concept (referenced in docs) provides four-layer memory architecture:
+
+- **Application Layer** - Real-time application events and interactions
+- **Archive Layer** - Long-term historical data storage
+- **Tag Index** - Fast retrieval via Roaring bitmap indexing
+- **CLI Tools** - Python-based utilities for index management
 
 ## File Structure Notes
 
@@ -83,3 +104,16 @@ The system uses SQLite for task state persistence and JSONL for logging. The Mem
 - Uses tmux for session management and parallel execution
 - Python components expect pytest for testing
 - Docker integration available but optional for development
+- Requires API keys configured in `.env` file (OpenAI-compatible endpoints)
+- Node.js ≥18.0.0 and pnpm ≥8.0.0 required
+- Python components use FastAPI, uvicorn, and pysimdjson
+
+## Environment Variables
+
+Key environment variables (from `.env.example`):
+- `OPENAI_API_KEY` - API key for AI model access
+- `OPENAI_BASE_URL` - API endpoint (defaults to SiliconFlow)
+- `DEFAULT_MODEL` - AI model to use (e.g., Pro/deepseek-ai/DeepSeek-R1)
+- `WORKSPACE_ROOT` - Root directory for generated projects
+- `CLAUDE_CMD` - Claude Code CLI command path
+- `MAX_PARALLEL` - Maximum parallel task execution limit

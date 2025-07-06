@@ -218,6 +218,34 @@ class MemoryHubDAO:
             print(f"Error updating recall count: {e}")
             return False
     
+    def batch_update_recall_counts(self, memory_ids: List[str]) -> bool:
+        """
+        Batch increment recall counts for multiple memories
+        
+        Args:
+            memory_ids: List of memory IDs to update
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        if not memory_ids:
+            return True
+            
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                placeholders = ','.join(['?' for _ in memory_ids])
+                conn.execute(f"""
+                    UPDATE tasks 
+                    SET recalled_count = recalled_count + 1,
+                        updated_at = ?
+                    WHERE task_id IN ({placeholders})
+                """, [datetime.now().isoformat()] + memory_ids)
+                conn.commit()
+                return True
+        except Exception as e:
+            print(f"Error batch updating recall counts: {e}")
+            return False
+    
     def get_stats(self) -> Dict[str, Any]:
         """
         Get database statistics

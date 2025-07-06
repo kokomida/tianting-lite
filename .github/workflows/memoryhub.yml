@@ -2,7 +2,7 @@ name: MemoryHub CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feat/core-03a-roaring-bitmap ]
   pull_request:
     branches: [ main ]
 
@@ -32,7 +32,7 @@ jobs:
           pip install pytest
           pip install pysimdjson
           # 关键：指向绝对路径，避免 cwd 变化带来的混淆
-          pip install -e ${{ github.workspace }}/tianting-v2/src
+          pip install -e ./src
       
       - name: Run tests
         run: |
@@ -40,7 +40,7 @@ jobs:
       
       - name: Run benchmark (Linux - 10k/500)
         run: |
-          python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500 --index auto
+          python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500
 
   windows-test:
     runs-on: windows-latest
@@ -60,7 +60,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
-          pip install -e ${{ github.workspace }}/tianting-v2/src
+          pip install -e ./src
       
       - name: Run tests
         run: |
@@ -68,4 +68,4 @@ jobs:
       
       - name: Run benchmark (Windows - 1k/50)
         run: |
-          python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50 --index auto
+          python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50

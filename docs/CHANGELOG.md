@@ -78,6 +78,7 @@
 ### CI
 - Integrity Stage 校验通过：`.benchmark.lock` SHA256 与脚本一致。
 
+<<<<<<< Updated upstream:docs/CHANGELOG.md
 ## 2025-07-08  MemoryHub core-02f 资源释放 & CLI
 ### Added
 - **Core-02f** 资源释放 & CLI 里程碑启动： 
@@ -96,6 +97,12 @@
 ### Next
 - 清理 PR：移除无关文件、将 `pyproject.toml` 移到包根、`close()` 改为真实文件描述符级关闭，并保持单一 Workflow。
 - 待 CI 再绿后合并并发布 `v0.2.1`。
+=======
+## 2025-07-07
+- 集成 Sequential-Thinking MCP，`mcpAdapter` 支持自动生成 OES 子任务草稿，单测全绿（PR-5）。
+- PR-3（Bitmap）CI 仍未通过，需继续修复。
+- Roadmap、handovers、任务卡、设计文档同步更新。
+>>>>>>> Stashed changes:tianting-v2/docs/CHANGELOG.md
 
 ## Next Planned
 - 实现 `scripts/lint-learning-schema.mjs` 校验学习助手输出 Schema。

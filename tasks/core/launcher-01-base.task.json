@@ -1,0 +1,21 @@
+{
+  "id": "launcher-01-base",
+  "module": "launcher",
+  "title": "Launcher 多窗口 Demo 基础",
+  "type": "base",
+  "status": "pending",
+  "objective": {
+    "description": "实现 Launcher.index.mjs 能在本机启动多窗口 (stub) 并执行占位命令，供后续集成。"
+  },
+  "environment": {
+    "code_paths": ["tianting-v2/src/launcher/"],
+    "test_paths": ["tianting-v2/tests/launcher.demo.test.mjs"],
+    "design_docs": ["tianting-v2/docs/modules/launcher/design.md"],
+    "constraints": ["Node>=18"]
+  },
+  "success_criteria": {
+    "basic": ["npm run test --workspace tianting-v2"],
+    "quality": [],
+    "excellent": []
+  }
+} 

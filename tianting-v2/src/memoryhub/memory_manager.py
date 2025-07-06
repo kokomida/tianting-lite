@@ -143,36 +143,32 @@ class LayeredMemoryManager:
         # 1. Search in Core layer (SQLite) first - highest priority
         core_results = self._dao.search_memories(query, "core", limit)
         for memory in core_results:
-            # Update recall count in database
-            self._dao.update_recall_count(memory["id"])
             results.append(memory)
             
             if len(results) >= limit:
+                # Batch update recall counts to reduce database calls
+                memory_ids = [m["id"] for m in results if m.get("layer") == "core"]
+                if memory_ids:
+                    self._dao.batch_update_recall_counts(memory_ids)
                 return results
         
         # 2. Search in Application layer (JSONL) 
         remaining_limit = limit - len(results)
         if remaining_limit > 0:
             app_results = self._jsonl_dao.search_memories(query, "application", remaining_limit)
-            for memory in app_results:
-                # Update recall count in JSONL
-                self._jsonl_dao.update_recall_count(memory["id"], "application")
-                results.append(memory)
+            results.extend(app_results)
                 
-                if len(results) >= limit:
-                    return results
+            if len(results) >= limit:
+                results = results[:limit]
         
         # 3. Search in Archive layer (JSONL)
         remaining_limit = limit - len(results)
         if remaining_limit > 0:
             archive_results = self._jsonl_dao.search_memories(query, "archive", remaining_limit)
-            for memory in archive_results:
-                # Update recall count in JSONL
-                self._jsonl_dao.update_recall_count(memory["id"], "archive")
-                results.append(memory)
+            results.extend(archive_results)
                 
-                if len(results) >= limit:
-                    return results
+            if len(results) >= limit:
+                results = results[:limit]
         
         # 4. Search in session memory if we need more results
         remaining_limit = limit - len(results)
@@ -189,6 +185,11 @@ class LayeredMemoryManager:
                     
                     if len(results) >= limit:
                         break
+        
+        # Batch update recall counts at the end to reduce I/O
+        core_memory_ids = [m["id"] for m in results if m.get("layer") == "core"]
+        if core_memory_ids:
+            self._dao.batch_update_recall_counts(core_memory_ids)
         
         # Calculate recall latency
         end_time = time.time()
@@ -369,3 +370,14 @@ class LayeredMemoryManager:
             print(f"Warning: Failed to load JSONL memories: {e}")
             self._app_memory = {}
             self._archive_memory = {}
+    
+    def close(self):
+        """
+        Close all database connections and cleanup resources.
+        Important for proper cleanup, especially on Windows.
+        """
+        if hasattr(self, '_dao') and self._dao:
+            self._dao.close()
+        if hasattr(self, '_jsonl_dao') and self._jsonl_dao:
+            # JSONL DAO doesn't have connections to close, but we can clear references
+            pass

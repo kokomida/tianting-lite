@@ -1,0 +1,21 @@
+{
+  "id": "harvester-01-base",
+  "module": "harvester",
+  "title": "Harvester 测试收集基础",
+  "type": "base",
+  "status": "pending",
+  "objective": {
+    "description": "实现 Harvester.index.mjs 能扫描 tests 目录并输出 summary.json (覆盖率≥60%)。"
+  },
+  "environment": {
+    "code_paths": ["tianting-v2/src/harvester/"],
+    "test_paths": ["tianting-v2/tests/harvester.collect.test.mjs"],
+    "design_docs": ["tianting-v2/docs/modules/harvester/design.md"],
+    "constraints": ["Node>=18", "nyc"]
+  },
+  "success_criteria": {
+    "basic": ["npm run test --workspace tianting-v2"],
+    "quality": [],
+    "excellent": []
+  }
+} 

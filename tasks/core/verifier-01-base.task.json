@@ -1,0 +1,21 @@
+{
+  "id": "verifier-01-base",
+  "module": "verifier",
+  "title": "Verifier 结果验证基础",
+  "type": "base",
+  "status": "pending",
+  "objective": {
+    "description": "实现 Verifier.index.mjs 能读取 summary.json，输出 pass/fail 及评分 JSON。"
+  },
+  "environment": {
+    "code_paths": ["tianting-v2/src/verifier/"],
+    "test_paths": ["tianting-v2/tests/verifier.score.test.mjs"],
+    "design_docs": ["tianting-v2/docs/modules/verifier/design.md"],
+    "constraints": ["Node>=18"]
+  },
+  "success_criteria": {
+    "basic": ["npm run test --workspace tianting-v2"],
+    "quality": [],
+    "excellent": []
+  }
+} 

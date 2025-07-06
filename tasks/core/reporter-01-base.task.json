@@ -1,0 +1,21 @@
+{
+  "id": "reporter-01-base",
+  "module": "reporter",
+  "title": "Reporter Markdown 报告输出",
+  "type": "base",
+  "status": "pending",
+  "objective": {
+    "description": "实现 Reporter.index.mjs 能读取 summary.json 并渲染 delivery/report.md。"
+  },
+  "environment": {
+    "code_paths": ["tianting-v2/src/reporter/"],
+    "test_paths": ["tianting-v2/tests/reporter.render.test.mjs"],
+    "design_docs": ["tianting-v2/docs/modules/reporter/design.md"],
+    "constraints": ["Node>=18", "markdown-it"]
+  },
+  "success_criteria": {
+    "basic": ["npm run test --workspace tianting-v2"],
+    "quality": [],
+    "excellent": []
+  }
+} 
