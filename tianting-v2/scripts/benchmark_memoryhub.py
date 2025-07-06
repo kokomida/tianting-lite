@@ -62,6 +62,7 @@ def benchmark_memory_operations(memory_count: int = 10000, recall_queries: int =
     # Create temporary directory for test
     test_dir = tempfile.mkdtemp(prefix="memoryhub_benchmark_")
     
+    memory_manager = None
     try:
         print(f"[*] Starting MemoryHub Benchmark")
         print(f"[*] Test data: {memory_count:,} memories, {recall_queries:,} recalls")
@@ -168,9 +169,25 @@ def benchmark_memory_operations(memory_count: int = 10000, recall_queries: int =
         return results
         
     finally:
-        # Cleanup
+        # Cleanup - close memory manager first to release database connections
+        if memory_manager:
+            try:
+                memory_manager.close()
+            except Exception as e:
+                print(f"Warning: Error closing memory manager: {e}")
+        
+        # Cleanup temporary directory with retry for Windows
         if os.path.exists(test_dir):
-            shutil.rmtree(test_dir)
+            for attempt in range(5):
+                try:
+                    shutil.rmtree(test_dir)
+                    break
+                except PermissionError:
+                    if attempt < 4:
+                        time.sleep(0.2)
+                    else:
+                        print(f"Warning: Could not clean up test directory: {test_dir}")
+                        break
 
 
 def print_benchmark_results(results):
