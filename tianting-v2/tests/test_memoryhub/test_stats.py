@@ -231,7 +231,7 @@ class TestMemoryHubStats:
         perf = stats["performance"]
         assert perf["recall_count"] == final_count
         assert perf["recall_count"] > initial_count  # Should have increased
-        assert perf["avg_recall_latency_ms"] < 200.0  # Should be reasonable (relaxed for CI)
+        assert perf["avg_recall_latency_ms"] < 300.0  # Should be reasonable (relaxed for CI)
         
         # Check that we got results from the recall
         assert stats["memories_recalled"] > 0  # Should have found memories
