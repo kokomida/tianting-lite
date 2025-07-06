@@ -35,7 +35,7 @@ jobs:
       
       - name: Run benchmark (Linux - 10k/500)
         run: |
-          PYTHONPATH=./src python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500 --index auto
+          PYTHONPATH=./src python scripts/benchmark_memoryhub.py --memories 10000 --recalls 500
 
   windows-test:
     runs-on: windows-latest
@@ -62,4 +62,4 @@ jobs:
       - name: Run benchmark (Windows - 1k/50)
         run: |
           $env:PYTHONPATH = "./src"
-          python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50 --index auto
+          python scripts/benchmark_memoryhub.py --memories 1000 --recalls 50

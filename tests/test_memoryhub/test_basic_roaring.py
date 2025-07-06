@@ -4,6 +4,7 @@ Basic integration tests for roaring bitmap functionality
 
 import platform
 import time
+import gc
 
 def test_roaring_bitmap_tag_index_basic():
     """Test that RoaringBitmapTagIndex can be imported and works."""
@@ -39,9 +40,11 @@ def test_layered_memory_manager_integration():
             # Ensure manager is always closed to release file handles
             if manager is not None:
                 manager.close()
+                # Force garbage collection to release any dangling references
+                gc.collect()
                 # On Windows, add a small delay to ensure file handles are fully released
                 if platform.system() == "Windows":
-                    time.sleep(0.1)
+                    time.sleep(0.2)
 
 
 def test_memory_manager_close():
@@ -65,6 +68,8 @@ def test_memory_manager_close():
             # Always ensure manager is closed
             if manager is not None:
                 manager.close()
+                # Force garbage collection to release any dangling references
+                gc.collect()
                 # On Windows, add a small delay to ensure file handles are fully released
                 if platform.system() == "Windows":
-                    time.sleep(0.1)
+                    time.sleep(0.2)
