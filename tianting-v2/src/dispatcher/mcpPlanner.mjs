@@ -188,6 +188,263 @@ class MCPPlanner {
   }
 
   /**
+   * Add tasks to MCP Todo system
+   * @param {string} planId - Planning session ID
+   * @param {Array} taskDrafts - Array of task draft objects
+   * @returns {Promise<Object>} Result of todo synchronization
+   */
+  async addTodoItems(planId, taskDrafts) {
+    try {
+      if (!Array.isArray(taskDrafts) || taskDrafts.length === 0) {
+        throw new Error('taskDrafts must be a non-empty array');
+      }
+
+      const results = {
+        planId: planId,
+        totalTasks: taskDrafts.length,
+        successful: [],
+        failed: [],
+        summary: {}
+      };
+
+      // Process each task draft
+      for (const [index, task] of taskDrafts.entries()) {
+        try {
+          const todoItem = this._convertTaskToTodoItem(task, planId, index);
+          const response = await fetch(`${this.serverUrl}/add_todo`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(todoItem)
+          });
+
+          if (!response.ok) {
+            throw new Error(`MCP Server responded with status: ${response.status}`);
+          }
+
+          const result = await response.json();
+          results.successful.push({
+            taskId: task.id || `task_${index}`,
+            todoId: result.todoId || result.id,
+            title: task.objective || task.title || 'Untitled task'
+          });
+
+        } catch (error) {
+          console.error(`Failed to add todo item for task ${task.id || index}:`, error.message);
+          results.failed.push({
+            taskId: task.id || `task_${index}`,
+            title: task.objective || task.title || 'Untitled task',
+            error: error.message
+          });
+        }
+      }
+
+      // Update summary
+      results.summary = {
+        successCount: results.successful.length,
+        failureCount: results.failed.length,
+        successRate: (results.successful.length / results.totalTasks * 100).toFixed(1) + '%'
+      };
+
+      // Store todo sync results in MemoryHub
+      await this._storeTodoSyncResults(results);
+
+      console.log(`Todo sync completed: ${results.summary.successCount}/${results.totalTasks} successful`);
+      
+      return results;
+
+    } catch (error) {
+      console.error('Error adding todo items:', error);
+      throw new Error(`Failed to add todo items: ${error.message}`);
+    }
+  }
+
+  /**
+   * Sync task drafts from a planning session to MCP Todo system
+   * @param {string} planId - Planning session ID
+   * @returns {Promise<Object>} Result of synchronization
+   */
+  async syncTaskDraftsToTodo(planId) {
+    try {
+      // Load planning session from MemoryHub
+      const planningSession = await this.loadPlanningSession(planId);
+      if (!planningSession) {
+        throw new Error(`Planning session ${planId} not found`);
+      }
+
+      // Look for task drafts associated with this planning session
+      // First check if there are drafts in the session data
+      let taskDrafts = [];
+      
+      if (planningSession.response && planningSession.response.taskDrafts) {
+        taskDrafts = planningSession.response.taskDrafts;
+      } else {
+        // Look for draft files that might be associated with this plan
+        taskDrafts = await this._findAssociatedTaskDrafts(planId);
+      }
+
+      if (taskDrafts.length === 0) {
+        throw new Error(`No task drafts found for planning session ${planId}`);
+      }
+
+      return await this.addTodoItems(planId, taskDrafts);
+
+    } catch (error) {
+      console.error('Error syncing task drafts to todo:', error);
+      throw new Error(`Failed to sync task drafts: ${error.message}`);
+    }
+  }
+
+  /**
+   * Convert a task draft to MCP Todo item format
+   * @param {Object} task - Task draft object
+   * @param {string} planId - Planning session ID
+   * @param {number} index - Task index
+   * @returns {Object} Todo item in MCP format
+   * @private
+   */
+  _convertTaskToTodoItem(task, planId, index) {
+    return {
+      title: task.objective || task.title || `Task ${index + 1}`,
+      description: task.implementation_guide || task.description || '',
+      priority: this._mapPriorityToTodoFormat(task.priority),
+      tags: [
+        'mcp-planning',
+        `plan:${planId}`,
+        ...(task.tags || []),
+        task.role || 'general'
+      ],
+      metadata: {
+        planId: planId,
+        taskId: task.id,
+        role: task.role,
+        success_criteria: task.success_criteria,
+        dependencies: task.dependencies || [],
+        token_budget: task.token_budget,
+        created_from: 'mcp-planner',
+        original_task: task
+      },
+      due_date: this._calculateDueDate(task, index),
+      status: 'pending'
+    };
+  }
+
+  /**
+   * Map task priority to MCP Todo format
+   * @param {string} priority - Task priority (P1, P2, etc.)
+   * @returns {string} Todo priority format
+   * @private
+   */
+  _mapPriorityToTodoFormat(priority) {
+    const priorityMap = {
+      'P1': 'high',
+      'P2': 'medium', 
+      'P3': 'low',
+      'high': 'high',
+      'medium': 'medium',
+      'low': 'low'
+    };
+    return priorityMap[priority] || 'medium';
+  }
+
+  /**
+   * Calculate due date for a task based on dependencies and sequence
+   * @param {Object} task - Task object
+   * @param {number} index - Task index in sequence
+   * @returns {string|null} ISO date string or null
+   * @private
+   */
+  _calculateDueDate(task, index) {
+    // Simple heuristic: each task gets 2 days, with dependencies adding delay
+    const baseDays = 2;
+    const dependencyDelay = (task.dependencies?.length || 0) * 1;
+    const sequenceDelay = index * 1; // Later tasks get more time
+    
+    const totalDays = baseDays + dependencyDelay + sequenceDelay;
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + totalDays);
+    
+    return dueDate.toISOString();
+  }
+
+  /**
+   * Find task drafts associated with a planning session
+   * @param {string} planId - Planning session ID
+   * @returns {Promise<Array>} Array of task drafts
+   * @private
+   */
+  async _findAssociatedTaskDrafts(planId) {
+    try {
+      // Look in tasks/generated/ for draft files that might be associated
+      const tasksGeneratedDir = path.join(process.cwd(), 'tasks', 'generated');
+      
+      try {
+        const files = await fs.readdir(tasksGeneratedDir);
+        const draftFiles = files.filter(f => f.endsWith('-draft.json'));
+        
+        for (const file of draftFiles) {
+          const filePath = path.join(tasksGeneratedDir, file);
+          const content = await fs.readFile(filePath, 'utf8');
+          const draftData = JSON.parse(content);
+          
+          // Check if any tasks in this draft file reference our planId
+          if (draftData.tasks && Array.isArray(draftData.tasks)) {
+            const associatedTasks = draftData.tasks.filter(task => 
+              task.mcp_source?.planId === planId ||
+              task.tags?.includes(`plan:${planId}`)
+            );
+            if (associatedTasks.length > 0) {
+              return associatedTasks;
+            }
+          }
+        }
+      } catch (dirError) {
+        console.warn('Could not read tasks/generated directory:', dirError.message);
+      }
+      
+      return [];
+    } catch (error) {
+      console.warn('Error finding associated task drafts:', error.message);
+      return [];
+    }
+  }
+
+  /**
+   * Store todo synchronization results in MemoryHub
+   * @param {Object} results - Sync results
+   * @private
+   */
+  async _storeTodoSyncResults(results) {
+    try {
+      await fs.mkdir(this.memoryHubPath, { recursive: true });
+
+      const syncRecord = {
+        type: 'todo_sync_result',
+        planId: results.planId,
+        results: results,
+        synced_at: new Date().toISOString(),
+        mcp_source: {
+          server: this.serverUrl,
+          endpoint: '/add_todo'
+        }
+      };
+
+      // Append to todo sync log
+      const syncLogFile = path.join(this.memoryHubPath, 'todo_sync_log.jsonl');
+      const recordLine = JSON.stringify(syncRecord) + '\n';
+      await fs.appendFile(syncLogFile, recordLine, 'utf8');
+
+      // Also create individual sync result file
+      const syncFile = path.join(this.memoryHubPath, `todo_sync_${results.planId}.json`);
+      await fs.writeFile(syncFile, JSON.stringify(syncRecord, null, 2), 'utf8');
+
+    } catch (error) {
+      console.warn('Failed to store todo sync results:', error.message);
+    }
+  }
+
+  /**
    * Health check for Planning MCP server connection
    * @returns {Promise<boolean>} True if server is responsive
    */
@@ -219,12 +476,16 @@ Commands:
   --status <planId>     Get planning session status  
   --list               List all planning sessions
   --health             Check MCP server health
+  --sync-todos <planId> Sync task drafts to MCP Todo system
+  --add-todos <planId> <draftsFile>  Add specific task drafts to MCP Todo
 
 Examples:
   node src/dispatcher/mcpPlanner.mjs --test
   node src/dispatcher/mcpPlanner.mjs --start "Create a FastAPI todo app"
   node src/dispatcher/mcpPlanner.mjs --status plan_abc123
   node src/dispatcher/mcpPlanner.mjs --list
+  node src/dispatcher/mcpPlanner.mjs --sync-todos plan_abc123
+  node src/dispatcher/mcpPlanner.mjs --add-todos plan_abc123 ./tasks/generated/draft.json
     `);
     return;
   }
@@ -267,6 +528,30 @@ Examples:
         const isHealthy = await planner.healthCheck();
         console.log(`Planning MCP Server health: ${isHealthy ? 'OK' : 'FAILED'}`);
         process.exit(isHealthy ? 0 : 1);
+        break;
+
+      case '--sync-todos':
+        if (!args[1]) {
+          console.error('Error: --sync-todos requires a planId argument');
+          process.exit(1);
+        }
+        const syncResult = await planner.syncTaskDraftsToTodo(args[1]);
+        console.log('Todo sync result:');
+        console.log(JSON.stringify(syncResult, null, 2));
+        break;
+
+      case '--add-todos':
+        if (!args[1] || !args[2]) {
+          console.error('Error: --add-todos requires planId and draftsFile arguments');
+          process.exit(1);
+        }
+        const draftsContent = await fs.readFile(args[2], 'utf8');
+        const draftsData = JSON.parse(draftsContent);
+        const taskDrafts = Array.isArray(draftsData) ? draftsData : draftsData.tasks || [];
+        
+        const addResult = await planner.addTodoItems(args[1], taskDrafts);
+        console.log('Add todos result:');
+        console.log(JSON.stringify(addResult, null, 2));
         break;
         
       default:
