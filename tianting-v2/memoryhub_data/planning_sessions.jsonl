@@ -1,0 +1,1 @@
+{"id":"test_1751785758963","type":"planning_session","goal":"Test planning session","request":{},"response":{"planId":"test_1751785758963","status":"initialized"},"status":"initialized","created_at":"2025-07-06T07:09:18.966Z","updated_at":"2025-07-06T07:09:18.966Z","mcp_source":{"server":"http://localhost:3002","endpoint":"/start_planning","version":"1.0"}}

@@ -1,0 +1,26 @@
+{
+  "type": "todo_sync_result",
+  "planId": "test_plan_cli",
+  "results": {
+    "planId": "test_plan_cli",
+    "totalTasks": 1,
+    "successful": [],
+    "failed": [
+      {
+        "taskId": "test1",
+        "title": "Test task",
+        "error": "fetch failed"
+      }
+    ],
+    "summary": {
+      "successCount": 0,
+      "failureCount": 1,
+      "successRate": "0.0%"
+    }
+  },
+  "synced_at": "2025-07-06T07:15:42.117Z",
+  "mcp_source": {
+    "server": "http://localhost:3002",
+    "endpoint": "/add_todo"
+  }
+}
