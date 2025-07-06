@@ -2,7 +2,7 @@ name: MemoryHub CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feat/core-03a-roaring-bitmap ]
   pull_request:
     branches: [ main ]
 
@@ -32,7 +32,7 @@ jobs:
           pip install pytest
           pip install pysimdjson
           # 关键：指向绝对路径，避免 cwd 变化带来的混淆
-          pip install -e ${{ github.workspace }}/tianting-v2/src
+          pip install -e ./src
       
       - name: Run tests
         run: |
@@ -60,7 +60,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
-          pip install -e ${{ github.workspace }}/tianting-v2/src
+          pip install -e ./src
       
       - name: Run tests
         run: |
