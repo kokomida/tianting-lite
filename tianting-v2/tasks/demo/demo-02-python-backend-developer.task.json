@@ -1,0 +1,16 @@
+{
+  "id": "demo-02",
+  "objective": "FastAPITodo – write_tests",
+  "implementation_guide": "为 CRUD 端点编写 pytest 单元测试，覆盖率 ≥ 80%。",
+  "success_criteria": "coverage ≥ 80%",
+  "verification": {
+    "timeout": 600,
+    "stages": [
+      {
+        "type": "unit",
+        "cmd": "pytest -q --cov=.",
+        "timeout": 300
+      }
+    ]
+  }
+}

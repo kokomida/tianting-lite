@@ -1,0 +1,1271 @@
+{
+  "version": "2.0.0",
+  "source": "project",
+  "metadata": {
+    "version": "2.0.0",
+    "description": "project 级资源注册表",
+    "createdAt": "2025-06-30T12:31:49.479Z",
+    "updatedAt": "2025-06-30T12:31:49.537Z",
+    "resourceCount": 83
+  },
+  "resources": [
+    {
+      "id": "api-integrator",
+      "source": "project",
+      "protocol": "role",
+      "name": "Api Integrator 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/api-integrator/api-integrator.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.486Z",
+        "updatedAt": "2025-06-30T12:31:49.486Z",
+        "scannedAt": "2025-06-30T12:31:49.486Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\api-integrator\\api-integrator.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "cangjie",
+      "source": "project",
+      "protocol": "role",
+      "name": "Cangjie 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/cangjie/cangjie.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.486Z",
+        "updatedAt": "2025-06-30T12:31:49.486Z",
+        "scannedAt": "2025-06-30T12:31:49.486Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\cangjie\\cangjie.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "code-reviewer",
+      "source": "project",
+      "protocol": "role",
+      "name": "Code Reviewer 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/code-reviewer/code-reviewer.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.487Z",
+        "updatedAt": "2025-06-30T12:31:49.487Z",
+        "scannedAt": "2025-06-30T12:31:49.487Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\code-reviewer\\code-reviewer.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "data-cleaner",
+      "source": "project",
+      "protocol": "role",
+      "name": "Data Cleaner 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/data-cleaner/data-cleaner.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.487Z",
+        "updatedAt": "2025-06-30T12:31:49.487Z",
+        "scannedAt": "2025-06-30T12:31:49.487Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\data-cleaner\\data-cleaner.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "database-keeper",
+      "source": "project",
+      "protocol": "role",
+      "name": "Database Keeper 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/database-keeper/database-keeper.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.487Z",
+        "updatedAt": "2025-06-30T12:31:49.487Z",
+        "scannedAt": "2025-06-30T12:31:49.487Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\database-keeper\\database-keeper.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "donghuangtaiyi",
+      "source": "project",
+      "protocol": "role",
+      "name": "Donghuangtaiyi 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/donghuangtaiyi/donghuangtaiyi.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.488Z",
+        "updatedAt": "2025-06-30T12:31:49.488Z",
+        "scannedAt": "2025-06-30T12:31:49.488Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\donghuangtaiyi\\donghuangtaiyi.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "fuxi",
+      "source": "project",
+      "protocol": "role",
+      "name": "Fuxi 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/fuxi/fuxi.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.488Z",
+        "updatedAt": "2025-06-30T12:31:49.488Z",
+        "scannedAt": "2025-06-30T12:31:49.488Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\fuxi\\fuxi.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "jumang",
+      "source": "project",
+      "protocol": "role",
+      "name": "Jumang 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/jumang/jumang.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.488Z",
+        "updatedAt": "2025-06-30T12:31:49.488Z",
+        "scannedAt": "2025-06-30T12:31:49.488Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\jumang\\jumang.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "knowledge-graph",
+      "source": "project",
+      "protocol": "role",
+      "name": "Knowledge Graph 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/knowledge-graph/knowledge-graph.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.488Z",
+        "updatedAt": "2025-06-30T12:31:49.488Z",
+        "scannedAt": "2025-06-30T12:31:49.488Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\knowledge-graph\\knowledge-graph.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "luban-supervisor",
+      "source": "project",
+      "protocol": "role",
+      "name": "Luban Supervisor 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/luban-supervisor.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.489Z",
+        "updatedAt": "2025-06-30T12:31:49.489Z",
+        "scannedAt": "2025-06-30T12:31:49.489Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\luban-supervisor.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "mcp-protocol",
+      "source": "project",
+      "protocol": "role",
+      "name": "Mcp Protocol 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/mcp-protocol/mcp-protocol.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.489Z",
+        "updatedAt": "2025-06-30T12:31:49.489Z",
+        "scannedAt": "2025-06-30T12:31:49.489Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\mcp-protocol\\mcp-protocol.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "memory-manager",
+      "source": "project",
+      "protocol": "role",
+      "name": "Memory Manager 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/memory-manager/memory-manager.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.489Z",
+        "updatedAt": "2025-06-30T12:31:49.489Z",
+        "scannedAt": "2025-06-30T12:31:49.489Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\memory-manager\\memory-manager.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "paper-analyzer",
+      "source": "project",
+      "protocol": "role",
+      "name": "Paper Analyzer 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/paper-analyzer/paper-analyzer.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.489Z",
+        "updatedAt": "2025-06-30T12:31:49.489Z",
+        "scannedAt": "2025-06-30T12:31:49.489Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\paper-analyzer\\paper-analyzer.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "system-ops",
+      "source": "project",
+      "protocol": "role",
+      "name": "System Ops 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/system-ops/system-ops.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.489Z",
+        "updatedAt": "2025-06-30T12:31:49.489Z",
+        "scannedAt": "2025-06-30T12:31:49.489Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\system-ops\\system-ops.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "taibai",
+      "source": "project",
+      "protocol": "role",
+      "name": "Taibai 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/taibai/taibai.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.490Z",
+        "updatedAt": "2025-06-30T12:31:49.490Z",
+        "scannedAt": "2025-06-30T12:31:49.490Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\taibai\\taibai.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "taishigong",
+      "source": "project",
+      "protocol": "role",
+      "name": "Taishigong 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/taishigong/taishigong.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.490Z",
+        "updatedAt": "2025-06-30T12:31:49.490Z",
+        "scannedAt": "2025-06-30T12:31:49.490Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\taishigong\\taishigong.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "test-validator",
+      "source": "project",
+      "protocol": "role",
+      "name": "Test Validator 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/test-validator/test-validator.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.490Z",
+        "updatedAt": "2025-06-30T12:31:49.490Z",
+        "scannedAt": "2025-06-30T12:31:49.490Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\test-validator\\test-validator.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "tianlao-guardian",
+      "source": "project",
+      "protocol": "role",
+      "name": "Tianlao Guardian 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/tianlao-guardian/tianlao-guardian.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.490Z",
+        "updatedAt": "2025-06-30T12:31:49.490Z",
+        "scannedAt": "2025-06-30T12:31:49.490Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\tianlao-guardian\\tianlao-guardian.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "vector-search",
+      "source": "project",
+      "protocol": "role",
+      "name": "Vector Search 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/vector-search/vector-search.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.491Z",
+        "updatedAt": "2025-06-30T12:31:49.491Z",
+        "scannedAt": "2025-06-30T12:31:49.491Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\vector-search\\vector-search.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "xihe",
+      "source": "project",
+      "protocol": "role",
+      "name": "Xihe 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/xihe/xihe.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.491Z",
+        "updatedAt": "2025-06-30T12:31:49.491Z",
+        "scannedAt": "2025-06-30T12:31:49.491Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\xihe\\xihe.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "yaochi-manager",
+      "source": "project",
+      "protocol": "role",
+      "name": "Yaochi Manager 角色",
+      "description": "专业角色，提供特定领域的专业能力",
+      "reference": "@project://.promptx/resource/domain/yaochi-manager/yaochi-manager.role.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.491Z",
+        "updatedAt": "2025-06-30T12:31:49.491Z",
+        "scannedAt": "2025-06-30T12:31:49.491Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\yaochi-manager\\yaochi-manager.role.md",
+        "fileType": "role"
+      }
+    },
+    {
+      "id": "api-integration",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Api Integration 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/api-integrator/thought/api-integration.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.498Z",
+        "updatedAt": "2025-06-30T12:31:49.498Z",
+        "scannedAt": "2025-06-30T12:31:49.498Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\api-integrator\\thought\\api-integration.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "knowledge-refinement-philosophy",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Knowledge Refinement Philosophy 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/cangjie/thought/knowledge-refinement-philosophy.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.498Z",
+        "updatedAt": "2025-06-30T12:31:49.498Z",
+        "scannedAt": "2025-06-30T12:31:49.498Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\cangjie\\thought\\knowledge-refinement-philosophy.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "code-analysis",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Code Analysis 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/code-reviewer/thought/code-analysis.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.498Z",
+        "updatedAt": "2025-06-30T12:31:49.498Z",
+        "scannedAt": "2025-06-30T12:31:49.498Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\code-reviewer\\thought\\code-analysis.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "data-cleaning",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Data Cleaning 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/data-cleaner/thought/data-cleaning.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.498Z",
+        "updatedAt": "2025-06-30T12:31:49.498Z",
+        "scannedAt": "2025-06-30T12:31:49.498Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\data-cleaner\\thought\\data-cleaning.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "quality-control",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Quality Control 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/data-cleaner/thought/quality-control.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.499Z",
+        "updatedAt": "2025-06-30T12:31:49.499Z",
+        "scannedAt": "2025-06-30T12:31:49.499Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\data-cleaner\\thought\\quality-control.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "database-design",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Database Design 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/database-keeper/thought/database-design.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.499Z",
+        "updatedAt": "2025-06-30T12:31:49.499Z",
+        "scannedAt": "2025-06-30T12:31:49.499Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\database-keeper\\thought\\database-design.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "performance-optimization",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Performance Optimization 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/database-keeper/thought/performance-optimization.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.499Z",
+        "updatedAt": "2025-06-30T12:31:49.499Z",
+        "scannedAt": "2025-06-30T12:31:49.499Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\database-keeper\\thought\\performance-optimization.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "concurrency-control",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Concurrency Control 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/donghuangtaiyi/thought/concurrency-control.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.500Z",
+        "updatedAt": "2025-06-30T12:31:49.500Z",
+        "scannedAt": "2025-06-30T12:31:49.500Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\donghuangtaiyi\\thought\\concurrency-control.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "scheduling-strategy",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Scheduling Strategy 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/donghuangtaiyi/thought/scheduling-strategy.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.500Z",
+        "updatedAt": "2025-06-30T12:31:49.500Z",
+        "scannedAt": "2025-06-30T12:31:49.500Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\donghuangtaiyi\\thought\\scheduling-strategy.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "memory-architecture-thinking",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Memory Architecture Thinking 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/fuxi/thought/memory-architecture-thinking.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.500Z",
+        "updatedAt": "2025-06-30T12:31:49.500Z",
+        "scannedAt": "2025-06-30T12:31:49.500Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\fuxi\\thought\\memory-architecture-thinking.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "semantic-reasoning",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Semantic Reasoning 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/fuxi/thought/semantic-reasoning.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.500Z",
+        "updatedAt": "2025-06-30T12:31:49.500Z",
+        "scannedAt": "2025-06-30T12:31:49.500Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\fuxi\\thought\\semantic-reasoning.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "project-management-philosophy",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Project Management Philosophy 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/jumang/thought/project-management-philosophy.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.501Z",
+        "updatedAt": "2025-06-30T12:31:49.501Z",
+        "scannedAt": "2025-06-30T12:31:49.501Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\jumang\\thought\\project-management-philosophy.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "team-coordination",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Team Coordination 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/thought/team-coordination.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.501Z",
+        "updatedAt": "2025-06-30T12:31:49.501Z",
+        "scannedAt": "2025-06-30T12:31:49.501Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\thought\\team-coordination.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "technical-leadership",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Technical Leadership 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/thought/technical-leadership.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.501Z",
+        "updatedAt": "2025-06-30T12:31:49.501Z",
+        "scannedAt": "2025-06-30T12:31:49.501Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\thought\\technical-leadership.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "memory-architecture",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Memory Architecture 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/memory-manager/thought/memory-architecture.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.501Z",
+        "updatedAt": "2025-06-30T12:31:49.501Z",
+        "scannedAt": "2025-06-30T12:31:49.501Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\memory-manager\\thought\\memory-architecture.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "infrastructure-thinking",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Infrastructure Thinking 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/system-ops/thought/infrastructure-thinking.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.502Z",
+        "updatedAt": "2025-06-30T12:31:49.502Z",
+        "scannedAt": "2025-06-30T12:31:49.502Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\system-ops\\thought\\infrastructure-thinking.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "strategic-counsel-philosophy",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Strategic Counsel Philosophy 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/taibai/thought/strategic-counsel-philosophy.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.502Z",
+        "updatedAt": "2025-06-30T12:31:49.502Z",
+        "scannedAt": "2025-06-30T12:31:49.502Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\taibai\\thought\\strategic-counsel-philosophy.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "documentation-philosophy",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Documentation Philosophy 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/taishigong/thought/documentation-philosophy.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.502Z",
+        "updatedAt": "2025-06-30T12:31:49.502Z",
+        "scannedAt": "2025-06-30T12:31:49.502Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\taishigong\\thought\\documentation-philosophy.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "vector-indexing",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Vector Indexing 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/vector-search/thought/vector-indexing.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.502Z",
+        "updatedAt": "2025-06-30T12:31:49.502Z",
+        "scannedAt": "2025-06-30T12:31:49.502Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\vector-search\\thought\\vector-indexing.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "critical-analysis",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Critical Analysis 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/xihe/thought/critical-analysis.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.503Z",
+        "updatedAt": "2025-06-30T12:31:49.503Z",
+        "scannedAt": "2025-06-30T12:31:49.503Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\xihe\\thought\\critical-analysis.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "strategic-planning",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Strategic Planning 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/xihe/thought/strategic-planning.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.503Z",
+        "updatedAt": "2025-06-30T12:31:49.503Z",
+        "scannedAt": "2025-06-30T12:31:49.503Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\xihe\\thought\\strategic-planning.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "concurrency-management",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Concurrency Management 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/domain/yaochi-manager/thought/concurrency-management.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.503Z",
+        "updatedAt": "2025-06-30T12:31:49.503Z",
+        "scannedAt": "2025-06-30T12:31:49.503Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\yaochi-manager\\thought\\concurrency-management.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "professional-thinking",
+      "source": "project",
+      "protocol": "thought",
+      "name": "Professional Thinking 思维模式",
+      "description": "思维模式，指导AI的思考方式",
+      "reference": "@project://.promptx/resource/thought/professional-thinking.thought.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.503Z",
+        "updatedAt": "2025-06-30T12:31:49.503Z",
+        "scannedAt": "2025-06-30T12:31:49.503Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\thought\\professional-thinking.thought.md",
+        "fileType": "thought"
+      }
+    },
+    {
+      "id": "integration-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Integration Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/api-integrator/execution/integration-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.510Z",
+        "updatedAt": "2025-06-30T12:31:49.510Z",
+        "scannedAt": "2025-06-30T12:31:49.510Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\api-integrator\\execution\\integration-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "knowledge-refinement-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Knowledge Refinement Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/cangjie/execution/knowledge-refinement-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.510Z",
+        "updatedAt": "2025-06-30T12:31:49.510Z",
+        "scannedAt": "2025-06-30T12:31:49.510Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\cangjie\\execution\\knowledge-refinement-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "review-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Review Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/code-reviewer/execution/review-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.510Z",
+        "updatedAt": "2025-06-30T12:31:49.510Z",
+        "scannedAt": "2025-06-30T12:31:49.510Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\code-reviewer\\execution\\review-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "anomaly-detection",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Anomaly Detection 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/data-cleaner/execution/anomaly-detection.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.511Z",
+        "updatedAt": "2025-06-30T12:31:49.511Z",
+        "scannedAt": "2025-06-30T12:31:49.511Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\data-cleaner\\execution\\anomaly-detection.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "cleaning-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Cleaning Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/data-cleaner/execution/cleaning-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.511Z",
+        "updatedAt": "2025-06-30T12:31:49.511Z",
+        "scannedAt": "2025-06-30T12:31:49.511Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\data-cleaner\\execution\\cleaning-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "validation-pipeline",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Validation Pipeline 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/data-cleaner/execution/validation-pipeline.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.511Z",
+        "updatedAt": "2025-06-30T12:31:49.511Z",
+        "scannedAt": "2025-06-30T12:31:49.511Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\data-cleaner\\execution\\validation-pipeline.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "database-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Database Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/database-keeper/execution/database-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.512Z",
+        "updatedAt": "2025-06-30T12:31:49.512Z",
+        "scannedAt": "2025-06-30T12:31:49.512Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\database-keeper\\execution\\database-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "project-management-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Project Management Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/jumang/execution/project-management-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.512Z",
+        "updatedAt": "2025-06-30T12:31:49.512Z",
+        "scannedAt": "2025-06-30T12:31:49.512Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\jumang\\execution\\project-management-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "graph-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Graph Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/knowledge-graph/execution/graph-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.512Z",
+        "updatedAt": "2025-06-30T12:31:49.512Z",
+        "scannedAt": "2025-06-30T12:31:49.512Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\knowledge-graph\\execution\\graph-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "quality-control",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Quality Control 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/execution/quality-control.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.513Z",
+        "updatedAt": "2025-06-30T12:31:49.513Z",
+        "scannedAt": "2025-06-30T12:31:49.513Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\execution\\quality-control.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "supervisor-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Supervisor Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/execution/supervisor-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.513Z",
+        "updatedAt": "2025-06-30T12:31:49.513Z",
+        "scannedAt": "2025-06-30T12:31:49.513Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\execution\\supervisor-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "team-management",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Team Management 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/execution/team-management.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.513Z",
+        "updatedAt": "2025-06-30T12:31:49.513Z",
+        "scannedAt": "2025-06-30T12:31:49.513Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\execution\\team-management.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "mcp-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Mcp Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/mcp-protocol/execution/mcp-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.514Z",
+        "updatedAt": "2025-06-30T12:31:49.514Z",
+        "scannedAt": "2025-06-30T12:31:49.514Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\mcp-protocol\\execution\\mcp-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "memory-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Memory Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/memory-manager/execution/memory-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.514Z",
+        "updatedAt": "2025-06-30T12:31:49.514Z",
+        "scannedAt": "2025-06-30T12:31:49.514Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\memory-manager\\execution\\memory-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "analysis-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Analysis Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/paper-analyzer/execution/analysis-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.514Z",
+        "updatedAt": "2025-06-30T12:31:49.514Z",
+        "scannedAt": "2025-06-30T12:31:49.514Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\paper-analyzer\\execution\\analysis-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "ops-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Ops Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/system-ops/execution/ops-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.515Z",
+        "updatedAt": "2025-06-30T12:31:49.515Z",
+        "scannedAt": "2025-06-30T12:31:49.515Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\system-ops\\execution\\ops-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "strategic-counsel-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Strategic Counsel Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/taibai/execution/strategic-counsel-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.515Z",
+        "updatedAt": "2025-06-30T12:31:49.515Z",
+        "scannedAt": "2025-06-30T12:31:49.515Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\taibai\\execution\\strategic-counsel-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "documentation-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Documentation Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/taishigong/execution/documentation-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.516Z",
+        "updatedAt": "2025-06-30T12:31:49.516Z",
+        "scannedAt": "2025-06-30T12:31:49.516Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\taishigong\\execution\\documentation-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "testing-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Testing Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/test-validator/execution/testing-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.516Z",
+        "updatedAt": "2025-06-30T12:31:49.516Z",
+        "scannedAt": "2025-06-30T12:31:49.516Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\test-validator\\execution\\testing-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "search-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Search Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/vector-search/execution/search-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.516Z",
+        "updatedAt": "2025-06-30T12:31:49.516Z",
+        "scannedAt": "2025-06-30T12:31:49.516Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\vector-search\\execution\\search-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "knowledge-evaluation",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Knowledge Evaluation 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/xihe/execution/knowledge-evaluation.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.517Z",
+        "updatedAt": "2025-06-30T12:31:49.517Z",
+        "scannedAt": "2025-06-30T12:31:49.517Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\xihe\\execution\\knowledge-evaluation.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "paper-analysis-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Paper Analysis Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/xihe/execution/paper-analysis-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.517Z",
+        "updatedAt": "2025-06-30T12:31:49.517Z",
+        "scannedAt": "2025-06-30T12:31:49.517Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\xihe\\execution\\paper-analysis-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "upgrade-planning",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Upgrade Planning 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/xihe/execution/upgrade-planning.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.517Z",
+        "updatedAt": "2025-06-30T12:31:49.517Z",
+        "scannedAt": "2025-06-30T12:31:49.517Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\xihe\\execution\\upgrade-planning.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "concurrency-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Concurrency Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/domain/yaochi-manager/execution/concurrency-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.518Z",
+        "updatedAt": "2025-06-30T12:31:49.518Z",
+        "scannedAt": "2025-06-30T12:31:49.518Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\yaochi-manager\\execution\\concurrency-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "professional-workflow",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Professional Workflow 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/execution/professional-workflow.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.518Z",
+        "updatedAt": "2025-06-30T12:31:49.518Z",
+        "scannedAt": "2025-06-30T12:31:49.518Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\execution\\professional-workflow.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "resource-management",
+      "source": "project",
+      "protocol": "execution",
+      "name": "Resource Management 执行模式",
+      "description": "执行模式，定义具体的行为模式",
+      "reference": "@project://.promptx/resource/execution/resource-management.execution.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.518Z",
+        "updatedAt": "2025-06-30T12:31:49.518Z",
+        "scannedAt": "2025-06-30T12:31:49.518Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\execution\\resource-management.execution.md",
+        "fileType": "execution"
+      }
+    },
+    {
+      "id": "api-integration",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Api Integration 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/api-integrator/knowledge/api-integration.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.525Z",
+        "updatedAt": "2025-06-30T12:31:49.525Z",
+        "scannedAt": "2025-06-30T12:31:49.525Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\api-integrator\\knowledge\\api-integration.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "code-quality",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Code Quality 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/code-reviewer/knowledge/code-quality.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.525Z",
+        "updatedAt": "2025-06-30T12:31:49.525Z",
+        "scannedAt": "2025-06-30T12:31:49.525Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\code-reviewer\\knowledge\\code-quality.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "data-processing",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Data Processing 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/data-cleaner/knowledge/data-processing.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.526Z",
+        "updatedAt": "2025-06-30T12:31:49.526Z",
+        "scannedAt": "2025-06-30T12:31:49.526Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\data-cleaner\\knowledge\\data-processing.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "augment-integration",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Augment Integration 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/knowledge/augment-integration.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.526Z",
+        "updatedAt": "2025-06-30T12:31:49.526Z",
+        "scannedAt": "2025-06-30T12:31:49.526Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\knowledge\\augment-integration.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "team-leadership",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Team Leadership 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/knowledge/team-leadership.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.526Z",
+        "updatedAt": "2025-06-30T12:31:49.526Z",
+        "scannedAt": "2025-06-30T12:31:49.526Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\knowledge\\team-leadership.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "technical-architecture",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Technical Architecture 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/luban-supervisor/knowledge/technical-architecture.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.527Z",
+        "updatedAt": "2025-06-30T12:31:49.527Z",
+        "scannedAt": "2025-06-30T12:31:49.527Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\luban-supervisor\\knowledge\\technical-architecture.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "system-operations",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "System Operations 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/system-ops/knowledge/system-operations.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.527Z",
+        "updatedAt": "2025-06-30T12:31:49.527Z",
+        "scannedAt": "2025-06-30T12:31:49.527Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\system-ops\\knowledge\\system-operations.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "academic-research",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Academic Research 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/xihe/knowledge/academic-research.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.528Z",
+        "updatedAt": "2025-06-30T12:31:49.528Z",
+        "scannedAt": "2025-06-30T12:31:49.528Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\xihe\\knowledge\\academic-research.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "ai-advancement",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Ai Advancement 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/xihe/knowledge/ai-advancement.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.528Z",
+        "updatedAt": "2025-06-30T12:31:49.528Z",
+        "scannedAt": "2025-06-30T12:31:49.528Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\xihe\\knowledge\\ai-advancement.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "concurrency-systems",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Concurrency Systems 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/yaochi-manager/knowledge/concurrency-systems.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.528Z",
+        "updatedAt": "2025-06-30T12:31:49.528Z",
+        "scannedAt": "2025-06-30T12:31:49.528Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\yaochi-manager\\knowledge\\concurrency-systems.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "resource-orchestration",
+      "source": "project",
+      "protocol": "knowledge",
+      "name": "Resource Orchestration 知识库",
+      "description": "知识库，提供专业知识和信息",
+      "reference": "@project://.promptx/resource/domain/yaochi-manager/knowledge/resource-orchestration.knowledge.md",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.529Z",
+        "updatedAt": "2025-06-30T12:31:49.529Z",
+        "scannedAt": "2025-06-30T12:31:49.529Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\domain\\yaochi-manager\\knowledge\\resource-orchestration.knowledge.md",
+        "fileType": "knowledge"
+      }
+    },
+    {
+      "id": "claude-task-monitor",
+      "source": "project",
+      "protocol": "tool",
+      "name": "Claude Task Monitor tool",
+      "description": "tool类型的资源",
+      "reference": "@project://.promptx/resource/tool/claude-task-monitor/claude-task-monitor.tool.js",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.536Z",
+        "updatedAt": "2025-06-30T12:31:49.536Z",
+        "scannedAt": "2025-06-30T12:31:49.536Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\tool\\claude-task-monitor\\claude-task-monitor.tool.js",
+        "fileType": "tool"
+      }
+    },
+    {
+      "id": "tiangong-orchestrator",
+      "source": "project",
+      "protocol": "tool",
+      "name": "Tiangong Orchestrator tool",
+      "description": "tool类型的资源",
+      "reference": "@project://.promptx/resource/tool/tiangong-orchestrator/tiangong-orchestrator.tool.js",
+      "metadata": {
+        "createdAt": "2025-06-30T12:31:49.537Z",
+        "updatedAt": "2025-06-30T12:31:49.537Z",
+        "scannedAt": "2025-06-30T12:31:49.537Z",
+        "filePath": "D:\\kokovsc\\koko\\Python\\promptX+\\.promptx\\resource\\tool\\tiangong-orchestrator\\tiangong-orchestrator.tool.js",
+        "fileType": "tool"
+      }
+    }
+  ],
+  "stats": {
+    "totalResources": 83,
+    "byProtocol": {
+      "role": 21,
+      "thought": 23,
+      "execution": 26,
+      "knowledge": 11,
+      "tool": 2
+    },
+    "bySource": {
+      "project": 83
+    }
+  }
+}

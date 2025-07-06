@@ -1,0 +1,3 @@
+[submodule "PromptX"]
+	path = PromptX
+	url = git@github.com:Deepractice/PromptX.git

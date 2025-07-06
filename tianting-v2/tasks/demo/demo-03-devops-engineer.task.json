@@ -1,0 +1,29 @@
+{
+  "id": "demo-03",
+  "objective": "FastAPITodo – dockerize",
+  "implementation_guide": "编写 Dockerfile 和 docker-compose.yml，端口 8000。",
+  "success_criteria": "容器启动 curl /healthz 200",
+  "acceptance": {
+    "type": "shell",
+    "cmd": "docker compose up --build -d && curl -f http://localhost:8000/healthz",
+    "timeout": 300
+  },
+  "verification": {
+    "timeout": 900,
+    "stages": [
+      {
+        "type": "unit",
+        "cmd": "pytest -q",
+        "timeout": 300
+      },
+      {
+        "type": "compose",
+        "file": "docker-compose.yml",
+        "health": [
+          "http://localhost:8022/healthz"
+        ],
+        "timeout": 600
+      }
+    ]
+  }
+}

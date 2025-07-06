@@ -1,0 +1,16 @@
+{
+  "id": "demo-01",
+  "objective": "FastAPITodo – create_crud_endpoints",
+  "implementation_guide": "使用 FastAPI 实现 /todos CRUD，返回 JSON，使用 SQLite 内存 DB。",
+  "success_criteria": "pytest 全绿",
+  "verification": {
+    "timeout": 600,
+    "stages": [
+      {
+        "type": "unit",
+        "cmd": "pytest -q",
+        "timeout": 300
+      }
+    ]
+  }
+}

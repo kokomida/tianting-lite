@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天庭系统 - 言出法随</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; color: white; margin-bottom: 40px; }
+        .header h1 { font-size: 3rem; margin-bottom: 10px; }
+        .header p { font-size: 1.2rem; opacity: 0.9; }
+        .card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; }
+        .form-group textarea { width: 100%; padding: 12px; border: 2px solid #e1e5e9; border-radius: 8px; 
+                                font-size: 16px; resize: vertical; min-height: 120px; }
+        .form-group textarea:focus { outline: none; border-color: #667eea; }
+        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; 
+               padding: 12px 30px; border: none; border-radius: 8px; font-size: 16px; 
+               font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .result { margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; 
+                  border-left: 4px solid #667eea; }
+        .result h3 { color: #333; margin-bottom: 15px; }
+        .result pre { background: white; padding: 15px; border-radius: 6px; overflow-x: auto; 
+                      font-size: 14px; line-height: 1.4; }
+        .loading { text-align: center; color: #667eea; font-weight: 600; }
+        .status { padding: 10px; border-radius: 6px; margin-bottom: 20px; }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 天庭系统</h1>
+            <p>AI驱动的"言出法随"开发体验</p>
+        </div>
+        
+        <div class="card">
+            <div id="status-container"></div>
+            
+            <form id="requirement-form">
+                <div class="form-group">
+                    <label for="requirement">描述您的项目需求：</label>
+                    <textarea id="requirement" placeholder="例如：我想做一个外卖平台，支持商家入驻、用户下单、配送员接单，需要支付功能和实时定位..." required></textarea>
+                </div>
+                <button type="submit" class="btn" id="analyze-btn">🚀 AI智能分析</button>
+            </form>
+            
+            <div id="result-container"></div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('requirement-form');
+        const btn = document.getElementById('analyze-btn');
+        const resultContainer = document.getElementById('result-container');
+        const statusContainer = document.getElementById('status-container');
+
+        // 检查服务状态
+        async function checkStatus() {
+            try {
+                const response = await fetch('http://localhost:8011/health');
+                const data = await response.json();
+                if (data.status === 'ok') {
+                    showStatus('🟢 Core服务已连接', 'success');
+                } else {
+                    showStatus('🔴 Core服务异常', 'error');
+                }
+            } catch (error) {
+                showStatus('🔴 无法连接到Core服务 (端口8011)', 'error');
+            }
+        }
+
+        function showStatus(message, type) {
+            statusContainer.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const requirement = document.getElementById('requirement').value.trim();
+            if (!requirement) return;
+
+            btn.disabled = true;
+            btn.textContent = '🤖 AI分析中...';
+            resultContainer.innerHTML = '<div class="loading">AI正在分析您的需求，请稍候...</div>';
+
+            try {
+                const response = await fetch('http://localhost:8011/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: requirement })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    displayResult(result.data);
+                } else {
+                    resultContainer.innerHTML = `<div class="result"><h3>❌ 分析失败</h3><p>${result.error}</p></div>`;
+                }
+            } catch (error) {
+                resultContainer.innerHTML = `<div class="result"><h3>❌ 网络错误</h3><p>无法连接到AI分析服务</p></div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🚀 AI智能分析';
+            }
+        });
+
+        function displayResult(data) {
+            const features = data.core_features.map(f => 
+                `• ${f.name} (优先级:${f.priority}, 复杂度:${f.complexity})`
+            ).join('<br>');
+
+            const constraints = data.technical_constraints.map(c => 
+                `• ${c.description}`
+            ).join('<br>') || '暂无特殊技术约束';
+
+            resultContainer.innerHTML = `
+                <div class="result">
+                    <h3>🎯 AI分析结果</h3>
+                    <p><strong>项目类型:</strong> ${data.project_type}</p>
+                    <p><strong>业务模式:</strong> ${data.business_model}</p>
+                    <p><strong>复杂度等级:</strong> ${data.complexity_level}</p>
+                    <p><strong>置信度:</strong> ${Math.round(data.confidence_analysis.overall_confidence * 100)}%</p>
+                    
+                    <h4>🛠️ 核心功能模块:</h4>
+                    <p>${features}</p>
+                    
+                    <h4>⚙️ 技术约束:</h4>
+                    <p>${constraints}</p>
+                    
+                    <h4>📊 完整分析数据:</h4>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                </div>
+            `;
+        }
+
+        // 页面加载时检查状态
+        checkStatus();
+    </script>
+</body>
+</html>

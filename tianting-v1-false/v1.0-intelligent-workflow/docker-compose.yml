@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # PostgreSQL数据库
+  postgres:
+    image: postgres:15-alpine
+    container_name: tianting-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: tianting123
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - tianting-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  # Redis缓存
+  redis:
+    image: redis:7-alpine
+    container_name: tianting-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - tianting-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Core服务 (Business Logic) - 开发中暂时注释
+  # core-service:
+  #   build: 
+  #     context: ./packages/core
+  #     dockerfile: Dockerfile
+  #   container_name: tianting-core
+  #   ports:
+  #     - "8001:8001"
+  #   environment:
+  #     - DATABASE_URL=postgresql://postgres:tianting123@postgres:5432/tianting_core_dev
+  #     - REDIS_URL=redis://redis:6379/0
+  #     - CLAUDE_API_KEY=${CLAUDE_API_KEY}
+  #   volumes:
+  #     - ./packages/core:/app
+  #     - ./packages/shared:/shared
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   networks:
+  #     - tianting-network
+  #   restart: unless-stopped
+        
+  # API服务 (HTTP Interface) - 开发中暂时注释
+  # api-service:
+  #   build:
+  #     context: ./packages/api
+  #     dockerfile: Dockerfile
+  #   container_name: tianting-api
+  #   ports:
+  #     - "8002:8002"
+  #   environment:
+  #     - DATABASE_URL=postgresql://postgres:tianting123@postgres:5432/tianting_api_dev
+  #     - REDIS_URL=redis://redis:6379/1
+  #     - CORE_SERVICE_URL=http://core-service:8001
+  #   volumes:
+  #     - ./packages/api:/app
+  #     - ./packages/shared:/shared
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #     - core-service
+  #   networks:
+  #     - tianting-network
+  #   restart: unless-stopped
+        
+  # 前端服务 (React App) - 开发中暂时注释
+  # frontend-service:
+  #   build:
+  #     context: ./packages/frontend
+  #     dockerfile: Dockerfile
+  #   container_name: tianting-frontend
+  #   ports:
+  #     - "3001:3001"
+  #   environment:
+  #     - REACT_APP_API_URL=http://localhost:8002
+  #     - REACT_APP_WS_URL=ws://localhost:8002
+  #   volumes:
+  #     - ./packages/frontend:/app
+  #     - ./packages/shared:/shared
+  #     - /app/node_modules
+  #   depends_on:
+  #     - api-service
+  #   networks:
+  #     - tianting-network
+  #   restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  
+networks:
+  tianting-network:
+    driver: bridge
