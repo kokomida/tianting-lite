@@ -45,6 +45,10 @@ class LayeredMemoryManager:
         # JSONL DAO for Application and Archive layers
         self._jsonl_dao = JSONLMemoryDAO(path)
         
+        # Initialize tag index for roaring bitmap functionality
+        from .tag_index import TagIndex
+        self._tag_index = TagIndex()
+        
         # Load existing Core memories from SQLite
         self._core_memory: Dict[str, Any] = {}
         self._load_core_memories()
@@ -117,6 +121,9 @@ class LayeredMemoryManager:
             else:
                 # Fallback to session if JSONL fails
                 self._session_memory[memory_id] = memory_record
+        
+        # Update tag index
+        self._tag_index.add_tags(memory_id, tags)
         
         # Update stats
         self._stats["memories_stored"] += 1
@@ -255,24 +262,16 @@ class LayeredMemoryManager:
             print(f"Warning: Failed to flush pending updates: {e}")
     
     def close(self):
-        """Release all resources and close connections"""
+        """Close the memory manager and cleanup resources"""
         try:
-            # Flush any pending updates
             self.flush_pending_updates()
-            # Close JSONL DAO resources
-            self._jsonl_dao.close()
-            # Close SQLite DAO resources
-            self._dao.close()
-            # Clear in-memory caches
-            self._session_memory.clear()
-            self._core_memory.clear()
-            self._app_memory.clear()
-            self._archive_memory.clear()
-        except Exception as e:
-            print(f"Warning: Error during close: {e}")
+            if hasattr(self, '_dao'):
+                self._dao.close()
+        except Exception:
+            pass  # Ignore errors during cleanup
     
     def __del__(self):
-        """Ensure resources are released when manager is destroyed"""
+        """Ensure pending updates are flushed when manager is destroyed"""
         try:
             self.close()
         except Exception:

@@ -8,7 +8,7 @@
 ## 0.1 整体视图 (Now / Next / Future)
 | 阶段 | 关键版本 | 目标概述 |
 |------|----------|----------|
-| **Now** | v0.2-MVP | 跑通一句话 → 规划 → 并行执行 → 自动测试 → Markdown 报告闭环 |
+| **Now** | v0.2-MVP | 跑通一句话 → 规划 → 并行执行 → 自动测试 → Markdown 报告闭环；MCP PoC 已集成，Bitmap CI 修复中 |
 | **Next** | v0.3 | 引入多 AI 评审、初版 UI、可观测性 (Prom-Graf) |
 | **Future** | v0.4+ | 论文检索插件、桌面端双击 .exe、插件生态 & KG 层 |
 
@@ -32,7 +32,7 @@
 | **D2** | Dispatcher 调用 O3 串行规划 | Backend | `tianting plan "todo"` 输出 OES JSON | 
 | **D3** | Launcher 多窗口 demo | Backend | 在本机启动 3 ClaudeCode 窗口并执行 stub | 
 | **D4** | Harvester + pytest/pylint 集成 | Backend | 生成 `tests/summary.json`；覆盖率≥60% |
-| **D5** | Reporter 输出 artefact | Docs | `delivery/report.md` 自动渲染，无断链 |
+| **D5** | Reporter 输出 artefact + MCP PoC | Docs & Backend | ① `delivery/report.md` 无断链；② `mcpAdapter` 生成 `tasks/generated/*.json`；③ PR-5 已通过，PR-3 Bitmap 修复中 |
 
 > 若某日目标未达标，整体冲刺向后顺延，但不得跨周。
 
