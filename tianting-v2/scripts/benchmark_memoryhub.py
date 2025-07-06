@@ -63,20 +63,20 @@ def benchmark_memory_operations(memory_count: int = 10000, recall_queries: int =
     test_dir = tempfile.mkdtemp(prefix="memoryhub_benchmark_")
     
     try:
-        print(f"🔥 Starting MemoryHub Benchmark")
-        print(f"📊 Test data: {memory_count:,} memories, {recall_queries:,} recalls")
-        print(f"📁 Test directory: {test_dir}")
+        print(f"[*] Starting MemoryHub Benchmark")
+        print(f"[*] Test data: {memory_count:,} memories, {recall_queries:,} recalls")
+        print(f"[*] Test directory: {test_dir}")
         print()
         
         # Initialize MemoryHub
         memory_manager = LayeredMemoryManager(path=test_dir)
         
         # Generate test data
-        print("🏗️  Generating test data...")
+        print("[*] Generating test data...")
         test_data = generate_test_data(memory_count)
         
         # Phase 1: Store memories
-        print("💾 Phase 1: Storing memories...")
+        print("[*] Phase 1: Storing memories...")
         store_start = time.time()
         
         for i, data in enumerate(test_data):
@@ -92,12 +92,12 @@ def benchmark_memory_operations(memory_count: int = 10000, recall_queries: int =
         store_end = time.time()
         store_time = store_end - store_start
         
-        print(f"✅ Storage completed in {store_time:.2f}s")
+        print(f"[OK] Storage completed in {store_time:.2f}s")
         print(f"   Rate: {memory_count / store_time:.0f} memories/sec")
         print()
         
         # Phase 2: Recall benchmark
-        print("🔍 Phase 2: Recall benchmark...")
+        print("[*] Phase 2: Recall benchmark...")
         
         # Test queries across different terms
         test_queries = [
@@ -175,18 +175,18 @@ def benchmark_memory_operations(memory_count: int = 10000, recall_queries: int =
 
 def print_benchmark_results(results):
     """Print formatted benchmark results"""
-    print("🎯 BENCHMARK RESULTS")
+    print("=== BENCHMARK RESULTS ===")
     print("=" * 50)
     print(f"Dataset: {results['memory_count']:,} memories")
     print(f"Queries: {results['recall_queries']:,} recalls")
     print()
     
-    print("💾 STORAGE PERFORMANCE")
+    print("=== STORAGE PERFORMANCE ===")
     print(f"  Total time: {results['storage']['total_time_sec']}s")
     print(f"  Rate: {results['storage']['rate_per_sec']:,} memories/sec")
     print()
     
-    print("🔍 RECALL PERFORMANCE")
+    print("=== RECALL PERFORMANCE ===")
     print(f"  Average latency: {results['recall']['avg_latency_ms']}ms")
     print(f"  P95 latency: {results['recall']['p95_latency_ms']}ms")
     print(f"  Max latency: {results['recall']['max_latency_ms']}ms")
@@ -195,7 +195,7 @@ def print_benchmark_results(results):
     print(f"  Total results: {results['recall']['total_results']:,}")
     print()
     
-    print("📊 MEMORY DISTRIBUTION")
+    print("=== MEMORY DISTRIBUTION ===")
     dist = results['memory_distribution']
     print(f"  Session: {dist['session']:,}")
     print(f"  Core: {dist['core']:,}")
@@ -209,10 +209,10 @@ def print_benchmark_results(results):
     avg_latency = results['recall']['avg_latency_ms']
     
     if target_met:
-        print(f"✅ PERFORMANCE TARGET MET")
+        print(f"[OK] PERFORMANCE TARGET MET")
         print(f"   Average recall latency {avg_latency}ms < 50ms target")
     else:
-        print(f"❌ PERFORMANCE TARGET FAILED")
+        print(f"[FAIL] PERFORMANCE TARGET FAILED")
         print(f"   Average recall latency {avg_latency}ms > 50ms target")
     
     print("=" * 50)
@@ -237,7 +237,7 @@ def main():
     if args.quick:
         memory_count = 1000
         recall_count = 100
-        print("🚀 Running QUICK benchmark...")
+        print("[*] Running QUICK benchmark...")
     else:
         memory_count = args.memories
         recall_count = args.recalls
@@ -250,10 +250,10 @@ def main():
         sys.exit(0 if target_met else 1)
         
     except KeyboardInterrupt:
-        print("\n⏹️  Benchmark interrupted by user")
+        print("\n[STOP] Benchmark interrupted by user")
         sys.exit(130)
     except Exception as e:
-        print(f"\n❌ Benchmark failed: {e}")
+        print(f"\n[ERROR] Benchmark failed: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
