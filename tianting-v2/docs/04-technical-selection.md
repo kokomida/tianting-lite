@@ -1,4 +1,5 @@
 # 04. 技术选型与升级策略 (Technical Selection)
+<!-- status: done -->
 
 > 本章阐述 Tianting-Lite 的技术栈选择、替代方案评估、依赖升级与回滚策略，作为后续实现与运维的决策基线。
 

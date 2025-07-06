@@ -1,4 +1,5 @@
 # MemoryHub JSONL Indexing & Recall 优化
+<!-- status: done -->
 
 status: completed
 

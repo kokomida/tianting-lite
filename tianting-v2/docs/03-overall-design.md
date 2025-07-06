@@ -1,4 +1,5 @@
 # 03. 总体设计 (Overall Design)
+<!-- status: done -->
 
 > 本章给出 Tianting-Lite v0.x 的高层架构视图，覆盖运行链路、功能模块切分与部署拓扑。遵循 IEEE-42010"架构描述"与 C4 Model 的 Context / Container 视角。
 
