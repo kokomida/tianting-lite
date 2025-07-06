@@ -45,6 +45,10 @@ class LayeredMemoryManager:
         # JSONL DAO for Application and Archive layers
         self._jsonl_dao = JSONLMemoryDAO(path)
         
+        # Initialize tag index for roaring bitmap functionality
+        from .tag_index import TagIndex
+        self._tag_index = TagIndex()
+        
         # Load existing Core memories from SQLite
         self._core_memory: Dict[str, Any] = {}
         self._load_core_memories()
@@ -117,6 +121,9 @@ class LayeredMemoryManager:
             else:
                 # Fallback to session if JSONL fails
                 self._session_memory[memory_id] = memory_record
+        
+        # Update tag index
+        self._tag_index.add_tags(memory_id, tags)
         
         # Update stats
         self._stats["memories_stored"] += 1
