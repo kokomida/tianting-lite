@@ -1,9 +1,6 @@
 {
   "id": "demo-01",
-  "module": "demo",
-  "role": "python-backend-developer",
   "objective": "FastAPITodo – create_crud_endpoints",
-  "environment": "local-dev",
   "implementation_guide": "使用 FastAPI 实现 /todos CRUD，返回 JSON，使用 SQLite 内存 DB。",
   "success_criteria": "pytest 全绿",
   "verification": {
@@ -15,16 +12,5 @@
         "timeout": 300
       }
     ]
-  },
-  "status": "verified",
-  "priority": "P1",
-  "retry": 1,
-  "tags": [
-    "demo"
-  ],
-  "created_at": "2025-07-01T11:15:04.134Z",
-  "failed_at": "2025-07-02T03:56:39.582Z",
-  "fail_reason": "pytest exited 2",
-  "tests_passed_at": "2025-07-02T04:01:31.647Z",
-  "verified_at": "2025-07-02T04:01:34.583Z"
+  }
 }
