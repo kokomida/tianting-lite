@@ -1,0 +1,18 @@
+{
+  "id": "core-02c",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Implement JSON layer adapter for archived memories and merge policy between SQLite and JSON layers.",
+  "environment": "JSON files stored under memoryhub/data/archive/*.json.",
+  "implementation_guide": "1. Add _persist_json and _load_layer('archive') methods. 2. Define merge precedence (core > archive). 3. Write tests/memoryhub/test_json_layer.py. 4. Update docs if behaviour differs.",
+  "success_criteria": "pytest passes; new memories stored as JSON; recall merges records correctly.",
+  "dependencies": ["core-02b"],
+  "required_stage": ["unit"],
+  "token_budget": 2000,
+  "status": "completed",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "impl", "json"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

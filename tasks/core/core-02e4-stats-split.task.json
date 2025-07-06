@@ -1,0 +1,18 @@
+{
+  "id": "core-02e4",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Refactor stats() into storage_stats() + runtime_stats(); maintain backward compatibility.",
+  "environment": "Python 3.12+; focus LayeredMemoryManager; update docs & JSONSchema.",
+  "implementation_guide": "1. Implement two methods returning defined schema. 2. stats() merges both. 3. Update JSON Schema in docs/ to reflect new fields. 4. Adjust tests and add new tests/test_stats_split.py. 5. Deprecation warning when reading old keys in future release.",
+  "success_criteria": "pytest passes; existing code importing stats() unaffected; new APIs accessible; documentation updated.",
+  "dependencies": ["core-02e2"],
+  "required_stage": ["unit"],
+  "token_budget": 1200,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P2",
+  "tags": ["memoryhub", "impl", "stats"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

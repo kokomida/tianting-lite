@@ -1,0 +1,18 @@
+{
+  "id": "ci-02",
+  "module": "ci",
+  "role": "devops-engineer",
+  "task_type": "unit",
+  "objective": "Add GitHub Actions workflow matrix running pytest across OS and Python versions.",
+  "environment": ".github/workflows/unit.yml with matrix { python-version: [3.11, 3.12], os: [ubuntu-latest] }.",
+  "implementation_guide": "1. Create unit.yml workflow. 2. Install Python, cache pip, run pnpm install && pytest -q. 3. Badge added to README.md. 4. Ensure workflow passes current tests.",
+  "success_criteria": "unit.yml commits; Actions job passes; badge shows passing.",
+  "dependencies": ["ci-01"],
+  "required_stage": ["unit"],
+  "token_budget": 800,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P2",
+  "tags": ["ci", "github-actions", "unit"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

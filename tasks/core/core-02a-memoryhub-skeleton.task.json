@@ -1,0 +1,18 @@
+{
+  "id": "core-02a",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Implement LayeredMemoryManager in-memory skeleton with remember/recall/stats methods and unit tests.",
+  "environment": "Python 3.12, project venv; work under src/memoryhub/; testing via pytest.",
+  "implementation_guide": "1. Create src/memoryhub/LayeredMemoryManager.py with empty methods per design. 2. Implement basic in-memory storage using Python dict. 3. Write tests/memoryhub/test_memory_basic.py covering remember & recall logic. 4. Ensure pytest -q passes locally.",
+  "success_criteria": "pytest passes; import memoryhub.LayeredMemoryManager works; lint-oes passes.",
+  "dependencies": ["core-01-review"],
+  "required_stage": ["unit"],
+  "token_budget": 1500,
+  "status": "completed",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "impl", "skeleton"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

@@ -1,0 +1,18 @@
+{
+  "id": "core-02e1",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Introduce offset index (.idx) for JSONL files and refactor JSONLMemoryDAO.search_memories to use it for O(log n) access.",
+  "environment": "Python 3.12+, mmap; work under src/memoryhub/jsonl_dao.py; tests under tests/memoryhub.",
+  "implementation_guide": "1. When storing memory, append byte offset to <layer>.idx file. 2. Implement _build_index() for existing files. 3. Refactor search_memories to binary-search index then seek(). 4. Provide CLI helper 'tianting memory build-index'. 5. Write tests/test_jsonl_index.py covering index creation, rebuild, search correctness.",
+  "success_criteria": "pytest passes; benchmark avg_latency <= 35 ms on 10k dataset; <layer>.idx file exists; CLI builds index without data loss.",
+  "dependencies": ["core-02d"],
+  "required_stage": ["unit"],
+  "token_budget": 1800,
+  "status": "completed",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "impl", "index"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

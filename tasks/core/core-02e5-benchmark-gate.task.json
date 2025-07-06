@@ -1,0 +1,18 @@
+{
+  "id": "core-02e5",
+  "module": "core",
+  "role": "devops-engineer",
+  "task_type": "impl",
+  "objective": "Integrate benchmark gate into CI; enforce avg_latency<=50ms & P95<=120ms on 10k dataset.",
+  "environment": "GitHub Actions; reuse scripts/benchmark_memoryhub.py --ci; update verify-all workflow.",
+  "implementation_guide": "1. Extend benchmark_memoryhub.py with --ci flag returning non-zero on SLO breach. 2. Update .github/workflows/ci.yml to run benchmark after unit tests. 3. Fail job if thresholds exceeded. 4. Provide badge in README showing current latency. 5. Write docs/07-testing-plan.md update.",
+  "success_criteria": "CI fails when latency thresholds not met; badge appears green; benchmark step <2 min run time.",
+  "dependencies": ["core-02e3", "core-02e4"],
+  "required_stage": ["unit"],
+  "token_budget": 1000,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P3",
+  "tags": ["memoryhub", "ci", "benchmark"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 

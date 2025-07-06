@@ -1,0 +1,49 @@
+{
+  "name": "tianting-v2",
+  "version": "0.2.0",
+  "type": "module",
+  "private": true,
+  "description": "AI-driven personal productivity platform - One sentence summons an AI development team",
+  "keywords": ["ai", "productivity", "claude", "automation", "development"],
+  "author": "Tianting Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev": "node ./src/launcher/index.mjs",
+    "start": "pnpm run verify-all",
+    "test": "node ./tests/dispatcher.autoPlan.test.mjs",
+    "lint": "pnpm run lint-oes && pnpm run lint-doc-status && pnpm run lint-learning-schema",
+    "lint-oes": "node ./scripts/lint-oes.mjs",
+    "lint-doc-status": "node ./scripts/lint-doc-status.mjs",
+    "lint-learning-schema": "node ./scripts/lint-learning-schema.mjs",
+    "build-knowledge-index": "node ./scripts/build-knowledge-index.mjs",
+    "plan": "node ./src/dispatcher/autoPlan.mjs",
+    "launch": "node ./src/launcher/index.mjs",
+    "harvest": "node ./src/harvester/index.mjs",
+    "report": "node ./src/reporter/index.mjs",
+    "verify-all": "node ./src/reporter/index.mjs",
+    "precommit": "pnpm run lint",
+    "prepare": "husky install",
+    "release": "standard-version"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "yaml": "^2.3.2",
+    "chokidar": "^3.5.3",
+    "archiver": "^6.0.0",
+    "husky": "^8.0.3",
+    "standard-version": "^9.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kokomida/tianting-lite.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kokomida/tianting-lite/issues"
+  },
+  "homepage": "https://github.com/kokomida/tianting-lite#readme"
+} 

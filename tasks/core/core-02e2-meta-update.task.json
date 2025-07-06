@@ -1,0 +1,18 @@
+{
+  "id": "core-02e2",
+  "module": "core",
+  "role": "python-backend-developer",
+  "task_type": "impl",
+  "objective": "Replace in-place JSONL updates with side metrics file (.meta) to track recall counters and timestamps.",
+  "environment": "Python 3.12+; modify JSONLMemoryDAO.update_recall_count; add MetaFile class; tests added.",
+  "implementation_guide": "1. Design <layer>.meta as JSON lines {id, recalled_count, last_recalled}. 2. update_recall_count appends/increments meta file. 3. On load_memories merge meta info into objects. 4. Provide nightly compaction function to merge into main file if needed. 5. Tests: meta append, merge logic, performance (no full rewrite).",
+  "success_criteria": "pytest passes; update_recall_count O(1) append; benchmark avg latency improves vs baseline; meta file grows as expected.",
+  "dependencies": ["core-02e1"],
+  "required_stage": ["unit"],
+  "token_budget": 1500,
+  "status": "pending",
+  "retry": 1,
+  "priority": "P1",
+  "tags": ["memoryhub", "impl", "meta"],
+  "created_at": "2025-07-06T00:00:00Z"
+} 
